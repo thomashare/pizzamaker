@@ -1,4 +1,4 @@
-# pizza-maker
+# Pizza Maker App: Pizza dough generator
 
 > A user-friendly pizza dough recipe generator. Select from a dropdown of recipes or add a custom recipe using baker's percentages.
 
