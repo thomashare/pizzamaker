@@ -1,6 +1,6 @@
 # pizza-maker
 
-> Custom Pizza maker tool.
+> A user-friendly pizza dough recipe generator. Select from a dropdown of recipes or add a custom recipe using baker's percentages.
 
 ## Build Setup
 
@@ -18,5 +18,3 @@ $ yarn start
 # generate static project
 $ yarn generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

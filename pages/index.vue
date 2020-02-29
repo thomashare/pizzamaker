@@ -2,50 +2,10 @@
   <div id="app">
     <h1>Pizza Maker</h1>
 
-    <select id="recipe-selection" v-model="recipeSelection">
-      <option value="custom">custom</option>
-      <option value="papa-johns">Pete-zza's Papa Johns</option>
-      <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
-      <option value="mellow-mushroom">Mellow Mushroom</option>
-      <option value="lucalis">Lucali's</option>
-      <option value="robertas">Roberta's</option>
-      <option value="king-arthur">King Arthur</option>
-    </select>
+    <RecipeSelection />
 
     <main>
-      <div id="adjustor">
-        <div>
-          <span>pies</span>
-          <button @click.prevent="--count" :disabled="count <= 1"><i class="fas fa-minus-circle"></i></button>
-          <input max="50" min="1" type="number" v-model="count">
-          <button @click.prevent="++count" :disabled="count >= 50"><i class="fas fa-plus-circle"></i></button>
-        </div>
-        <div>
-          <span>size (in)</span>
-          <button @click.prevent="--size" :disabled="size <= 3"><i class="fas fa-minus-circle"></i></button>
-          <input max="100" min="3" type="number" v-model="size">
-          <button @click.prevent="++size" :disabled="size >= 100"><i class="fas fa-plus-circle"></i></button>
-        </div>
-        <div>
-          <span>crust thickness (in)</span>
-          <button @click.prevent="crustThickness -= 0.05" :disabled="crustThickness <= 0.1"><i class="fas fa-minus-circle"></i></button>
-          <input max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
-          <button @click.prevent="crustThickness += 0.05"><i class="fas fa-plus-circle"></i></button>
-        </div>
-        <div>
-          <span>hydration (%)</span>
-          <button @click.prevent="--hydration"><i class="fas fa-minus-circle"></i></button>
-          <input type="number" v-model="hydration">
-          <button @click.prevent="++hydration"><i class="fas fa-plus-circle"></i></button>
-        </div>
-        <div id="yeast-type">
-          <span>yeast type</span>
-          <select v-model="yeastType" @change="convertYeastAmount()">
-            <option value="ADY">ADY</option>
-            <option value="IDY">IDY</option>
-          </select>
-        </div>
-      </div>
+      <Adjustor />
       
       <div id="ingredients">
         <h2>Ingredients</h2>
@@ -106,32 +66,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import RecipeSelection from '@/components/recipe-selection.vue'
+import Adjustor from '@/components/adjustor.vue'
+
 export default {
+  components: {
+    RecipeSelection,
+    Adjustor,
+  },
   data() {
 		return {
       count: 1,
-      hydration: 56,
-      oilPercent: 7,
-      recipeSelection: 'custom',
-      saltPercent: 1.75,
       size: 12,
       crustThickness: 0.35,
-      sugarPercent: 4,
       sugarType: 'sugar',
-      yeastPercent: 0.14,
       yeastType: 'ADY',
-      recipeYeast: 0,
       recipeYeastType: null,
       recipeSteps: null,
     }
   },
   watch: {
-    recipeSelection() {
-      if (this.recipeSelection === 'custom') this.recipeSteps = null
-
-      this.$router.push({ path: this.$route.path, query: { recipe: this.recipeSelection } })
-      this.setRecipeRatios()
-    },
     count() {
       this.$router.push({ path: this.$route.fullPath, query: { count: this.count } })
     },
@@ -143,10 +98,7 @@ export default {
       this.crustThickness = Math.round(this.crustThickness * 100) / 100
     },
     hydration() {
-      setTimeout(() => {
-        if (this.recipeSelection !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { hydration: this.hydration } })
-      }, 1000)
+      this.$router.push({ path: this.$route.fullPath, query: { hydration: this.hydration } })
     },
     oilPercent() {
       setTimeout(() => {
@@ -180,6 +132,13 @@ export default {
     }
   },
 	computed: {
+    ...mapState({
+      hydration: state => state.ratios.hydration,
+      oilPercent: state => state.ratios.oilPercent,
+      saltPercent: state => state.ratios.saltPercent,
+      sugarPercent: state => state.ratios.sugarPercent,
+      yeastPercent: state => state.ratios.yeastPercent
+    }),
     flour() {
       const diameter = Math.PI * (this.size/5 + this.size/5)
       return this.finalVal((diameter * this.crustThickness * this.count) * 21)
@@ -209,7 +168,7 @@ export default {
   mounted() {
     if (this.$route.query.count !== undefined) this.count = this.$route.query.count
     if (this.$route.query.crustThickness !== undefined) this.crustThickness = this.$route.query.crustThickness
-    if (this.$route.query.hydration !== undefined) this.hydration = this.$route.query.hydration
+    if (this.$route.query.hydration !== undefined) this.$store.commit('ratios/SET_HYDRATION', this.$route.query.hydration)
     if (this.$route.query.oil !== undefined) this.oilPercent = this.$route.query.oil
     if (this.$route.query.salt !== undefined) this.saltPercent = this.$route.query.salt
     if (this.$route.query.size !== undefined) this.size = this.$route.query.size
@@ -224,104 +183,6 @@ export default {
     },
     setCustom() {
       this.recipeSelection = 'custom'
-    },
-    setRecipeRatios() {
-      // Papa Johns dough
-      if (this.recipeSelection === 'papa-johns') {
-        this.hydration = 56
-        this.oilPercent = 7
-        this.saltPercent = 1.75
-        this.sugarPercent = 4
-        this.yeastType = 'IDY'
-        this.recipeYeastType = 'IDY'
-        this.yeastPercentType = 'IDY'
-        this.recipeYeast = 0.14
-        this.yeastPercent = 0.14
-        this.recipeSteps = [
-          'Knead and shape your dough balls.',
-          'Refrigerate your dough balls for 3-5 days (5 days being optimal). This dough can be refrigerated for up to 8 days.'
-        ]
-        console.log(this.recipeYeastType)
-      }
-      // Scott123s Easy New York dough
-      if (this.recipeSelection === 'scott123s-easy-new-york') {
-        this.hydration = 61
-        this.oilPercent = 3
-        this.saltPercent = 1.75
-        this.sugarPercent = 1
-        this.yeastType = 'IDY'
-        this.recipeYeastType = 'IDY'
-        this.yeastPercentType = 'IDY'
-        this.recipeYeast = 0.5
-        this.yeastPercent = 0.5
-        this.recipeSteps = [
-          'Knead and shape your dough balls.',
-          'Refrigerate your dough balls for 2 days.'
-        ]
-      }
-      // Mellow Mushroom dough
-      if (this.recipeSelection === 'mellow-mushroom') {
-        this.hydration = 56
-        this.oilPercent = 7
-        this.saltPercent = 1.75
-        this.sugarPercent = 8.84
-        this.sugarType = 'molasses'
-        this.yeastType = 'IDY'
-        this.recipeYeastType = 'IDY'
-        this.yeastPercentType = 'IDY'
-        this.recipeYeast = 0.14
-        this.yeastPercent = 0.14
-        this.recipeSteps = [
-          'Knead and shape your dough balls.',
-          'Refrigerate your dough balls for 3-5 days (5 days being optimal). This dough can be refrigerated for up to 8 days.'
-        ]
-      }
-      // Lucali's dough
-      if (this.recipeSelection === 'lucalis') {
-        this.hydration = 57.5
-        this.oilPercent = 1.5
-        this.saltPercent = 1.75
-        this.sugarPercent = 0
-        this.yeastType = 'IDY'
-        this.recipeYeastType = 'IDY'
-        this.yeastPercentType = 'IDY'
-        this.recipeYeast = 0.1
-        this.yeastPercent = 0.1
-        this.recipeSteps = null
-      }
-      // Roberta's dough
-      if (this.recipeSelection === 'robertas') {
-        this.hydration = 57.5
-        this.oilPercent = 1.3
-        this.saltPercent = 2.61
-        this.sugarPercent = 0
-        this.yeastType = 'ADY'
-        this.recipeYeastType = 'ADY'
-        this.yeastPercentType = 'ADY'
-        this.recipeYeast = 0.65
-        this.yeastPercent = 0.65
-        this.recipeSteps = [
-          'Knead and shape your dough balls.',
-          'Let the dough balls rise 3-4 hours at room temperature or 8-24 hours in the fridge.'
-        ]
-      }
-      // King Arthur dough
-      if (this.recipeSelection === 'king-arthur') {
-        this.hydration = 70
-        this.oilPercent = 6.9
-        this.saltPercent = 1.9
-        this.sugarPercent = 0
-        this.yeastType = 'ADY'
-        this.recipeYeastType = 'ADY'
-        this.yeastPercentType = 'ADY'
-        this.recipeYeast = 3.2
-        this.yeastPercent = 3.2
-        this.recipeSteps = [
-          'Knead and shape your dough balls.',
-          'Let the dough balls rise 45 minutes at room temperature.',
-          'Place the dough balls in the fridge to rise an additional 4-24 hours.'
-        ]
-      }
     },
     convertYeastAmount() {
       if (this.recipeSelection === 'custom') return false
@@ -377,51 +238,6 @@ export default {
 
     @media screen and (max-width: 960px)
       grid-column-gap: 25px
-
-  #adjustor
-    margin-top: 20px
-
-    & > div
-      align-items: center
-      display: grid
-      grid-column-gap: 10px
-      grid-template-columns: 1fr auto 9ch auto
-
-      &:not(:first-child)
-        margin-top: 20px
-
-      span
-        text-align: right
-
-      input
-        appearance: none
-        border: solid #EAEAEA 1px
-        border-radius: 5px
-        box-sizing: border-box
-        font-size: 1.1em
-        max-width: 100%
-        padding: 3px 2px
-        text-align: center
-
-      button
-        background: none
-        border: none
-        box-sizing: border-box
-        color : #C44D58
-        font-size: 1.2em
-        padding: 0
-        &:disabled
-          color: lighten(desaturate(#C44D58, 30), 25)
-
-    #yeast-type
-      display: grid
-      grid-column-gap: 10px
-      grid-template-columns: minmax(65px, auto) 10ch
-      margin-top: 25px
-
-      select
-        border: solid #A0A0A0 1px
-        padding: 5px
 
   h2
     color: #556270
