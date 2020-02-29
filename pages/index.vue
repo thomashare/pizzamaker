@@ -6,6 +6,7 @@
       <option value="custom">custom</option>
       <option value="papa-johns">Pete-zza's Papa Johns</option>
       <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
+      <option value="mellow-mushroom">Mellow Mushroom</option>
       <option value="lucalis">Lucali's</option>
       <option value="robertas">Roberta's</option>
       <option value="king-arthur">King Arthur</option>
@@ -52,7 +53,7 @@
           <li>{{ flour }}g flour</li>
           <li>{{ oil }}g oil</li>
           <li>{{ salt }}g salt</li>
-          <li>{{ sugar }}g sugar</li>
+          <li>{{ sugar }}g {{ sugarType }}</li>
           <li>{{ water }}g water</li>
           <li>{{ yeast }}g yeast {{ yeastType }}</li>
         </ul>
@@ -68,7 +69,7 @@
           <span>%</span>
         </div>
         <div>
-          <span class="ingredient">sugar</span>
+          <span class="ingredient">{{ sugarType }}</span>
           <input class="value" max="100" min="0" step="0.05" type="number" v-model="sugar" @change="setCustom()">
           <span>%</span>
         </div>
@@ -116,6 +117,7 @@ export default {
       size: 12,
       crustThickness: 0.35,
       sugarPercent: 4,
+      sugarType: 'sugar',
       yeastPercent: 0.14,
       yeastType: 'ADY',
       recipeYeast: 0,
@@ -230,6 +232,7 @@ export default {
         this.oilPercent = 7
         this.saltPercent = 1.75
         this.sugarPercent = 4
+        this.yeastType = 'IDY'
         this.recipeYeastType = 'IDY'
         this.yeastPercentType = 'IDY'
         this.recipeYeast = 0.14
@@ -238,6 +241,7 @@ export default {
           'Knead and shape your dough balls.',
           'Refrigerate your dough balls for 3-5 days (5 days being optimal). This dough can be refrigerated for up to 8 days.'
         ]
+        console.log(this.recipeYeastType)
       }
       // Scott123s Easy New York dough
       if (this.recipeSelection === 'scott123s-easy-new-york') {
@@ -245,6 +249,7 @@ export default {
         this.oilPercent = 3
         this.saltPercent = 1.75
         this.sugarPercent = 1
+        this.yeastType = 'IDY'
         this.recipeYeastType = 'IDY'
         this.yeastPercentType = 'IDY'
         this.recipeYeast = 0.5
@@ -254,12 +259,30 @@ export default {
           'Refrigerate your dough balls for 2 days.'
         ]
       }
+      // Mellow Mushroom dough
+      if (this.recipeSelection === 'mellow-mushroom') {
+        this.hydration = 56
+        this.oilPercent = 7
+        this.saltPercent = 1.75
+        this.sugarPercent = 8.84
+        this.sugarType = 'molasses'
+        this.yeastType = 'IDY'
+        this.recipeYeastType = 'IDY'
+        this.yeastPercentType = 'IDY'
+        this.recipeYeast = 0.14
+        this.yeastPercent = 0.14
+        this.recipeSteps = [
+          'Knead and shape your dough balls.',
+          'Refrigerate your dough balls for 3-5 days (5 days being optimal). This dough can be refrigerated for up to 8 days.'
+        ]
+      }
       // Lucali's dough
       if (this.recipeSelection === 'lucalis') {
         this.hydration = 57.5
         this.oilPercent = 1.5
         this.saltPercent = 1.75
         this.sugarPercent = 0
+        this.yeastType = 'IDY'
         this.recipeYeastType = 'IDY'
         this.yeastPercentType = 'IDY'
         this.recipeYeast = 0.1
@@ -272,6 +295,7 @@ export default {
         this.oilPercent = 1.3
         this.saltPercent = 2.61
         this.sugarPercent = 0
+        this.yeastType = 'ADY'
         this.recipeYeastType = 'ADY'
         this.yeastPercentType = 'ADY'
         this.recipeYeast = 0.65
@@ -287,6 +311,7 @@ export default {
         this.oilPercent = 6.9
         this.saltPercent = 1.9
         this.sugarPercent = 0
+        this.yeastType = 'ADY'
         this.recipeYeastType = 'ADY'
         this.yeastPercentType = 'ADY'
         this.recipeYeast = 3.2
@@ -301,15 +326,15 @@ export default {
     convertYeastAmount() {
       if (this.recipeSelection === 'custom') return false
 
-      if (this.yeastPercentType === 'ADY' && this.recipeYeastType === 'IDY') {
+      if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {
         this.yeastPercent = this.ADYToIDY(this.recipeYeast)
       }
-      if (this.yeastPercentType === 'IDY' && this.recipeYeastType === 'ADY') {
+      if (this.yeastType === 'IDY' && this.recipeYeastType === 'ADY') {
         this.yeastPercent = this.IDYToADY(this.recipeYeast)
       }
-      if (this.yeastPercentType === 'ADY' && this.recipeYeastType === 'ADV' ||
-          this.yeastPercentType === 'IDY' && this.recipeYeastType === 'IDY') {
-        this.yeastPercent = this.recipeYeast
+      if (this.yeastType === 'ADY' && this.recipeYeastType === 'ADV' ||
+          this.yeastType === 'IDY' && this.recipeYeastType === 'IDY') {
+            this.yeastPercent = this.recipeYeast
       }
     },
     ADYToIDY(amount) {
