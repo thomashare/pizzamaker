@@ -77,12 +77,7 @@ export default {
   },
   data() {
 		return {
-      count: 1,
-      size: 12,
-      crustThickness: 0.35,
       sugarType: 'sugar',
-      yeastType: 'ADY',
-      recipeYeastType: null,
       recipeSteps: null,
     }
   },
@@ -95,7 +90,6 @@ export default {
     },
     crustThickness() {
       this.$router.push({ path: this.$route.fullPath, query: { crustThickness: this.crustThickness } })
-      this.crustThickness = Math.round(this.crustThickness * 100) / 100
     },
     hydration() {
       this.$router.push({ path: this.$route.fullPath, query: { hydration: this.hydration } })
@@ -133,11 +127,15 @@ export default {
   },
 	computed: {
     ...mapState({
+      count: state => state.sizing.count,
+      size: state => state.sizing.size,
       hydration: state => state.ratios.hydration,
       oilPercent: state => state.ratios.oilPercent,
       saltPercent: state => state.ratios.saltPercent,
       sugarPercent: state => state.ratios.sugarPercent,
-      yeastPercent: state => state.ratios.yeastPercent
+      yeastPercent: state => state.ratios.yeastPercent,
+      yeastType: state => state.ingredients.yeastType,
+      crustThickness: state => state.sizing.crustThickness
     }),
     flour() {
       const diameter = Math.PI * (this.size/5 + this.size/5)
@@ -167,42 +165,21 @@ export default {
   },
   mounted() {
     if (this.$route.query.count !== undefined) this.count = this.$route.query.count
-    if (this.$route.query.crustThickness !== undefined) this.crustThickness = this.$route.query.crustThickness
+    if (this.$route.query.crustThickness !== undefined) this.$store.commit('sizing/SET_CRUST_THICKNESS', this.$route.query.crustThickness)
     if (this.$route.query.hydration !== undefined) this.$store.commit('ratios/SET_HYDRATION', this.$route.query.hydration)
-    if (this.$route.query.oil !== undefined) this.oilPercent = this.$route.query.oil
-    if (this.$route.query.salt !== undefined) this.saltPercent = this.$route.query.salt
-    if (this.$route.query.size !== undefined) this.size = this.$route.query.size
-    if (this.$route.query.sugar !== undefined) this.size = this.$route.query.sugar
-    if (this.$route.query.yeast !== undefined) this.yeastPercent = this.$route.query.yeast
-    if (this.$route.query.yeastType !== undefined) this.yeastType = this.$route.query.yeastType
+    if (this.$route.query.oil !== undefined) this.$store.commit('ratios/SET_OIL_PERCENT', this.$route.query.oil)
+    if (this.$route.query.salt !== undefined) this.$store.commit('ratios/SET_SALT_PERCENT', this.$route.query.salt)
+    if (this.$route.query.size !== undefined) this.$store.commit('sizing/SET_SIZE', this.$route.query.size)
+    if (this.$route.query.sugar !== undefined) this.$store.commit('ratios/SET_SUGAR', this.$route.query.sugar)
+    if (this.$route.query.yeast !== undefined) this.$store.commit('ratios/SET_YEAST_PERCENT', this.$route.query.yeast)
+    if (this.$route.query.yeastType !== undefined) this.$store.commit('ingredients/SET_YEAST_TYPE', this.$route.query.yeastType)
   },
 	methods: {
 		finalVal(val) {
-      if (val === 0) return 'no'
-			else return parseFloat(val).toFixed(1)
+      return parseFloat(val).toFixed(1)
     },
     setCustom() {
       this.recipeSelection = 'custom'
-    },
-    convertYeastAmount() {
-      if (this.recipeSelection === 'custom') return false
-
-      if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {
-        this.yeastPercent = this.ADYToIDY(this.recipeYeast)
-      }
-      if (this.yeastType === 'IDY' && this.recipeYeastType === 'ADY') {
-        this.yeastPercent = this.IDYToADY(this.recipeYeast)
-      }
-      if (this.yeastType === 'ADY' && this.recipeYeastType === 'ADV' ||
-          this.yeastType === 'IDY' && this.recipeYeastType === 'IDY') {
-            this.yeastPercent = this.recipeYeast
-      }
-    },
-    ADYToIDY(amount) {
-      return amount += amount*0.75
-    },
-    IDYToADY(amount) {
-      return amount -= amount*0.75
     }
 	}
 }

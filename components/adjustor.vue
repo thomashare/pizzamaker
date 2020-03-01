@@ -2,21 +2,21 @@
   <div id="adjustor">
     <div>
       <span>pies</span>
-      <button @click.prevent="--count" :disabled="count <= 1"><i class="fas fa-minus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"><i class="fas fa-minus-circle"></i></button>
       <input max="50" min="1" type="number" v-model="count">
-      <button @click.prevent="++count" :disabled="count >= 50"><i class="fas fa-plus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"><i class="fas fa-plus-circle"></i></button>
     </div>
     <div>
       <span>size (in)</span>
-      <button @click.prevent="--size" :disabled="size <= 3"><i class="fas fa-minus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size-1)" :disabled="size <= 3"><i class="fas fa-minus-circle"></i></button>
       <input max="100" min="3" type="number" v-model="size">
-      <button @click.prevent="++size" :disabled="size >= 100"><i class="fas fa-plus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size+1)" :disabled="size >= 100"><i class="fas fa-plus-circle"></i></button>
     </div>
     <div>
       <span>crust thickness (in)</span>
-      <button @click.prevent="crustThickness -= 0.05" :disabled="crustThickness <= 0.1"><i class="fas fa-minus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness <= 0.1"><i class="fas fa-minus-circle"></i></button>
       <input max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
-      <button @click.prevent="crustThickness += 0.05"><i class="fas fa-plus-circle"></i></button>
+      <button @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness+0.05)"><i class="fas fa-plus-circle"></i></button>
     </div>
     <div>
       <span>hydration (%)</span>
@@ -26,7 +26,7 @@
     </div>
     <div id="yeast-type">
       <span>yeast type</span>
-      <select v-model="yeastType" @change="convertYeastAmount()">
+      <select :value="yeastType" @change="convertYeastAmount()">
         <option value="ADY">ADY</option>
         <option value="IDY">IDY</option>
       </select>
@@ -35,8 +35,44 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  computed: {
+    ...mapState({
+      count: state => state.sizing.count,
+      size: state => state.sizing.size,
+      crustThickness: state => state.sizing.crustThickness,
+      hydration: state => state.ratios.hydration,
+      yeastType: state => state.ingredients.yeastType,
+      recipeYeastType: state => state.ingredients.recipeYeastType,
+      recipeYeastPercent: state => state.ratios.recipeYeastPercent
+    })
+  },
+  methods: {
+    convertYeastAmount() {
+      console.log('changing yeast type')
+
+      if (this.recipeSelection === 'custom') return false
+
+      if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {
+        this.$store.commit('ratios/SET_YEAST_PERCENT', this.ADYToIDY(this.recipeYeastPercent))
+      }
+      if (this.yeastType === 'IDY' && this.recipeYeastType === 'ADY') {
+        this.$store.commit('ratios/SET_YEAST_PERCENT', this.IDYToADY(this.recipeYeastPercent))
+      }
+      if (this.yeastType === 'ADY' && this.recipeYeastType === 'ADV' ||
+          this.yeastType === 'IDY' && this.recipeYeastType === 'IDY') {
+            this.$store.commit('ratios/SET_YEAST_PERCENT', this.recipeYeastPercent)
+      }
+    },
+    ADYToIDY(amount) {
+      return amount += amount*0.75
+    },
+    IDYToADY(amount) {
+      return amount -= amount*0.75
+    }
+  }
 }
 </script>
 

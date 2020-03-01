@@ -25,6 +25,9 @@ export default {
       this.setRecipeRatios()
     }
   },
+  mounted() {
+    if (this.$route.query.recipe !== undefined) this.recipeSelection = this.$route.query.recipe
+  },
   methods: {
     setRecipeRatios() {
       // Papa Johns dough
@@ -34,7 +37,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 4)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.14)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 0.14)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.14)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.recipeSteps = [
@@ -49,7 +52,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 1)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.5)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 0.5)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.5)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.recipeSteps = [
@@ -64,7 +67,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 8.84)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.14)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 0.14)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.14)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.sugarType = 'molasses'
@@ -80,7 +83,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.1)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 0.1)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.1)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.recipeSteps = null
@@ -92,7 +95,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 2.61)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.65)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 0.65)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.65)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.recipeSteps = [
@@ -107,7 +110,7 @@ export default {
         this.$store.commit('ratios/SET_SALT_PERCENT', 1.9)
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
         this.$store.commit('ratios/SET_YEAST_PERCENT', 3.2)
-        this.$store.commit('ratios/SET_RECIPE_YEAST', 3.2)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 3.2)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.recipeSteps = [
