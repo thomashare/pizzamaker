@@ -26,7 +26,7 @@
     </div>
     <div id="yeast-type">
       <span>yeast type</span>
-      <select :value="yeastType" @change="convertYeastAmount()">
+      <select v-model="yeastType" @change="convertYeastAmount()">
         <option value="ADY">ADY</option>
         <option value="IDY">IDY</option>
       </select>
@@ -44,15 +44,20 @@ export default {
       size: state => state.sizing.size,
       crustThickness: state => state.sizing.crustThickness,
       hydration: state => state.ratios.hydration,
-      yeastType: state => state.ingredients.yeastType,
       recipeYeastType: state => state.ingredients.recipeYeastType,
       recipeYeastPercent: state => state.ratios.recipeYeastPercent
-    })
+    }),
+    yeastType: {
+      get() {
+        return this.$store.state.ingredients.yeastType
+      },
+      set(val) {
+        this.$store.commit('ingredients/SET_YEAST_TYPE', val)
+      }
+    }
   },
   methods: {
     convertYeastAmount() {
-      console.log('changing yeast type')
-
       if (this.recipeSelection === 'custom') return false
 
       if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {

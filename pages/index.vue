@@ -115,13 +115,13 @@ export default {
     yeastPercent() {
       setTimeout(() => {
         if (this.recipeSelection !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastPercentType } })
+        this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastType } })
       }, 1000)
     },
     yeastType() {
       setTimeout(() => {
         if (this.recipeSelection !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { yeastType: this.yeastPercentType } })
+        this.$router.push({ path: this.$route.fullPath, query: { yeastType: this.yeastType } })
       }, 1000)
     }
   },
