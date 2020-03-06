@@ -164,6 +164,7 @@ export default {
 
       &#measure-switch
         grid-template-columns: 1fr auto auto auto
+        margin-bottom: 30px
         
         & > input
           background-color: #F8F8F8
@@ -207,7 +208,7 @@ export default {
         border: none
         box-sizing: border-box
         color : #C44D58
-        font-size: 1.2em
+        font-size: 1.5em
         padding: 0
         &:disabled
           color: lighten(desaturate(#C44D58, 30), 25)

@@ -21,31 +21,9 @@
     </main>
 
     <div id="more-info">
-      <div id="customize">
-        <h2>Customize</h2>
-        <div>
-          <span class="ingredient">salt</span>
-          <input class="value" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
-          <span>%</span>
-        </div>
-        <div>
-          <span class="ingredient">{{ sugarType }}</span>
-          <input class="value" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
-          <span>%</span>
-        </div>
-        <div>
-          <span class="ingredient">oil</span>
-          <input class="value" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
-          <span>%</span>
-        </div>
-        <div>
-          <span class="ingredient">yeast</span>
-          <input class="value" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
-          <span>%</span>
-        </div>
-      </div>
+      <Customizer />
 
-      <div id="notes" v-if="recipeSteps !== null">
+      <div id="notes" v-if="hasRecipe">
         <h2>Recipe Info</h2>
         <ol>
           <li v-for="(step, n) in recipeSteps" :key="n">{{ step }}</li>
@@ -69,11 +47,13 @@
 import { mapState } from 'vuex'
 import RecipeSelection from '@/components/recipe-selection.vue'
 import Adjustor from '@/components/adjustor.vue'
+import Customizer from '@/components/customizer.vue'
 
 export default {
   components: {
     RecipeSelection,
-    Adjustor
+    Adjustor,
+    Customizer
   },
   watch: {
     count() {
@@ -81,22 +61,6 @@ export default {
     },
     size() {
       this.$router.push({ path: this.$route.fullPath, query: { size: this.size } })
-    },
-    oilPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { oil: this.oilPercent } })
-    },
-    saltPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { salt: this.saltPercent } })
-    },
-    sugarPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { sugar: this.sugarPercent } })
-    },
-    yeastPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastType } })
     },
     yeastType() {
       if (this.recipeSelection !== 'custom') return false
@@ -109,52 +73,17 @@ export default {
       count: state => state.sizing.count,
       size: state => state.sizing.size,
       crustThickness: state => state.sizing.crustThickness,
-      recipeSteps: state => state.recipe.recipeSteps,
+      recipeSteps: state => state.recipe.steps,
       hydration: state => state.ratios.hydration,
+      oilPercent: state => state.ratios.oilPercent,
+      saltPercent: state => state.ratios.saltPercent,
+      sugarPercent: state => state.ratios.sugarPercent,
+      sugarType: state => state.ingredients.sugarType,
+      yeastPercent: state => state.ratios.yeastPercent,
       yeastType: state => state.ingredients.yeastType,
       recipeSelection: state => state.recipe.selection,
       recipeYeastType: state => state.ingredients.recipeYeastType
     }),
-    oilPercent: {
-      get() {
-        return this.$store.state.ratios.oilPercent
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_OIL_PERCENT', val)
-      }
-    },
-    saltPercent: {
-      get() {
-        return this.$store.state.ratios.saltPercent
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_SALT_PERCENT', val)
-      }
-    },
-    sugarPercent: {
-      get() {
-        return this.$store.state.ratios.sugarPercent
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_SUGAR_PERCENT', val)
-      }
-    },
-    sugarType: {
-      get() {
-        return this.$store.state.ingredients.sugarType
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_SUGAR_TYPE', val)
-      }
-    },
-    yeastPercent: {
-      get() {
-        return this.$store.state.ratios.yeastPercent
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_YEAST_PERCENT', val)
-      }
-    },
     flour() {
       // if measureSwitch is set to diameter, calculate by diameter measurement
       if (this.measureSwitch === 'diameter') {
@@ -198,6 +127,10 @@ export default {
     },
     doughballWeight() {
       return this.finalVal((parseFloat(this.flour) + parseFloat(this.oil) + parseFloat(this.salt) + parseFloat(this.sugar) + parseFloat(this.water) + parseFloat(this.yeast)) / this.count)
+    },
+    hasRecipe() {
+      if (this.recipeSteps === undefined || this.recipeSteps !== undefined && this.recipeSteps.length === 0 ) return false
+      return true
     }
   },
   mounted() {
@@ -220,9 +153,6 @@ export default {
 		finalVal(val) {
       return parseFloat(val).toFixed(1)
     },
-    setCustom() {
-      this.$store.commit('recipe/SET_SELECTION', 'custom')
-    },
     ADYToIDY(amount) {
       return amount += amount*0.75
     },
@@ -236,8 +166,8 @@ export default {
 <style lang="stylus" scoped>
   h1
     color: #C44D58
-    font-family: 'Oswald', sans-serif
-    font-size: 1.5em
+    font-family: 'Caveat', sans-serif
+    font-size: 2em
     font-weight: 300
     letter-spacing: 0.07em
     margin: 0
@@ -288,47 +218,21 @@ export default {
 
   #more-info
     border-top: solid #F0F0F0 1px
-    display: grid
-    grid-column-gap: 30px
-    grid-template-columns: 1fr 2fr
-    margin: 20px auto 0
-    max-width: 500px
+    margin-top: 25px
     padding-top: 20px
 
     h2
       color: #5A5A5A
       margin: 0 auto
 
-    #customize
-      h2
-        text-align: center
-
-      & > div
-        align-items: center
-        display: flex
-        justify-content: center
-
-        @media screen and (max-width: 1200px)
-          width: 100%
-
-        &:not(:first-child)
-          margin-top: 20px
-
-        .ingredient
-          text-align: right
-          max-width: 5ch
-          width: 100%
-
-        .value
-          appearance: none
-          border: solid #E0E0E0 1px
-          border-radius: 5px
-          margin: 0 5px
-          padding: 5px
-          text-align: center
-          width: 7ch
-
     #notes
+      background-color: #F9F9F9
+      border-radius: 5px
+      box-sizing: border-box
+      margin: 25px auto
+      max-width: 575px
+      padding: 30px
+
       ol
         line-height: 1.5em
         padding: 0 0 0 15px
