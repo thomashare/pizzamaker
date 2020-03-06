@@ -1,6 +1,7 @@
 export const state = () => ({
   recipeYeastType: 'ADY',
-  yeastType: 'ADY'
+  yeastType: 'ADY',
+  sugarType: 'sugar'
 })
 
 export const mutations = {
@@ -9,5 +10,8 @@ export const mutations = {
   },
   SET_YEAST_TYPE(state, payload) {
     state.yeastType = payload
+  },
+  SET_SUGAR_TYPE(state, payload) {
+    state.sugarType = payload
   }
 }
