@@ -8,49 +8,42 @@
     <template v-if="measureSwitch === 'diameter'">
       <div>
         <span>pies</span>
-        <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"><i class="fas fa-minus-circle"></i></button>
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
         <input max="50" min="1" type="number" v-model="count">
-        <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"><i class="fas fa-plus-circle"></i></button>
+        <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>size (in)</span>
-        <button @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size-1)" :disabled="size <= 3"><i class="fas fa-minus-circle"></i></button>
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size-1)" :disabled="size <= 3"></button>
         <input max="100" min="3" type="number" v-model="size">
-        <button @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size+1)" :disabled="size >= 100"><i class="fas fa-plus-circle"></i></button>
+        <button class="plus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size+1)" :disabled="size >= 100"></button>
       </div>
       <div>
         <span>crust thickness (in)</span>
-        <button @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness <= 0.1"><i class="fas fa-minus-circle"></i></button>
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
         <input max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
-        <button @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness+0.05)"><i class="fas fa-plus-circle"></i></button>
+        <button class="plus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness+0.05)"></button>
       </div>
     </template>
     <template v-else>
       <div>
         <span>dough balls</span>
-        <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"><i class="fas fa-minus-circle"></i></button>
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
         <input max="50" min="1" type="number" v-model="count">
-        <button @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"><i class="fas fa-plus-circle"></i></button>
+        <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>dough ball weight (g)</span>
-        <button @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight-1)" :disabled="doughBallWeight <= 20"><i class="fas fa-minus-circle"></i></button>
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
         <input min="20" type="number" v-model="doughBallWeight">
-        <button @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight+1)"><i class="fas fa-plus-circle"></i></button>
+        <button class="plus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight+1)"></button>
       </div>
     </template>
     <div>
       <span>hydration (%)</span>
-      <button @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration-1)"><i class="fas fa-minus-circle"></i></button>
+      <button class="minus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration-1)"></button>
       <input type="number" v-model="hydration">
-      <button @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration+1)"><i class="fas fa-plus-circle"></i></button>
-    </div>
-    <div id="yeast-type">
-      <span>yeast type</span>
-      <select v-model="yeastType">
-        <option value="ADY">ADY</option>
-        <option value="IDY">IDY</option>
-      </select>
+      <button class="plus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration+1)"></button>
     </div>
   </div>
 </template>
@@ -77,9 +70,7 @@ export default {
   },
   computed: {
     ...mapState({
-      recipeSelection: state => state.recipe.selection,
-      recipeYeastType: state => state.ingredients.recipeYeastType,
-      recipeYeastPercent: state => state.ratios.recipeYeastPercent,
+      recipeSelection: state => state.recipe.selection
     }),
     measureSwitch: {
       get() {
@@ -128,22 +119,6 @@ export default {
       set(val) {
         this.$store.commit('ratios/SET_HYDRATION', val)
       }
-    },
-    yeastType: {
-      get() {
-        return this.$store.state.ingredients.yeastType
-      },
-      set(val) {
-        this.$store.commit('ingredients/SET_YEAST_TYPE', val)
-      }
-    },
-    recipeYeastType: {
-      get() {
-        return this.$store.state.ratios.recipeYeastType
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_RECIPE_YEAST_TYPE', val)
-      }
     }
   }
 }
@@ -151,13 +126,11 @@ export default {
 
 <style lang="stylus" scoped>
   #adjustor
-    margin-top: 10px
-
     & > div
       align-items: center
       display: grid
       grid-column-gap: 10px
-      grid-template-columns: 1fr auto 9ch auto
+      grid-template-columns: 1fr 24px 9ch 24px
 
       &:not(:first-child)
         margin-top: 20px
@@ -202,16 +175,6 @@ export default {
         max-width: 100%
         padding: 3px 2px
         text-align: center
-
-      button
-        background: none
-        border: none
-        box-sizing: border-box
-        color : #C44D58
-        font-size: 1.5em
-        padding: 0
-        &:disabled
-          color: lighten(desaturate(#C44D58, 30), 25)
 
     #yeast-type
       display: grid

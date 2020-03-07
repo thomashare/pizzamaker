@@ -15,9 +15,11 @@
           <li>{{ salt }}g salt</li>
           <li>{{ sugar }}g {{ sugarType }}</li>
           <li>{{ water }}g water</li>
-          <li>{{ yeast }}g yeast {{ yeastType }}</li>
+          <li>{{ yeast }}g {{ yeastType }} yeast</li>
         </ul>
       </div>
+
+      <IngredientSubstitutes />
     </main>
 
     <div id="more-info">
@@ -40,6 +42,8 @@
       <input id="share-url" type="text" :value="shareURL" @focus="$event.target.select()">
     </div>
 
+    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KYFVEQ6EJF376&source=url" id="donate" target="_blank">Donate if this tool helped you</a>
+
   </div>
 </template>
 
@@ -47,12 +51,14 @@
 import { mapState } from 'vuex'
 import RecipeSelection from '@/components/recipe-selection.vue'
 import Adjustor from '@/components/adjustor.vue'
+import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
 import Customizer from '@/components/customizer.vue'
 
 export default {
   components: {
     RecipeSelection,
     Adjustor,
+    IngredientSubstitutes,
     Customizer
   },
   watch: {
@@ -102,19 +108,37 @@ export default {
       return this.finalVal(this.flour * (this.saltPercent / 100))
     },
     sugar() {
-      return this.finalVal(this.flour * (this.sugarPercent / 100))
+      // if sugarType is molasses, convert the sugar percentage to grams of molasses
+      if (this.sugarType === 'molasses') {
+        return this.finalVal((this.flour * (this.sugarPercent / 100) * 1.33))
+      }
+      // if sugarType is honey, convert the sugar percentage to grams of honey
+      else if (this.sugarType === 'honey') {
+        return this.finalVal((this.flour * (this.sugarPercent / 100) * 0.66))
+      }
+      else return this.finalVal(this.flour * (this.sugarPercent / 100))
     },
     yeast() {
       const value = this.flour * (this.yeastPercent / 100)
 
+      // ADY to IDY conversion
       if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {
-        console.log('ADY to IDY')
         return this.finalVal(this.ADYToIDY(value))
       }
       
+      // IDY to ADY conversion
       else if (this.yeastType === 'IDY' && this.recipeYeastType === 'ADY') {
-        console.log('ADY to IDY')
         return this.finalVal(this.IDYToADY(value))
+      }
+
+      // fresh to ADY conversion
+      else if (this.yeastType === 'fresh' && this.recipeYeastType === 'ADY') {
+        return this.finalVal(this.freshToADY(value))
+      }
+
+      // fresh to IDY conversion
+      else if (this.yeastType === 'fresh' && this.recipeYeastType === 'IDY') {
+        return this.finalVal(this.freshToIDY(value))
       }
 
       else return this.finalVal(value)
@@ -151,13 +175,28 @@ export default {
   },
 	methods: {
 		finalVal(val) {
-      return parseFloat(val).toFixed(1)
+      const newVal = parseFloat(val).toFixed(1)
+
+      if (newVal.split('.')[1] <= 0) return newVal.split('.')[0]
+      else return newVal
     },
     ADYToIDY(amount) {
       return amount += amount*0.75
     },
     IDYToADY(amount) {
       return amount -= amount*0.75
+    },
+    freshToADY(amount) {
+      return amount / 0.4
+    },
+    freshToIDY(amount) {
+      return amount / 0.33
+    },
+    ADYToFresh(amount) {
+      return amount * 0.4
+    },
+    IDYToFresh(amount) {
+      return amount * 0.33
     }
 	}
 }
@@ -178,34 +217,18 @@ export default {
     margin: 20px 0
     padding: 5px
     text-align: center
-    
-  #recipe-selection
-    background-color: #FAFAFA
-    border: solid #D0D0D0 1px
-    border-radius: 5px
-    color: #404040
-    display: block
-    height: 40px
-    margin: 10px auto
-    padding: 10px
-    width: 300px
 
   main
     display: grid
     grid-column-gap: 50px
     grid-template-columns: 1fr 1fr
-    margin-top: 25px
+    margin-top: 30px
     width: 100%
 
     @media screen and (max-width: 960px)
       grid-column-gap: 25px
 
   h2
-    color: #556270
-    font-family: 'Oswald', sans-serif
-    font-size: 1.4em
-    font-weight: 300
-    letter-spacing: 0.03em
     margin: 0 0 10px
 
   #ingredients
@@ -218,7 +241,6 @@ export default {
 
   #more-info
     border-top: solid #F0F0F0 1px
-    margin-top: 25px
     padding-top: 20px
 
     h2
@@ -249,6 +271,7 @@ export default {
       text-align: center
 
   #share
+    align-items: center
     display: flex
     margin: 40px auto 0
     width: 100%
@@ -262,4 +285,10 @@ export default {
     input
       border: solid #EAEAEA 1px
       width: 100%
+
+  #donate
+    display: block
+    margin: 30px auto
+    max-width: 500px
+    text-align: center
 </style>

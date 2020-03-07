@@ -25,32 +25,23 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  watch: {
-    oilPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { oil: this.oilPercent } })
-    },
-    saltPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { salt: this.saltPercent } })
-    },
-    sugarPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { sugar: this.sugarPercent } })
-    },
-    yeastPercent() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastType } })
-    }
-  },
   computed: {
+    ...mapState({
+      recipe: state => state.recipe.selection,
+      sugarType: state => state.ingredients.sugarType
+    }),
     oilPercent: {
       get() {
         return this.$store.state.ratios.oilPercent
       },
       set(val) {
         this.$store.commit('ratios/SET_OIL_PERCENT', val)
+
+        if (this.recipe === 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', oil: this.oilPercent } })
       }
     },
     saltPercent: {
@@ -59,6 +50,9 @@ export default {
       },
       set(val) {
         this.$store.commit('ratios/SET_SALT_PERCENT', val)
+
+        if (this.recipe === 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', salt: this.saltPercent } })
       }
     },
     sugarPercent: {
@@ -67,14 +61,9 @@ export default {
       },
       set(val) {
         this.$store.commit('ratios/SET_SUGAR_PERCENT', val)
-      }
-    },
-    sugarType: {
-      get() {
-        return this.$store.state.ingredients.sugarType
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_SUGAR_TYPE', val)
+
+        if (this.recipe === 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', sugar: this.sugarPercent } })
       }
     },
     yeastPercent: {
@@ -83,6 +72,9 @@ export default {
       },
       set(val) {
         this.$store.commit('ratios/SET_YEAST_PERCENT', val)
+
+        if (this.recipe === 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', yeast: this.yeastPercent, yeastType: this.yeastType } })
       }
     }
   },
@@ -107,7 +99,6 @@ export default {
       grid-template-columns: repeat(2, 1fr)
 
     h2
-      color: #5A5A5A
       grid-column: 1/-1
       margin: 5px 0 20px
       text-align: center
@@ -132,7 +123,7 @@ export default {
 
       .ingredient
         text-align: right
-        max-width: 5ch
+        max-width: 8ch
         width: 100%
 
       .value
