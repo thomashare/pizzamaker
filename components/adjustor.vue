@@ -148,7 +148,7 @@ export default {
         
         & > input
           align-items: center
-          background-color: #F8F8F8
+          background-color: lighten(#c4edde, 12)
           border: solid #D0D0D0 1px
           border-radius: 25px
           box-sizing: border-box
@@ -160,9 +160,8 @@ export default {
           transition: transform 0.1s ease-in
           width: 50px
           &::before
-            background: desaturate(#C44D58, 10)
+            background: #7ac7c4
             border-radius: 50%
-            box-shadow: 1px 0 1px darken(desaturate(#C44D58, 10), 20)
             box-sizing: inherit
             content: ''
             display: block
@@ -171,7 +170,6 @@ export default {
             transition: 0.1s ease-in-out
             width: 20px
           &:checked::before
-            box-shadow: -1px 0 1px darken(desaturate(#C44D58, 10), 20)
             transform: translateX(28px)
 
         &.diameter

@@ -128,7 +128,7 @@ export default {
 
       .value
         appearance: none
-        border: solid lighten(desaturate(#C44D58, 15), 20) 1px
+        border: solid #7ac7c4 1px
         border-radius: 5px
         margin: 0 5px
         padding: 5px

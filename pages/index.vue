@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Pizza Maker</h1>
+    <h1>Pizza Maker App</h1>
 
     <RecipeSelection />
     
@@ -209,18 +209,12 @@ export default {
 
 <style lang="stylus" scoped>
   h1
-    color: #C44D58
+    color: desaturate(#f73859, 25)
     font-family: 'Caveat', sans-serif
-    font-size: 2em
+    font-size: 1.85em
     font-weight: 300
     letter-spacing: 0.07em
     margin: 0
-    text-align: center
-
-  #warning
-    background-color: #FF6
-    margin: 20px 0
-    padding: 5px
     text-align: center
 
   main
@@ -237,6 +231,10 @@ export default {
     margin: 0 0 10px
 
   #ingredients
+    h2
+      color: #f73859
+      font-weight: 400
+
     ul
       margin: 0
       padding: 0 0 0 16px
@@ -268,12 +266,20 @@ export default {
           margin-top: 15px
 
     #info
-      border-top: solid #F0F0F0 1px
-      color: #C44D58
+      background-color: #FFF
+      border: solid #c4edde 1px
+      border-radius: 5px
+      color: darken(#7ac7c4, 20)
       font-size: 1.25em
+      font-weight: 300
       grid-column: 1/-1
-      margin-top: 20px
+      margin: 30px auto 0
+      max-width: 500px
+      padding: 15px
       text-align: center
+
+      p
+        margin: 0
 
   #share
     align-items: center
@@ -289,6 +295,7 @@ export default {
 
     input
       border: solid #EAEAEA 1px
+      font-weight: 300
       width: 100%
 
   #donate
