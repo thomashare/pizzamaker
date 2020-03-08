@@ -99,7 +99,12 @@ export default {
 
       // else if measureSwitch is set to weight, calculate flour by weight.
       const totalIngredientPercentages = 100 + this.hydration + this.oilPercent + this.saltPercent + this.sugarPercent + this.yeastPercent
-      return this.finalVal((this.$store.state.sizing.doughBallWeight / (totalIngredientPercentages/100)) * this.count)
+      const flourWeight = this.finalVal((this.$store.state.sizing.doughBallWeight / (totalIngredientPercentages/100)) * this.count)
+
+      // if the return value is NaN, return 0
+      if (flourWeight === 'NaN') return 0
+
+      return flourWeight
     },
     oil() {
       return this.finalVal(this.flour * (this.oilPercent / 100))

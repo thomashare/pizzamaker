@@ -12,15 +12,23 @@ export const mutations = {
     else state.measureSwitch = payload
   },
   SET_DOUGH_BALL_WEIGHT(state, payload) {
-    state.doughBallWeight = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.doughBallWeight = val
   },
   SET_COUNT(state, payload) {
-    state.count = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.count = val
   },
   SET_SIZE(state, payload) {
-    state.size = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.size = val
   },
   SET_CRUST_THICKNESS(state, payload) {
-    state.crustThickness = Math.ceil(parseFloat(payload) * 20) / 20
+    let val = Math.ceil(parseFloat(payload) * 20) / 20
+
+    state.crustThickness = val
   }
 }

@@ -9,21 +9,33 @@ export const state = () => ({
 
 export const mutations = {
   SET_HYDRATION(state, payload) {
-    state.hydration = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.hydration = val
   },
   SET_OIL_PERCENT(state, payload) {
-    state.oilPercent = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.oilPercent = val
   },
   SET_SALT_PERCENT(state, payload) {
-    state.saltPercent = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.saltPercent = val
   },
   SET_SUGAR_PERCENT(state, payload) {
-    state.sugarPercent = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.sugarPercent = val
   },
   SET_YEAST_PERCENT(state, payload) {
-    state.yeastPercent = parseFloat(payload)
+    let val = parseFloat(payload)
+
+    state.yeastPercent = val
   },
   SET_RECIPE_YEAST_PERCENT(state, payload) {
-    state.recipeYeastPercent = parseFloat(payload)
+    let val = parseFloat(payload)
+    
+    state.recipeYeastPercent = val
   }
 }

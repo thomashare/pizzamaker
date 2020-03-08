@@ -1,6 +1,6 @@
 <template>
   <div id="adjustor">
-    <div id="measure-switch">
+    <div :class="measureSwitch === 'diameter' && switched ? 'diameter' : switched ? 'weight' : null" id="measure-switch">
       <span>Diameter</span>
       <input type="checkbox" :checked="measureSwitch === 'weight'" @change="$store.commit('sizing/TOGGLE_MEASURE_SWITCH')">
       <span>Weight</span>
@@ -9,19 +9,19 @@
       <div>
         <span>pies</span>
         <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
-        <input max="50" min="1" type="number" v-model="count">
+        <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
         <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>size (in)</span>
         <button class="minus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size-1)" :disabled="size <= 3"></button>
-        <input max="100" min="3" type="number" v-model="size">
+        <input inputMode="decimal" max="100" min="3" type="number" v-model="size">
         <button class="plus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size+1)" :disabled="size >= 100"></button>
       </div>
       <div>
         <span>crust thickness (in)</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
-        <input max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
+        <button class="minus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness-0.1 <= 0.1"></button>
+        <input inputMode="decimal" max="5" min="0.10" step="0.05" type="number" v-model="crustThickness">
         <button class="plus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness+0.05)"></button>
       </div>
     </template>
@@ -29,21 +29,21 @@
       <div>
         <span>dough balls</span>
         <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
-        <input max="50" min="1" type="number" v-model="count">
+        <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
         <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>dough ball weight (g)</span>
         <button class="minus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
-        <input min="20" type="number" v-model="doughBallWeight">
+        <input inputMode="decimal" min="20" type="number" v-model="doughBallWeight">
         <button class="plus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight+1)"></button>
       </div>
     </template>
     <div>
       <span>hydration (%)</span>
-      <button class="minus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration-1)"></button>
-      <input type="number" v-model="hydration">
-      <button class="plus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration+1)"></button>
+      <button class="minus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration-1)" :disabled="hydration <= 1"></button>
+      <input inputMode="decimal" max="100" min="0" type="number" v-model="hydration">
+      <button class="plus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration+1)" :disabled="hydration >= 100"></button>
     </div>
   </div>
 </template>
@@ -53,10 +53,16 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      switched: false
+    }
+  },
   watch: {
     measureSwitch() {
       if (this.measureSwitch === 'weight') this.$router.push({ path: this.$route.fullPath, query: { doughBallWeight: this.doughBallWeight } })
       if (this.measureSwitch === 'diameter') this.$router.push({ path: this.$route.path })
+      this.switched = true
     },
     doughBallWeight() {
       this.$router.push({ path: this.$route.fullPath, query: { doughBallWeight: this.doughBallWeight } })
@@ -66,6 +72,7 @@ export default {
     },
     crustThickness() {
       this.$router.push({ path: this.$route.fullPath, query: { crustThickness: this.crustThickness } })
+      console.log(this.crustThickness)
     }
   },
   computed: {
@@ -140,13 +147,17 @@ export default {
         margin-bottom: 30px
         
         & > input
+          align-items: center
           background-color: #F8F8F8
           border: solid #D0D0D0 1px
           border-radius: 25px
           box-sizing: border-box
+          display: flex
           height: 22px
+          outline: none
           padding: 0
           position: relative
+          transition: transform 0.1s ease-in
           width: 50px
           &::before
             background: desaturate(#C44D58, 10)
@@ -162,6 +173,23 @@ export default {
           &:checked::before
             box-shadow: -1px 0 1px darken(desaturate(#C44D58, 10), 20)
             transform: translateX(28px)
+
+        &.diameter
+          & > input::before
+            animation: pie 0.1s ease-in forwards
+
+            @keyframes pie
+              25%
+                height: 50%
+                left: 1px
+                width: 10px
+              100%
+                height: 100%
+                width: 20px
+
+        &.weight
+          & > input
+            transform: rotate(4deg)
 
       span
         text-align: right

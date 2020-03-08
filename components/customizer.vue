@@ -3,22 +3,22 @@
     <h2>Ingredient Percentages</h2>
     <div>
       <span class="ingredient">salt</span>
-      <input class="value" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
+      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
       <span>%</span>
     </div>
     <div>
       <span class="ingredient">{{ sugarType }}</span>
-      <input class="value" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
+      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
       <span>%</span>
     </div>
     <div>
       <span class="ingredient">oil</span>
-      <input class="value" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
+      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
       <span>%</span>
     </div>
     <div>
       <span class="ingredient">yeast</span>
-      <input class="value" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
+      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
       <span>%</span>
     </div>
   </div>
