@@ -300,6 +300,7 @@ export default {
 
   #donate
     display: block
+    font-size: 1.25em
     margin: 30px auto
     max-width: 500px
     text-align: center
