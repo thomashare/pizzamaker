@@ -151,7 +151,6 @@ export default {
   #recipe-selection
     display: block
     height: 40px
-    margin: 10px auto
     padding: 10px
     width: 300px
 </style>

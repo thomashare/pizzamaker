@@ -1,8 +1,13 @@
 <template>
   <div id="app">
-    <h1>Pizza Maker App</h1>
+    <header>
+      <h1>Pizza Maker App</h1>
+    </header>
 
-    <RecipeSelection />
+    <div id="menu">
+      <RecipeSelection />
+      <button style="background: none; border: none;" @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
+    </div>
     
     <main>
       <Adjustor />
@@ -88,7 +93,7 @@ export default {
       yeastPercent: state => state.ratios.yeastPercent,
       yeastType: state => state.ingredients.yeastType,
       recipeSelection: state => state.recipe.selection,
-      recipeYeastType: state => state.ingredients.recipeYeastType
+      recipeYeastType: state => state.ingredients.recipeYeastType,
     }),
     flour() {
       // if measureSwitch is set to diameter, calculate by diameter measurement
@@ -160,6 +165,14 @@ export default {
     hasRecipe() {
       if (this.recipeSteps === undefined || this.recipeSteps !== undefined && this.recipeSteps.length === 0 ) return false
       return true
+    },
+    nightMode: {
+      get() {
+        return this.$store.state.settings.nightMode
+      },
+      set(val) {
+        this.$store.dispatch('settings/setNightMode', val)
+      }
     }
   },
   mounted() {
@@ -208,14 +221,67 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  h1
-    color: desaturate(#f73859, 25)
-    font-family: 'Caveat', sans-serif
-    font-size: 1.85em
-    font-weight: 300
-    letter-spacing: 0.07em
-    margin: 0
-    text-align: center
+  header
+    display: flex
+    justify-content: center
+
+    h1
+      color: desaturate(#f73859, 25)
+      font-family: 'Caveat', sans-serif
+      font-size: 1.85em
+      font-weight: 300
+      letter-spacing: 0.07em
+      margin: 0 auto
+      text-align: center
+
+  #menu
+    align-items: center
+    display: flex
+    justify-content: center
+    margin: 10px auto
+
+    select
+      margin-right: 15px
+
+  .dark-mode-toggle
+    box-sizing: border-box
+    color: #384259
+    position: relative
+    display: block
+    transform: scale(1.15)
+    border: 2px solid
+    border-radius: 100px
+    width: 20px
+    height: 20px
+
+    &::after, &::before
+      content: ""
+      box-sizing: border-box
+      position: absolute
+      display: block
+
+    &::before
+      border:5px solid
+      border-top-left-radius: 100px
+      border-bottom-left-radius: 100px
+      border-right: 0
+      width: 9px
+      height: 18px
+      top: -1px
+      left: -1px
+
+    &::after
+      border: 4px solid
+      border-top-right-radius: 100px
+      border-bottom-right-radius: 100px
+      border-left: 0
+      width: 4px
+      height: 8px
+      right: 4px
+      top: 4px
+
+  #container.night-mode .dark-mode-toggle
+    color: #F0F0F0
 
   main
     display: grid

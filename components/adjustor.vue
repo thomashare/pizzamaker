@@ -8,42 +8,42 @@
     <template v-if="measureSwitch === 'diameter'">
       <div>
         <span>pies</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
+        <button class="minus" @click="$store.commit('sizing/SET_COUNT', count-1)" :disabled="count <= 1"></button>
         <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
-        <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
+        <button class="plus" @click="$store.commit('sizing/SET_COUNT', count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>size (in)</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size-1)" :disabled="size <= 3"></button>
+        <button class="minus" @click="$store.commit('sizing/SET_SIZE', size-1)" :disabled="size <= 3"></button>
         <input inputMode="decimal" max="100" min="3" type="number" v-model="size">
-        <button class="plus" @click.prevent="$store.commit('sizing/SET_SIZE', $store.state.sizing.size+1)" :disabled="size >= 100"></button>
+        <button class="plus" @click="$store.commit('sizing/SET_SIZE', size+1)" :disabled="size >= 100"></button>
       </div>
       <div>
         <span>crust thickness (in)</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness-0.05)" :disabled="crustThickness-0.1 <= 0.1"></button>
-        <input inputMode="decimal" max="5" min="0.10" step="0.05" type="number" v-model="crustThickness">
-        <button class="plus" @click.prevent="$store.commit('sizing/SET_CRUST_THICKNESS', $store.state.sizing.crustThickness+0.05)"></button>
+        <button class="minus" @click="$store.commit('sizing/SET_CRUST_THICKNESS', crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
+        <input inputMode="decimal" max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
+        <button class="plus" @click="$store.commit('sizing/SET_CRUST_THICKNESS', crustThickness+0.05)"></button>
       </div>
     </template>
     <template v-else>
       <div>
         <span>dough balls</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count-1)" :disabled="count <= 1"></button>
+        <button class="minus" @click="$store.commit('sizing/SET_COUNT', count-1)" :disabled="count <= 1"></button>
         <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
-        <button class="plus" @click.prevent="$store.commit('sizing/SET_COUNT', $store.state.sizing.count+1)" :disabled="count >= 50"></button>
+        <button class="plus" @click="$store.commit('sizing/SET_COUNT', count+1)" :disabled="count >= 50"></button>
       </div>
       <div>
         <span>dough ball weight (g)</span>
-        <button class="minus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
+        <button class="minus" @click="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
         <input inputMode="decimal" min="20" type="number" v-model="doughBallWeight">
-        <button class="plus" @click.prevent="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', $store.state.sizing.doughBallWeight+1)"></button>
+        <button class="plus" @click="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', doughBallWeight+1)"></button>
       </div>
     </template>
     <div>
       <span>hydration (%)</span>
-      <button class="minus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration-1)" :disabled="hydration <= 1"></button>
+      <button class="minus" @click="$store.commit('ratios/SET_HYDRATION', hydration-1)" :disabled="hydration <= 1"></button>
       <input inputMode="decimal" max="100" min="0" type="number" v-model="hydration">
-      <button class="plus" @click.prevent="$store.commit('ratios/SET_HYDRATION', $store.state.ratios.hydration+1)" :disabled="hydration >= 100"></button>
+      <button class="plus" @click="$store.commit('ratios/SET_HYDRATION', hydration+1)" :disabled="hydration >= 100"></button>
     </div>
   </div>
 </template>
@@ -72,7 +72,6 @@ export default {
     },
     crustThickness() {
       this.$router.push({ path: this.$route.fullPath, query: { crustThickness: this.crustThickness } })
-      console.log(this.crustThickness)
     }
   },
   computed: {

@@ -27,7 +27,7 @@ export const mutations = {
     state.size = val
   },
   SET_CRUST_THICKNESS(state, payload) {
-    let val = Math.ceil(parseFloat(payload) * 20) / 20
+    let val = Math.round(parseFloat(payload) * 20) / 20
 
     state.crustThickness = val
   }

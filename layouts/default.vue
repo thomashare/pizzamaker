@@ -1,8 +1,36 @@
 <template>
-  <div>
+  <div :class="{ 'night-mode': nightMode }" id="container">
     <nuxt />
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState({
+      nightMode: state => state.settings.nightMode
+    })
+  },
+  mounted() {
+    // if user has dark mode, set night mode by default
+    if (localStorage.nightMode === undefined && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // set dark mode
+      this.$store.dispatch('settings/setNightMode', 'true')
+      console.log('boom!')
+    }
+
+    // user doesn't have night mode enabled
+    else {
+      if (localStorage.nightMode !== undefined && localStorage.nightMode === 'true') {
+        // set dark mode
+        this.$store.dispatch('settings/setNightMode', 'true')
+      }
+    }
+  }
+}
+</script>
 
 <style lang="stylus">
   @import url('../node_modules/normalize-css/normalize.css')
@@ -10,10 +38,12 @@
 
   body
     font-family: 'Open Sans', sans-serif
-    padding: 15px 12px
 
     @media screen and (max-width: 1200px)
       font-size: 0.9em
+
+  #container
+    padding: 15px 12px
 
   h2
     color: #384259
@@ -69,4 +99,27 @@
         position: absolute
         top: 4px
         width: 2px
+
+  #container.night-mode
+    background: #303030
+    color: #EAEAEA
+    color: rgba(255,255,255,0.85)
+
+    h2, #donate
+      color: inherit
+
+    button.minus, button.plus
+      color: #FFF
+
+    #more-info
+      border-color: #202020
+
+      h2
+        color: #B0B0B0
+
+      #notes, #info
+        background-color: #202020
+
+      #info
+        color: #D0D0D0
 </style>
