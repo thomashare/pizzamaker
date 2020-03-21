@@ -132,17 +132,19 @@ export default {
 
 <style lang="stylus" scoped>
   #adjustor
+    margin: 0 auto 0 10%
+    
     & > div
       align-items: center
       display: grid
       grid-column-gap: 10px
-      grid-template-columns: 1fr 24px 9ch 24px
+      grid-template-columns: 18ch 24px 9ch 24px
 
       &:not(:first-child)
         margin-top: 20px
 
       &#measure-switch
-        grid-template-columns: 1fr auto auto auto
+        grid-template-columns: 1fr auto 1fr
         margin-bottom: 30px
         
         & > input
@@ -187,6 +189,9 @@ export default {
         &.weight
           & > input
             transform: rotate(4deg)
+
+        & > span:nth-of-type(2)
+          text-align: left
 
       span
         text-align: right

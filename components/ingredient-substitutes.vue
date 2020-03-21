@@ -29,7 +29,8 @@ export default {
     ...mapState({
       recipe: state => state.recipe.selection,
       recipeYeastType: state => state.ingredients.recipeYeastType,
-      recipeYeastPercent: state => state.ratios.recipeYeastPercent
+      recipeYeastPercent: state => state.ratios.recipeYeastPercent,
+      yeastType: state => state.ingredients.yeastType
     }),
     yeastType: {
       get() {
@@ -37,6 +38,9 @@ export default {
       },
       set(val) {
         this.$store.commit('ingredients/SET_YEAST_TYPE', val)
+
+        if (this.recipe !== 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { yeastType: this.yeastType } })
       }
     },
     recipeYeastType: {

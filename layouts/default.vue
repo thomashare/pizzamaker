@@ -39,10 +39,15 @@ export default {
   body
     font-family: 'Open Sans', sans-serif
 
+    &.fullscreen
+      overflow: hidden
+      position: fixed
+
     @media screen and (max-width: 1200px)
       font-size: 0.9em
 
   #container
+    min-height: 100vh
     padding: 15px 12px
 
   h2
@@ -105,11 +110,17 @@ export default {
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    h2, #donate
+    h2, #donate, #ingredients header h2, #ingredients header #close
       color: inherit
 
-    button.minus, button.plus
+    button.minus, button.plus, #ingredients header #print
       color: #FFF
+
+    #ingredients ul li
+      color: #FFF
+
+      .ingredient
+        color: #EEE
 
     #more-info
       border-color: #202020
@@ -122,4 +133,7 @@ export default {
 
       #info
         color: #D0D0D0
+
+  #container.night-mode #print-dialog #dialog
+    background: #303030
 </style>

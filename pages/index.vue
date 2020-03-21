@@ -11,20 +11,8 @@
     
     <main>
       <Adjustor />
-      
-      <div id="ingredients">
-        <h2>Ingredients</h2>
-        <ul>
-          <li>{{ flour }}g flour</li>
-          <li>{{ oil }}g oil</li>
-          <li>{{ salt }}g salt</li>
-          <li>{{ sugar }}g {{ sugarType }}</li>
-          <li>{{ water }}g water</li>
-          <li>{{ yeast }}g {{ yeastType }} yeast</li>
-        </ul>
-      </div>
-
       <IngredientSubstitutes />
+      <Ingredients />
     </main>
 
     <div id="more-info">
@@ -36,10 +24,6 @@
           <li v-for="(step, n) in recipeSteps" :key="n">{{ step }}</li>
         </ol>
       </div>
-
-      <div id="info" v-if="measureSwitch === 'diameter'">
-        <p>Dough ball weight: {{ doughballWeight }}g</p>
-      </div>
     </div>
 
     <div id="share">
@@ -49,6 +33,8 @@
 
     <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KYFVEQ6EJF376&source=url" id="donate" target="_blank">Donate if this tool helped you</a>
 
+    <PrintDialog v-if="showPrintDialog" />
+
   </div>
 </template>
 
@@ -56,111 +42,27 @@
 import { mapState } from 'vuex'
 import RecipeSelection from '@/components/recipe-selection.vue'
 import Adjustor from '@/components/adjustor.vue'
+import Ingredients from '@/components/ingredients.vue'
 import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
 import Customizer from '@/components/customizer.vue'
+import PrintDialog from '@/components/print-dialog.vue'
 
 export default {
   components: {
     RecipeSelection,
     Adjustor,
+    Ingredients,
     IngredientSubstitutes,
-    Customizer
-  },
-  watch: {
-    count() {
-      this.$router.push({ path: this.$route.fullPath, query: { count: this.count } })
-    },
-    size() {
-      this.$router.push({ path: this.$route.fullPath, query: { size: this.size } })
-    },
-    yeastType() {
-      if (this.recipeSelection !== 'custom') return false
-      this.$router.push({ path: this.$route.fullPath, query: { yeastType: this.yeastType } })
-    }
+    Customizer,
+    PrintDialog
   },
 	computed: {
     ...mapState({
       measureSwitch: state => state.sizing.measureSwitch,
-      count: state => state.sizing.count,
-      size: state => state.sizing.size,
-      crustThickness: state => state.sizing.crustThickness,
-      recipeSteps: state => state.recipe.steps,
-      hydration: state => state.ratios.hydration,
-      oilPercent: state => state.ratios.oilPercent,
-      saltPercent: state => state.ratios.saltPercent,
-      sugarPercent: state => state.ratios.sugarPercent,
-      sugarType: state => state.ingredients.sugarType,
-      yeastPercent: state => state.ratios.yeastPercent,
-      yeastType: state => state.ingredients.yeastType,
-      recipeSelection: state => state.recipe.selection,
-      recipeYeastType: state => state.ingredients.recipeYeastType,
+      showPrintDialog: state => state.interactive.showPrintDialog
     }),
-    flour() {
-      // if measureSwitch is set to diameter, calculate by diameter measurement
-      if (this.measureSwitch === 'diameter') {
-        const diameter = Math.PI * (this.size/5 + this.size/5)
-        return this.finalVal((diameter * this.crustThickness * this.count) * 21)
-      }
-
-      // else if measureSwitch is set to weight, calculate flour by weight.
-      const totalIngredientPercentages = 100 + this.hydration + this.oilPercent + this.saltPercent + this.sugarPercent + this.yeastPercent
-      const flourWeight = this.finalVal((this.$store.state.sizing.doughBallWeight / (totalIngredientPercentages/100)) * this.count)
-
-      // if the return value is NaN, return 0
-      if (flourWeight === 'NaN') return 0
-
-      return flourWeight
-    },
-    oil() {
-      return this.finalVal(this.flour * (this.oilPercent / 100))
-    },
-    salt() {
-      return this.finalVal(this.flour * (this.saltPercent / 100))
-    },
-    sugar() {
-      // if sugarType is molasses, convert the sugar percentage to grams of molasses
-      if (this.sugarType === 'molasses') {
-        return this.finalVal((this.flour * (this.sugarPercent / 100) * 1.33))
-      }
-      // if sugarType is honey, convert the sugar percentage to grams of honey
-      else if (this.sugarType === 'honey') {
-        return this.finalVal((this.flour * (this.sugarPercent / 100) * 0.66))
-      }
-      else return this.finalVal(this.flour * (this.sugarPercent / 100))
-    },
-    yeast() {
-      const value = this.flour * (this.yeastPercent / 100)
-
-      // ADY to IDY conversion
-      if (this.yeastType === 'ADY' && this.recipeYeastType === 'IDY') {
-        return this.finalVal(this.ADYToIDY(value))
-      }
-      
-      // IDY to ADY conversion
-      else if (this.yeastType === 'IDY' && this.recipeYeastType === 'ADY') {
-        return this.finalVal(this.IDYToADY(value))
-      }
-
-      // fresh to ADY conversion
-      else if (this.yeastType === 'fresh' && this.recipeYeastType === 'ADY') {
-        return this.finalVal(this.freshToADY(value))
-      }
-
-      // fresh to IDY conversion
-      else if (this.yeastType === 'fresh' && this.recipeYeastType === 'IDY') {
-        return this.finalVal(this.freshToIDY(value))
-      }
-
-      else return this.finalVal(value)
-    },
-    water() {
-      return this.finalVal(this.flour * (this.hydration / 100))
-    },
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
-    },
-    doughballWeight() {
-      return this.finalVal((parseFloat(this.flour) + parseFloat(this.oil) + parseFloat(this.salt) + parseFloat(this.sugar) + parseFloat(this.water) + parseFloat(this.yeast)) / this.count)
     },
     hasRecipe() {
       if (this.recipeSteps === undefined || this.recipeSteps !== undefined && this.recipeSteps.length === 0 ) return false
@@ -187,6 +89,7 @@ export default {
     if (this.$route.query.oil !== undefined) this.$store.commit('ratios/SET_OIL_PERCENT', this.$route.query.oil)
     if (this.$route.query.salt !== undefined) this.$store.commit('ratios/SET_SALT_PERCENT', this.$route.query.salt)
     if (this.$route.query.size !== undefined) this.$store.commit('sizing/SET_SIZE', this.$route.query.size)
+    if (this.$route.query.sugarType !== undefined) this.$store.commit('ingredients/SET_SUGAR_TYPE', this.$route.query.sugarType)
     if (this.$route.query.sugar !== undefined) this.$store.commit('ratios/SET_SUGAR_PERCENT', this.$route.query.sugar)
     if (this.$route.query.yeast !== undefined) this.$store.commit('ratios/SET_YEAST_PERCENT', this.$route.query.yeast)
     if (this.$route.query.yeastType !== undefined) this.$store.commit('ingredients/SET_YEAST_TYPE', this.$route.query.yeastType)
@@ -197,24 +100,6 @@ export default {
 
       if (newVal.split('.')[1] <= 0) return newVal.split('.')[0]
       else return newVal
-    },
-    ADYToIDY(amount) {
-      return amount += amount*0.75
-    },
-    IDYToADY(amount) {
-      return amount -= amount*0.75
-    },
-    freshToADY(amount) {
-      return amount / 0.4
-    },
-    freshToIDY(amount) {
-      return amount / 0.33
-    },
-    ADYToFresh(amount) {
-      return amount * 0.4
-    },
-    IDYToFresh(amount) {
-      return amount * 0.33
     }
 	}
 }
@@ -285,28 +170,20 @@ export default {
 
   main
     display: grid
-    grid-column-gap: 50px
-    grid-template-columns: 1fr 1fr
+    grid-template-columns: 1fr
     margin-top: 30px
+    max-width: 600px
     width: 100%
 
-    @media screen and (max-width: 960px)
+    @media screen and (max-width: 559px)
       grid-column-gap: 25px
+
+    @media screen and (min-width: 560px)
+      grid-template-columns: 1fr 1fr
+      margin: 50px auto 0
 
   h2
     margin: 0 0 10px
-
-  #ingredients
-    h2
-      color: #f73859
-      font-weight: 400
-
-    ul
-      margin: 0
-      padding: 0 0 0 16px
-
-      li:not(:first-child)
-        margin-top: 8px
 
   #more-info
     border-top: solid #F0F0F0 1px

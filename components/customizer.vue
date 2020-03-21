@@ -31,7 +31,8 @@ export default {
   computed: {
     ...mapState({
       recipe: state => state.recipe.selection,
-      sugarType: state => state.ingredients.sugarType
+      sugarType: state => state.ingredients.sugarType,
+      yeastType: state => state.ingredients.yeastType
     }),
     oilPercent: {
       get() {
@@ -40,7 +41,7 @@ export default {
       set(val) {
         this.$store.commit('ratios/SET_OIL_PERCENT', val)
 
-        if (this.recipe === 'custom') return false
+        if (this.recipe !== 'custom') return false
         this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', oil: this.oilPercent } })
       }
     },
@@ -51,7 +52,7 @@ export default {
       set(val) {
         this.$store.commit('ratios/SET_SALT_PERCENT', val)
 
-        if (this.recipe === 'custom') return false
+        if (this.recipe !== 'custom') return false
         this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', salt: this.saltPercent } })
       }
     },
@@ -62,8 +63,8 @@ export default {
       set(val) {
         this.$store.commit('ratios/SET_SUGAR_PERCENT', val)
 
-        if (this.recipe === 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', sugar: this.sugarPercent } })
+        if (this.recipe !== 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { sugar: this.sugarPercent } })
       }
     },
     yeastPercent: {
@@ -73,8 +74,8 @@ export default {
       set(val) {
         this.$store.commit('ratios/SET_YEAST_PERCENT', val)
 
-        if (this.recipe === 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', yeast: this.yeastPercent, yeastType: this.yeastType } })
+        if (this.recipe !== 'custom') return false
+        this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastType } })
       }
     }
   },
