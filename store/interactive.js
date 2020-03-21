@@ -7,6 +7,6 @@ export const mutations = {
     state.showPrintDialog = payload
 
     if (payload === true) document.body.classList.add('fullscreen')
-    else document.body.removeAttribute('class')
+    else document.body.classList.remove('fullscreen')
   }
 }

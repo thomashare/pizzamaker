@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'night-mode': nightMode }" id="container">
+  <div id="container">
     <nuxt />
   </div>
 </template>
@@ -18,14 +18,13 @@ export default {
     if (localStorage.nightMode === undefined && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       // set dark mode
       this.$store.dispatch('settings/setNightMode', 'true')
-      console.log('boom!')
     }
 
     // user doesn't have night mode enabled
     else {
       if (localStorage.nightMode !== undefined && localStorage.nightMode === 'true') {
         // set dark mode
-        this.$store.dispatch('settings/setNightMode', 'true')
+        this.$store.dispatch('settings/setNightMode', true)
       }
     }
   }
@@ -38,6 +37,7 @@ export default {
 
   body
     font-family: 'Open Sans', sans-serif
+    width: 100%
 
     &.fullscreen
       overflow: hidden
@@ -105,7 +105,7 @@ export default {
         top: 4px
         width: 2px
 
-  #container.night-mode
+  body.night-mode
     background: #303030
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
@@ -134,6 +134,6 @@ export default {
       #info
         color: #D0D0D0
 
-  #container.night-mode #print-dialog #dialog
-    background: #303030
+    #print-dialog #dialog
+      background: #303030
 </style>

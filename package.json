@@ -12,7 +12,7 @@
     "deploy": "nuxt build && firebase deploy"
   },
   "dependencies": {
-    "@nuxtjs/dotenv": "^1.4.0",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.0.0-0",
     "normalize-css": "^2.3.1",
     "nuxt": "^2.0.0",

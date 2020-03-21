@@ -132,7 +132,7 @@ export default {
 
 <style lang="stylus" scoped>
   #adjustor
-    margin: 0 auto 0 10%
+    margin: 0 auto 0 8%
     
     & > div
       align-items: center
@@ -145,7 +145,7 @@ export default {
 
       &#measure-switch
         grid-template-columns: 1fr auto 1fr
-        margin-bottom: 30px
+        margin: 15px 0 30px
         
         & > input
           align-items: center

@@ -59,7 +59,8 @@ export default {
 	computed: {
     ...mapState({
       measureSwitch: state => state.sizing.measureSwitch,
-      showPrintDialog: state => state.interactive.showPrintDialog
+      showPrintDialog: state => state.interactive.showPrintDialog,
+      recipeSteps: state => state.recipe.steps
     }),
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
@@ -165,22 +166,19 @@ export default {
       right: 4px
       top: 4px
 
-  #container.night-mode .dark-mode-toggle
+  body.night-mode .dark-mode-toggle
     color: #F0F0F0
 
   main
     display: grid
+    grid-column-gap: 45px
     grid-template-columns: 1fr
-    margin-top: 30px
+    margin: 30px auto 0
     max-width: 600px
     width: 100%
 
-    @media screen and (max-width: 559px)
-      grid-column-gap: 25px
-
     @media screen and (min-width: 560px)
       grid-template-columns: 1fr 1fr
-      margin: 50px auto 0
 
   h2
     margin: 0 0 10px
