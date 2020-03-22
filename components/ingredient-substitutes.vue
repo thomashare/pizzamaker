@@ -82,4 +82,7 @@ export default {
     & > div
       &:not(:first-of-type)
         margin-left: 25px
+
+    select
+      height: 30px
 </style>

@@ -39,7 +39,7 @@ export default {
     width: 100%
 
     #shade
-      background-color: rgba(0,0,0,0.6)
+      background-color: rgba(0,0,0,0.8)
       height: 100%
       left: 0
       position: absolute
@@ -49,14 +49,17 @@ export default {
     #dialog
       background-color: #ffffff
       border-radius: 5px
-      padding: 20px
+      box-sizing: border-box
+      padding: 12px
       position: absolute
       top: 15px
+      max-width: 100%
       min-width: 350px
 
   >>> #ingredients
-    font-size: 2em
+    font-size: 2.25em
     list-style-type: none
+    width: 100%
 
     header
       justify-content: space-between
@@ -64,18 +67,15 @@ export default {
 
       h2
         color: #384259
-        font-size: 0.9em
+        font-size: 0.7em
 
     ul
       list-style-type: none
-      padding: 0
+      padding: 12px
 
       li
-        border: solid #D0D0D0 1px
-        border-radius: 3px
-        letter-spacing: 0.03em
-        padding: 10px 15px
+        padding: 5px
 
         &:not(:first-child)
-          margin-top: 18px
+          margin-top: 0px
 </style>

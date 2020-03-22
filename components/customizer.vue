@@ -1,26 +1,20 @@
 <template>
   <div id="customize">
-    <h2>Ingredient Percentages</h2>
-    <div>
-      <span class="ingredient">salt</span>
-      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
-      <span>%</span>
-    </div>
-    <div>
-      <span class="ingredient">{{ sugarType }}</span>
-      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
-      <span>%</span>
-    </div>
-    <div>
-      <span class="ingredient">oil</span>
-      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
-      <span>%</span>
-    </div>
-    <div>
-      <span class="ingredient">yeast</span>
-      <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
-      <span>%</span>
-    </div>
+    <span class="ingredient">salt</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">{{ sugarType }}</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">oil</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">yeast</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
+    <span>%</span>
   </div>
 </template>
 
@@ -89,50 +83,19 @@ export default {
 
 <style lang="stylus" scoped>
   #customize
-    display: flex
-    flex-wrap: wrap
-    justify-content: center
-    margin: 0 auto
-    width: 100%
+    align-items: center
+    display: grid
+    grid-row-gap: 8px
+    grid-template-columns: 1fr 8ch 1fr
 
-    @media screen and (max-width: 1200px)
-      display: grid
-      grid-template-columns: repeat(2, 1fr)
+    .ingredient
+      text-align: right
 
-    h2
-      grid-column: 1/-1
-      margin: 5px 0 20px
+    .value
+      appearance: none
+      border: solid #DDDDDD 1px
+      border-radius: 3px
+      margin: 0 8px
+      padding: 3px
       text-align: center
-      width: 100%
-
-      @media screen and (max-width: 1200px)
-        margin: 0
-
-    & > div
-      align-items: center
-      display: flex
-      justify-content: center
-
-      &:not(:first-of-type)
-        margin-left: 20px
-
-      @media screen and (max-width: 1200px)
-        margin-top: 20px
-
-        &:not(:first-of-type)
-          margin-left: 0
-
-      .ingredient
-        text-align: right
-        max-width: 8ch
-        width: 100%
-
-      .value
-        appearance: none
-        border: solid #7ac7c4 1px
-        border-radius: 5px
-        margin: 0 5px
-        padding: 5px
-        text-align: center
-        width: 7ch
 </style>

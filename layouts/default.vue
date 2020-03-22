@@ -33,10 +33,11 @@ export default {
 
 <style lang="stylus">
   @import url('../node_modules/normalize-css/normalize.css')
-  @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Open+Sans:wght@300;400&display=swap')
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Overlock&display=swap')
 
   body
     font-family: 'Open Sans', sans-serif
+    font-weight: 300
     width: 100%
 
     &.fullscreen
@@ -57,8 +58,8 @@ export default {
     letter-spacing: 0.03em
 
   select
-    background-color: #FAFAFA
-    border-color: #7ac7c4
+    background-color: #ffffff
+    border-color: #E0E0E0
     border-radius: 5px
     color: #404040
 
@@ -66,21 +67,19 @@ export default {
     // plus and minus buttons
     &.minus, &.plus
       background: none
-      border: solid #384259 1px
       border-color: currentColor
       border-radius: 50%
       box-sizing: border-box
-      color: #384259
+      color: #5E5E5E
       display: block
       height: 24px
       padding: 0
       position: relative
       width: 24px
       &:disabled
-        color: lighten(#384259, 50)
+        color: lighten(#5E5E5E, 50)
 
       &::before
-        background-color: lighten(desaturate(#C44D58, 10), 5)
         background-color: currentColor
         border-radius: 1px
         box-sizing: border-box
@@ -93,7 +92,6 @@ export default {
         width: 14px
 
     &.plus::after
-        background-color: lighten(desaturate(#C44D58, 10), 5)
         background-color: currentColor
         border-radius: 1px
         box-sizing: border-box
@@ -110,7 +108,7 @@ export default {
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    h2, #donate, #ingredients header h2, #ingredients header #close
+    header, h2, #donate, #ingredients header h2, #ingredients header #close
       color: inherit
 
     button.minus, button.plus, #ingredients header #print
@@ -122,17 +120,10 @@ export default {
       .ingredient
         color: #EEE
 
-    #more-info
-      border-color: #202020
-
-      h2
-        color: #B0B0B0
-
-      #notes, #info
+    #instructions
+      ol
         background-color: #202020
-
-      #info
-        color: #D0D0D0
+        border-color: #101010
 
     #print-dialog #dialog
       background: #303030

@@ -2,29 +2,24 @@
   <div id="app">
     <header>
       <h1>Pizza Maker App</h1>
+      <button @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
     </header>
 
-    <div id="menu">
+    <div id="dough-settings">
       <RecipeSelection />
-      <button style="background: none; border: none;" @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
+      <MeasureSwitch />
     </div>
     
     <main>
       <Adjustor />
+      <Customizer />
       <IngredientSubstitutes />
-      <Ingredients />
     </main>
 
-    <div id="more-info">
-      <Customizer />
-
-      <div id="notes" v-if="hasRecipe">
-        <h2>Recipe Info</h2>
-        <ol>
-          <li v-for="(step, n) in recipeSteps" :key="n">{{ step }}</li>
-        </ol>
-      </div>
-    </div>
+    <section>
+      <Ingredients />
+      <Instructions />
+    </section>
 
     <div id="share">
       <label for="share">share</label>
@@ -41,8 +36,10 @@
 <script>
 import { mapState } from 'vuex'
 import RecipeSelection from '@/components/recipe-selection.vue'
+import MeasureSwitch from '@/components/measure-switch.vue'
 import Adjustor from '@/components/adjustor.vue'
 import Ingredients from '@/components/ingredients.vue'
+import Instructions from '@/components/instructions.vue'
 import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
 import Customizer from '@/components/customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
@@ -50,24 +47,20 @@ import PrintDialog from '@/components/print-dialog.vue'
 export default {
   components: {
     RecipeSelection,
+    MeasureSwitch,
     Adjustor,
     Ingredients,
+    Instructions,
     IngredientSubstitutes,
     Customizer,
     PrintDialog
   },
 	computed: {
     ...mapState({
-      measureSwitch: state => state.sizing.measureSwitch,
-      showPrintDialog: state => state.interactive.showPrintDialog,
-      recipeSteps: state => state.recipe.steps
+      showPrintDialog: state => state.interactive.showPrintDialog
     }),
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
-    },
-    hasRecipe() {
-      if (this.recipeSteps === undefined || this.recipeSteps !== undefined && this.recipeSteps.length === 0 ) return false
-      return true
     },
     nightMode: {
       get() {
@@ -108,120 +101,89 @@ export default {
 
 <style lang="stylus" scoped>
   header
+    color: #384259
     display: flex
     justify-content: center
 
     h1
-      color: desaturate(#f73859, 25)
-      font-family: 'Caveat', sans-serif
-      font-size: 1.85em
+      font-family: 'Overlock', sans-serif
+      font-size: 1.35em
       font-weight: 300
       letter-spacing: 0.07em
       margin: 0 auto
       text-align: center
 
-  #menu
+    button
+      background: none
+      border: none
+      color: inherit
+
+    .dark-mode-toggle
+      box-sizing: border-box
+      position: relative
+      display: block
+      transform: scale(1.15)
+      border: 2px solid
+      border-radius: 100px
+      width: 20px
+      height: 20px
+
+      &::after, &::before
+        content: ""
+        box-sizing: border-box
+        position: absolute
+        display: block
+
+      &::before
+        border:5px solid
+        border-top-left-radius: 100px
+        border-bottom-left-radius: 100px
+        border-right: 0
+        width: 9px
+        height: 18px
+        top: -1px
+        left: -1px
+
+      &::after
+        border: 4px solid
+        border-top-right-radius: 100px
+        border-bottom-right-radius: 100px
+        border-left: 0
+        width: 4px
+        height: 8px
+        right: 4px
+        top: 4px
+
+  #dough-settings
     align-items: center
     display: flex
     justify-content: center
-    margin: 10px auto
+    margin-top: 20px
 
-    select
-      margin-right: 15px
-
-  .dark-mode-toggle
-    box-sizing: border-box
-    color: #384259
-    position: relative
-    display: block
-    transform: scale(1.15)
-    border: 2px solid
-    border-radius: 100px
-    width: 20px
-    height: 20px
-
-    &::after, &::before
-      content: ""
-      box-sizing: border-box
-      position: absolute
-      display: block
-
-    &::before
-      border:5px solid
-      border-top-left-radius: 100px
-      border-bottom-left-radius: 100px
-      border-right: 0
-      width: 9px
-      height: 18px
-      top: -1px
-      left: -1px
-
-    &::after
-      border: 4px solid
-      border-top-right-radius: 100px
-      border-bottom-right-radius: 100px
-      border-left: 0
-      width: 4px
-      height: 8px
-      right: 4px
-      top: 4px
-
-  body.night-mode .dark-mode-toggle
-    color: #F0F0F0
+    #measure-switch
+      margin-left: 15px
 
   main
     display: grid
-    grid-column-gap: 45px
-    grid-template-columns: 1fr
+    grid-column-gap: 25px
+    grid-template-columns: repeat(2, 1fr)
     margin: 30px auto 0
     max-width: 600px
     width: 100%
 
-    @media screen and (min-width: 560px)
-      grid-template-columns: 1fr 1fr
-
-  h2
-    margin: 0 0 10px
-
-  #more-info
-    border-top: solid #F0F0F0 1px
+  section
+    border-top: solid #E4E4E4 1px
+    display: grid
+    grid-column-gap: 10px
+    grid-row-gap: 20px
+    grid-template-columns: 3fr 5fr
+    margin: 0 auto
+    max-width: 600px
     padding-top: 20px
 
-    h2
-      color: #5A5A5A
-      margin: 0 auto
-
-    #notes
-      background-color: #F9F9F9
-      border-radius: 5px
-      box-sizing: border-box
-      margin: 25px auto
-      max-width: 575px
-      padding: 30px
-
-      ol
-        line-height: 1.5em
-        padding: 0 0 0 15px
-
-        li:not(:first-child)
-          margin-top: 15px
-
-    #info
-      background-color: #FFF
-      border: solid #c4edde 1px
-      border-radius: 5px
-      color: darken(#7ac7c4, 20)
-      font-size: 1.25em
-      font-weight: 300
-      grid-column: 1/-1
-      margin: 30px auto 0
-      max-width: 500px
-      padding: 15px
-      text-align: center
-
-      p
-        margin: 0
-
+    @media screen and (max-width: 500px)
+      grid-template-columns: 1fr
+    
   #share
     align-items: center
     display: flex

@@ -1,5 +1,7 @@
 <template>
-  <select id="recipe-selection" v-model="recipeSelection">
+  <div id="recipe-selection">
+    <span>recipe</span>
+    <select v-model="recipeSelection">
       <option value="custom">custom</option>
       <option value="papa-johns">Pete-zza's Papa Johns</option>
       <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
@@ -8,6 +10,7 @@
       <option value="robertas">Roberta's</option>
       <option value="king-arthur">King Arthur</option>
     </select>
+  </div>
 </template>
 
 <script>
@@ -149,8 +152,14 @@ export default {
 
 <style lang="stylus" scoped>
   #recipe-selection
-    display: block
-    height: 40px
-    padding: 10px
-    width: 300px
+    align-items: center
+    display: flex
+
+    span
+      margin-right: 10px
+
+    select
+      display: block
+      height: 35px
+      max-width: 120px
 </style>

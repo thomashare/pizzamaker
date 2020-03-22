@@ -2,7 +2,7 @@
   <div id="ingredients">
     <header>
       <h2>Ingredients</h2>
-      <button id="print" v-if="!showPrintDialog" @click="showPrintDialog = !showPrintDialog"><i class="gg-list"></i></button>
+      <button id="print" v-if="!showPrintDialog" @click="showPrintDialog = !showPrintDialog"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ul>
@@ -10,7 +10,7 @@
       <li v-if="oil > 0"><span class="ingredient">oil:</span>{{ oil }}g</li>
       <li v-if="salt > 0"><span class="ingredient">salt:</span>{{ salt }}g</li>
       <li v-if="sugar > 0"><span class="ingredient">{{ sugarType }}:</span>{{ sugar }}g</li>
-      <li v-if="water > 0"><span class="ingredient">water</span>{{ water }}g</li>
+      <li v-if="water > 0"><span class="ingredient">water:</span>{{ water }}g</li>
       <li v-if="yeast > 0"><span class="ingredient">{{ yeastType }} yeast:</span>{{ yeast }}g</li>
     </ul>
   </div>
@@ -138,59 +138,43 @@ export default {
 
 <style lang="stylus" scoped>
   #ingredients
-    font-size: 1.25em
-    margin: auto auto 25px auto
-
-    @media screen and (min-width: 560px)
-      grid-column: 2
-      grid-row: 1
+    font-size: 1.5em
 
     header
       display: flex
-      justify-content: left
-      margin-bottom: 10px
+      justify-content: space-between
+      margin-bottom: 8px
 
       h2
-        color: #f73859
-        font-weight: 400
+        font-size: 0.9em
+        font-weight: 300
         margin: 0
 
       #print
         background: none
         border: none
-        color: #384259
-        margin-left: 5px
+        box-sizing: border-box
+        color: #09A9B4
+        padding: 0
 
-        .gg-list
+        .gg-maximize
           box-sizing: border-box
           position: relative
           display: block
-          transform: scale(1.2)
-          width: 22px
-          height: 20px
-          border: 2px solid
-          border-radius: 3px
-          &::after, &::before
-            content: ''
-            display: block
-            box-sizing: border-box
-            position: absolute
-            width: 2px
-            height: 2px
-            background: currentColor
-            top: 3px
-            left: 3px
-            box-shadow:
-                0 4px 0,
-                0 8px 0
-          &::after
-            border-radius: 3px
-            width: 8px
-            left: 7px
+          transform: scale(var(--ggs,1))
+          width: 14px
+          height: 14px
+          box-shadow:
+            -6px -6px 0 -4px,
+            6px 6px 0 -4px,
+            6px -6px 0 -4px,
+            -6px 6px 0 -4px
             
       #close
         background: none
         border: none
+        box-sizing: border-box
+        padding: 0
 
         .gg-close
           box-sizing: border-box
@@ -219,15 +203,28 @@ export default {
             transform: rotate(-45deg)
 
     ul
-      font-size: 1.1em
-      margin: 0 0 0 10px
-      padding: 0 0 0 16px
+      background-color: #09A9B4
+      border-radius: 5px
+      color: #FFF
+      display: grid
+      list-style-type: none
+      margin: 0
+      padding: 25px 20px
+
+      @media screen and (max-width: 960px)
+        padding: 10px
 
       li
+        display: grid
+        grid-column-gap: 8px
+        grid-template-columns: minmax(11ch, auto) 1fr
+
+        @media screen and (max-width: 500px)
+          grid-template-columns: minmax(11ch, 1fr) 1fr
+
         &:not(:first-child)
           margin-top: 8px
 
         .ingredient
-          color: darken(#7ac7c4, 20)
-          margin-right: 10px
+          text-align: right
 </style>
