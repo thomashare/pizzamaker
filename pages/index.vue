@@ -174,7 +174,7 @@ export default {
   section
     border-top: solid #E4E4E4 1px
     display: grid
-    grid-column-gap: 10px
+    grid-column-gap: 20px
     grid-row-gap: 20px
     grid-template-columns: 3fr 5fr
     margin: 0 auto
