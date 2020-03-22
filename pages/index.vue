@@ -16,7 +16,7 @@
       <IngredientSubstitutes />
     </main>
 
-    <section>
+    <section :class="{ 'no-recipe': recipe === 'custom' }">
       <Ingredients />
       <Instructions />
     </section>
@@ -57,7 +57,8 @@ export default {
   },
 	computed: {
     ...mapState({
-      showPrintDialog: state => state.interactive.showPrintDialog
+      showPrintDialog: state => state.interactive.showPrintDialog,
+      recipe: state => state.recipe.selection
     }),
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
@@ -176,13 +177,18 @@ export default {
     display: grid
     grid-column-gap: 20px
     grid-row-gap: 20px
-    grid-template-columns: 3fr 5fr
     margin: 0 auto
-    max-width: 600px
+    max-width: 100%
     padding-top: 20px
+    @media screen and (min-width: 501px)
+      max-width: 300px
 
-    @media screen and (max-width: 500px)
-      grid-template-columns: 1fr
+    &:not(.no-recipe)
+      grid-template-columns: 3fr 5fr
+      max-width: 600px
+
+      @media screen and (max-width: 500px)
+        grid-template-columns: 1fr
     
   #share
     align-items: center
