@@ -217,10 +217,7 @@ export default {
       li
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: minmax(11ch, auto) 1fr
-
-        @media screen and (max-width: 500px)
-          grid-template-columns: minmax(11ch, 1fr) 1fr
+        grid-template-columns: minmax(9ch, auto) 1fr
 
         &:not(:first-child)
           margin-top: 8px

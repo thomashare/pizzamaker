@@ -54,7 +54,6 @@ export default {
       position: absolute
       top: 15px
       max-width: 100%
-      min-width: 350px
 
   >>> #ingredients
     font-size: 2.25em
@@ -70,8 +69,12 @@ export default {
         font-size: 0.7em
 
     ul
+      font-size: 1.2em
       list-style-type: none
       padding: 12px
+
+      @media screen and (min-width: 501px)
+        font-size: 1.75em
 
       li
         padding: 5px

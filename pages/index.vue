@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <h1>Pizza Maker App</h1>
+      <img alt="" src="logo.png">
       <button @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
     </header>
 
@@ -106,13 +106,9 @@ export default {
     display: flex
     justify-content: center
 
-    h1
-      font-family: 'Overlock', sans-serif
-      font-size: 1.35em
-      font-weight: 300
-      letter-spacing: 0.07em
+    img
       margin: 0 auto
-      text-align: center
+      max-width: 175px
 
     button
       background: none
@@ -181,7 +177,7 @@ export default {
     max-width: 100%
     padding-top: 20px
     @media screen and (min-width: 501px)
-      max-width: 300px
+      max-width: 30ch
 
     &:not(.no-recipe)
       grid-template-columns: 3fr 5fr
