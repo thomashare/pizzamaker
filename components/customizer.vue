@@ -4,7 +4,7 @@
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">{{ sugarType }}</span>
+    <span class="ingredient">sugar</span>
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
     <span>%</span>
 
@@ -85,6 +85,7 @@ export default {
   #customize
     align-items: center
     display: grid
+    grid-column-gap: 8px
     grid-row-gap: 8px
     grid-template-columns: 1fr 8ch 1fr
 
@@ -95,7 +96,6 @@ export default {
       appearance: none
       border: solid #DDDDDD 1px
       border-radius: 3px
-      margin: 0 8px
       padding: 3px
       text-align: center
 </style>

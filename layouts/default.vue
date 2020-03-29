@@ -47,15 +47,20 @@ export default {
     @media screen and (max-width: 1200px)
       font-size: 0.9em
 
+  input
+    box-sizing: border-box
+    max-width: 100%
+
   #container
     min-height: 100vh
     padding: 15px 12px
 
-  h2
+  h2, h3
     color: #384259
     font-size: 1.3em
     font-weight: 300
     letter-spacing: 0.03em
+    margin: 0
 
   select
     background-color: #ffffff
@@ -69,7 +74,7 @@ export default {
       background: none
       border-color: currentColor
       border-radius: 50%
-      box-sizing: border-box
+      box-sizing: content-box
       color: #5E5E5E
       display: block
       height: 24px
@@ -86,9 +91,9 @@ export default {
         content: ''
         display: block
         height: 2px
-        left: 4px
+        left: 5px
         position: absolute
-        top: 10px
+        top: 11px
         width: 14px
 
     &.plus::after
@@ -98,20 +103,76 @@ export default {
         content: ''
         display: block
         height: 14px
-        left: 10px
+        left: 11px
         position: absolute
-        top: 4px
+        top: 5px
         width: 2px
+
+  #print
+    background: none
+    border: none
+    box-sizing: border-box
+    color: #09A9B4
+    padding: 0
+
+    .gg-maximize
+      box-sizing: border-box
+      position: relative
+      display: block
+      transform: scale(var(--ggs,1))
+      width: 14px
+      height: 14px
+      box-shadow:
+        -6px -6px 0 -4px,
+        6px 6px 0 -4px,
+        6px -6px 0 -4px,
+        -6px 6px 0 -4px
+        
+  #close
+    background: none
+    border: none
+    box-sizing: border-box
+    padding: 0
+
+    .gg-close
+      box-sizing: border-box
+      position: relative
+      display: block
+      transform: scale(var(--ggs,1))
+      width: 22px
+      height: 22px
+      border: 2px solid transparent
+      border-radius: 40px
+
+      &::after, &::before
+        content: ''
+        display: block
+        box-sizing: border-box
+        position: absolute
+        width: 16px
+        height: 2px
+        background: currentColor
+        transform: rotate(45deg)
+        border-radius: 5px
+        top: 8px
+        left: 1px
+
+      &::after
+        transform: rotate(-45deg)
 
   body.night-mode
     background: #303030
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    header, h2, #donate, #ingredients header h2, #ingredients header #close
+    header, h2, h3, #donate, #ingredients header h2
       color: inherit
 
-    button.minus, button.plus, #ingredients header #print
+    h2, h3
+      font-size: 1.5rem
+      font-weight: 300
+
+    button.minus, button.plus, .gg-close
       color: #FFF
 
     #ingredients ul li
@@ -127,4 +188,36 @@ export default {
 
     #print-dialog #dialog
       background: #303030
+
+  #instructions
+    font-size: 1.15em
+
+    header
+      display: flex
+      justify-content: space-between
+      margin-bottom: 8px
+
+      h2
+        font-weight: 300
+        margin: 0
+
+    ol
+      background-color: #F4F4F4
+      border: solid #EDEDED 1px
+      border-radius: 5px
+      line-height: 1.75em
+      margin: 12px 0 0
+      padding: 15px 15px 15px 30px
+
+      li:not(:first-child)
+        margin-top: 20px
+
+    #view-more
+      background: none
+      border: none
+      display: block
+      font-size: 0.9em
+      font-weight: 400
+      margin: 5px 0 0 5px
+      padding: 0
 </style>

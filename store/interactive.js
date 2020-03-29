@@ -1,5 +1,6 @@
 export const state = () => ({
-  showPrintDialog: false
+  showPrintDialog: false,
+  printDialog: null
 })
 
 export const mutations = {
@@ -8,5 +9,15 @@ export const mutations = {
 
     if (payload === true) document.body.classList.add('fullscreen')
     else document.body.classList.remove('fullscreen')
+  },
+  SET_PRINT_DIALOG(state, payload) {
+    state.printDialog = payload
+  }
+}
+
+export const actions = {
+  setPrintDialog({ state, commit }, payload) {
+    commit('SET_SHOW_PRINT_DIALOG', !state.showPrintDialog)
+    commit('SET_PRINT_DIALOG', payload)
   }
 }

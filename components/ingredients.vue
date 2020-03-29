@@ -2,7 +2,7 @@
   <div id="ingredients">
     <header>
       <h2>Ingredients</h2>
-      <button id="print" v-if="!showPrintDialog" @click="showPrintDialog = !showPrintDialog"><i class="gg-maximize"></i></button>
+      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'ingredients')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ul>
@@ -13,6 +13,7 @@
       <li v-if="water > 0"><span class="ingredient">water:</span>{{ water }}g</li>
       <li v-if="yeast > 0"><span class="ingredient">{{ yeastType }} yeast:</span>{{ yeast }}g</li>
     </ul>
+    <p id="weight">dough ball weight: <span>{{ finalVal(flour/count + oil/count + salt/count + sugar/count + water/count + yeast/count) }}g</span></p>
   </div>
 </template>
 
@@ -112,7 +113,7 @@ export default {
       const newVal = parseFloat(val).toFixed(1)
 
       if (newVal.split('.')[1] <= 0) return newVal.split('.')[0]
-      else return newVal
+      else return parseFloat(newVal)
     },
     ADYToIDY(amount) {
       return amount += amount*0.75
@@ -148,59 +149,6 @@ export default {
       h2
         font-size: 0.9em
         font-weight: 300
-        margin: 0
-
-      #print
-        background: none
-        border: none
-        box-sizing: border-box
-        color: #09A9B4
-        padding: 0
-
-        .gg-maximize
-          box-sizing: border-box
-          position: relative
-          display: block
-          transform: scale(var(--ggs,1))
-          width: 14px
-          height: 14px
-          box-shadow:
-            -6px -6px 0 -4px,
-            6px 6px 0 -4px,
-            6px -6px 0 -4px,
-            -6px 6px 0 -4px
-            
-      #close
-        background: none
-        border: none
-        box-sizing: border-box
-        padding: 0
-
-        .gg-close
-          box-sizing: border-box
-          position: relative
-          display: block
-          transform: scale(var(--ggs,1))
-          width: 22px
-          height: 22px
-          border: 2px solid transparent
-          border-radius: 40px
-
-          &::after, &::before
-            content: ''
-            display: block
-            box-sizing: border-box
-            position: absolute
-            width: 16px
-            height: 2px
-            background: currentColor
-            transform: rotate(45deg)
-            border-radius: 5px
-            top: 8px
-            left: 1px
-
-          &::after
-            transform: rotate(-45deg)
 
     ul
       background-color: #09A9B4
@@ -224,4 +172,11 @@ export default {
 
         .ingredient
           text-align: right
+
+    #weight
+      font-size: 0.8em
+      text-align: center
+
+      span
+        font-weight: 400
 </style>

@@ -2,19 +2,32 @@
   <div id="print-dialog">
     <div id="shade" @click="showPrintDialog = false"></div>
     <div id="dialog">
-      <Ingredients />
+      <Ingredients v-if="printDialog === 'ingredients'" />
+      <Instructions v-if="printDialog === 'dough-instructions'" />
+      <SauceIngredients v-if="printDialog === 'sauce-ingredients'" />
+      <SauceInstructions v-if="printDialog === 'sauce-instructions'" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Ingredients from '~/components/ingredients'
+import Instructions from '~/components/instructions'
+import SauceIngredients from '~/components/sauce-ingredients'
+import SauceInstructions from '~/components/sauce-instructions'
 
 export default {
   components: {
-    Ingredients
+    Ingredients,
+    Instructions,
+    SauceIngredients,
+    SauceInstructions
   },
   computed: {
+    ...mapState({
+      printDialog: state => state.interactive.printDialog
+    }),
     showPrintDialog: {
       get() {
         return this.$store.interactive.showPrintDialog
@@ -30,10 +43,11 @@ export default {
 <style lang="stylus" scoped>
   #print-dialog
     align-items: flex-start
+    box-sizing: border-box
     display: flex
-    height: 100%
     justify-content: center
     left: 0
+    height: 100%
     position: absolute
     top: 0
     width: 100%
@@ -42,7 +56,7 @@ export default {
       background-color: rgba(0,0,0,0.8)
       height: 100%
       left: 0
-      position: absolute
+      position: relative
       top: 0
       width: 100%
 
@@ -52,12 +66,12 @@ export default {
       box-sizing: border-box
       padding: 12px
       position: absolute
-      top: 15px
-      max-width: 100%
+      top: 20px
 
   >>> #ingredients
     font-size: 2.25em
     list-style-type: none
+    max-width: 100%
     width: 100%
 
     header
@@ -70,15 +84,22 @@ export default {
 
     ul
       font-size: 1.2em
+      grid-row-gap: 20px
+      line-height: 1em
       list-style-type: none
+      max-height: 70vh
       padding: 12px
+
+      .ingredient
+        font-size: 0.8em
 
       @media screen and (min-width: 501px)
         font-size: 1.75em
 
-      li
-        padding: 5px
+  >>> #instructions
+    max-width: 680px
 
-        &:not(:first-child)
-          margin-top: 0px
+    ol
+      max-height: 70vh
+      overflow-y: scroll
 </style>

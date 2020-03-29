@@ -1,9 +1,17 @@
 <template>
   <div id="instructions" v-if="hasRecipe">
-    <h2>Instructions</h2>
-    <ol>
-      <li v-for="(step, n) in recipeSteps" :key="n">{{ step }}</li>
+    <header>
+      <h2>Instructions</h2>
+      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-instructions')"><i class="gg-maximize"></i></button>
+      <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
+    </header>
+    <ol v-if="printDialog === 'dough-instructions'">
+      <li v-for="(step, n) in steps" :key="n">{{ step }}</li>
     </ol>
+    <ol v-else>
+      <li v-for="(step, n) in steps.slice(0, visibleSteps)" :key="n">{{ step }}</li>
+    </ol>
+    <button id="view-more" @click="viewMore = !viewMore" v-if="visibleSteps !== steps.length && !printDialog">Read More</button>
   </div>
 </template>
 
@@ -11,30 +19,34 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      visibleSteps: 3,
+      viewMore: false
+    }
+  },
+  watch: {
+    viewMore() {
+      if (this.viewMore) this.visibleSteps = this.steps.length
+    }
+  },
   computed: {
     ...mapState({
-      recipeSteps: state => state.recipe.steps
+      steps: state => state.recipe.steps,
+      printDialog: state => state.interactive.printDialog
     }),
     hasRecipe() {
-      if (this.recipeSteps === undefined || this.recipeSteps !== undefined && this.recipeSteps.length === 0 ) return false
+      if (this.steps === undefined || this.steps !== undefined && this.steps.length === 0 ) return false
       return true
+    },
+    showPrintDialog: {
+      get() {
+        return this.$store.state.interactive.showPrintDialog
+      },
+      set(val) {
+        this.$store.commit('interactive/SET_SHOW_PRINT_DIALOG', val)
+      }
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-  #instructions
-    h2
-      margin: 0
-
-    ol
-      background-color: #F4F4F4
-      border: solid #EDEDED 1px
-      border-radius: 5px
-      margin: 12px 0 0
-      padding: 15px 15px 15px 30px
-
-      li:not(:first-child)
-        margin-top: 12px
-</style>

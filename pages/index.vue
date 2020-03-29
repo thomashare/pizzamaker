@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <img alt="" src="logo.png">
+      <h1>Pizza Maker App</h1>
       <button @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
     </header>
 
@@ -21,12 +21,21 @@
       <Instructions />
     </section>
 
+    <div id="sauce-settings">
+      <SauceRecipeSelection />
+      <SauceCustomizer />
+      <SauceIngredients />
+      <SauceInstructions />
+    </div>
+
     <div id="share">
       <label for="share">share</label>
       <input id="share-url" type="text" :value="shareURL" @focus="$event.target.select()">
     </div>
 
-    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KYFVEQ6EJF376&source=url" id="donate" target="_blank">Donate if this tool helped you</a>
+    <footer>
+      <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KYFVEQ6EJF376&source=url" id="donate" target="_blank">Donate if this tool helped you!</a>
+    </footer>
 
     <PrintDialog v-if="showPrintDialog" />
 
@@ -36,6 +45,10 @@
 <script>
 import { mapState } from 'vuex'
 import RecipeSelection from '@/components/recipe-selection.vue'
+import SauceRecipeSelection from '@/components/sauce-recipe-selection.vue'
+import SauceCustomizer from '@/components/sauce-customizer.vue'
+import SauceIngredients from '@/components/sauce-ingredients.vue'
+import SauceInstructions from '@/components/sauce-instructions.vue'
 import MeasureSwitch from '@/components/measure-switch.vue'
 import Adjustor from '@/components/adjustor.vue'
 import Ingredients from '@/components/ingredients.vue'
@@ -47,6 +60,10 @@ import PrintDialog from '@/components/print-dialog.vue'
 export default {
   components: {
     RecipeSelection,
+    SauceRecipeSelection,
+    SauceCustomizer,
+    SauceIngredients,
+    SauceInstructions,
     MeasureSwitch,
     Adjustor,
     Ingredients,
@@ -106,9 +123,13 @@ export default {
     display: flex
     justify-content: center
 
-    img
+    h1
+      font-family: 'Overlock', sans-serif
+      font-size: 1.35em
+      font-weight: 300
+      letter-spacing: 0.07em
       margin: 0 auto
-      max-width: 175px
+      text-align: center
 
     button
       background: none
@@ -155,6 +176,8 @@ export default {
     align-items: center
     display: flex
     justify-content: center
+
+  #dough-settings
     margin-top: 20px
 
     #measure-switch
@@ -169,22 +192,31 @@ export default {
     width: 100%
 
   section
-    border-top: solid #E4E4E4 1px
     display: grid
     grid-column-gap: 20px
     grid-row-gap: 20px
     margin: 0 auto
     max-width: 100%
-    padding-top: 20px
-    @media screen and (min-width: 501px)
+    
+    @media screen and (min-width: 681px)
       max-width: 30ch
 
     &:not(.no-recipe)
       grid-template-columns: 3fr 5fr
-      max-width: 600px
+      max-width: 800px
 
-      @media screen and (max-width: 500px)
+      @media screen and (max-width: 680px)
         grid-template-columns: 1fr
+
+  #sauce-settings
+    border-top: solid #E0E0E0 1px
+    margin-top: 30px
+    padding: 30px 0
+
+    #sauce-recipe-selection
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
     
   #share
     align-items: center
@@ -203,10 +235,19 @@ export default {
       font-weight: 300
       width: 100%
 
-  #donate
-    display: block
-    font-size: 1.25em
-    margin: 30px auto
-    max-width: 500px
-    text-align: center
+  footer
+    display: flex
+    justify-content: center
+    margin: 30px 0
+
+    #donate
+      background-color: #08A9B4
+      border-radius: 5px
+      color: #FFF
+      display: inline-block
+      font-size: 1.25em
+      font-weight: 400
+      padding: 10px 25px
+      text-align: center
+      text-decoration: none
 </style>
