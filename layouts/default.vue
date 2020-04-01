@@ -48,8 +48,12 @@ export default {
       font-size: 0.9em
 
   input
+    appearance: none
+    border: solid #DDDDDD 1px
+    border-radius: 3px
     box-sizing: border-box
     max-width: 100%
+    padding: 3px
 
   #container
     min-height: 100vh
@@ -57,7 +61,7 @@ export default {
 
   h2, h3
     color: #384259
-    font-size: 1.3em
+    font-size: 1.5rem
     font-weight: 300
     letter-spacing: 0.03em
     margin: 0
@@ -165,7 +169,7 @@ export default {
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    header, h2, h3, #donate, #ingredients header h2
+    header, h2, h3, #donate, #ingredients header h2, footer
       color: inherit
 
     h2, h3
@@ -188,6 +192,10 @@ export default {
 
     #print-dialog #dialog
       background: #303030
+
+    #logo
+      & > path
+        fill: currentColor
 
   #instructions
     font-size: 1.15em

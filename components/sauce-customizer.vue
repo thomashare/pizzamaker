@@ -27,6 +27,14 @@
     <span class="ingredient">dry oregano</span>
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent">
     <span>%</span>
+
+    <span class="ingredient">sugar</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent">
+    <span>%</span>
+
+    <span class="ingredient">butter</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent">
+    <span>%</span>
   </div>
 </template>
 
@@ -96,6 +104,22 @@ export default {
       set(val) {
         this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', val)
       }
+    },
+    sugarPercent: {
+      get() {
+        return this.$store.state.sauce_recipe.sugarPercent
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_SUGAR_PERCENT', val)
+      }
+    },
+    butterPercent: {
+      get() {
+        return this.$store.state.sauce_recipe.butterPercent
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', val)
+      }
     }
   }
 }
@@ -106,7 +130,7 @@ export default {
     align-items: center
     display: grid
     grid-column-gap: 8px
-    grid-row-gap: 8px
+    grid-row-gap: 10px
     grid-template-columns: 1fr 8ch 1fr
     margin: 25px auto 0
     max-width: 680px
@@ -118,9 +142,5 @@ export default {
       text-align: right
 
     .value
-      appearance: none
-      border: solid #DDDDDD 1px
-      border-radius: 3px
-      padding: 3px
       text-align: center
 </style>

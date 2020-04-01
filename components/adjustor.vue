@@ -126,9 +126,5 @@ export default {
       text-align: right
 
     input
-      appearance: none
-      border: solid #DDDDDD 1px
-      border-radius: 3px
-      padding: 3px
       text-align: center
 </style>

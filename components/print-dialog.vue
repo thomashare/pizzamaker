@@ -66,7 +66,7 @@ export default {
       box-sizing: border-box
       padding: 12px
       position: absolute
-      top: 20px
+      top: 0
 
   >>> #ingredients
     font-size: 2.25em
@@ -95,11 +95,20 @@ export default {
 
       @media screen and (min-width: 501px)
         font-size: 1.75em
+        grid-row-gap: 5px
+        line-height: normal
 
-  >>> #instructions
+  >>> #ingredients, >>> #instructions
+    margin-top: 0
     max-width: 680px
 
-    ol
-      max-height: 70vh
+    ol, ul
+      grid-template-columns: 1fr
       overflow-y: scroll
+
+      li
+        grid-template-columns: minmax(10ch, auto) 1fr
+
+      @media screen and (max-width: 680px)
+        max-height: 70vh
 </style>

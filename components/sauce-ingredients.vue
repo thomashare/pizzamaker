@@ -14,6 +14,8 @@
       <li v-if="garlic > 0"><span class="ingredient">garlic:</span>{{ garlic }}g</li>
       <li v-if="freshOregano > 0"><span class="ingredient">fresh oregano:</span>{{ freshOregano }}g</li>
       <li v-if="dryOregano > 0"><span class="ingredient">dry oregano:</span>{{ dryOregano }}g</li>
+      <li v-if="sugar > 0"><span class="ingredient">sugar:</span>{{ sugar }}g</li>
+      <li v-if="butter > 0"><span class="ingredient">butter:</span>{{ butter }}g</li>
     </ul>
   </div>
 </template>
@@ -31,7 +33,9 @@ export default {
       freshBasilPercent: state => state.sauce_recipe.freshBasilPercent,
       garlicPercent: state => state.sauce_recipe.garlicPercent,
       freshOreganoPercent: state => state.sauce_recipe.freshOreganoPercent,
-      dryOreganoPercent: state => state.sauce_recipe.dryOreganoPercent
+      dryOreganoPercent: state => state.sauce_recipe.dryOreganoPercent,
+      sugarPercent: state => state.sauce_recipe.sugarPercent,
+      butterPercent: state => state.sauce_recipe.butterPercent
     }),
     amountGrams() {
       return this.amount * 28.3495
@@ -56,6 +60,12 @@ export default {
     },
     dryOregano() {
       return this.finalVal(this.dryOreganoPercent * this.amountGrams / 100)
+    },
+    sugar() {
+      return this.finalVal(this.sugarPercent * this.amountGrams / 100)
+    },
+    butter() {
+      return this.finalVal(this.butterPercent * this.amountGrams / 100)
     },
     showPrintDialog: {
       get() {

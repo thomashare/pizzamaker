@@ -33,9 +33,7 @@
       <input id="share-url" type="text" :value="shareURL" @focus="$event.target.select()">
     </div>
 
-    <footer>
-      <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KYFVEQ6EJF376&source=url" id="donate" target="_blank">Donate if this tool helped you!</a>
-    </footer>
+    <Footer />
 
     <PrintDialog v-if="showPrintDialog" />
 
@@ -56,6 +54,7 @@ import Instructions from '@/components/instructions.vue'
 import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
 import Customizer from '@/components/customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
+import Footer from '@/components/footer.vue'
 
 export default {
   components: {
@@ -70,7 +69,8 @@ export default {
     Instructions,
     IngredientSubstitutes,
     Customizer,
-    PrintDialog
+    PrintDialog,
+    Footer
   },
 	computed: {
     ...mapState({
@@ -90,7 +90,6 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.query.recipe !== undefined) this.$store.commit('recipe/SET_SELECTION', this.$route.query.recipe)
     if (this.$route.query.doughBallWeight !== undefined) {
       this.$store.commit('sizing/TOGGLE_MEASURE_SWITCH', 'weight')
       this.$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', this.$route.query.doughBallWeight)
@@ -234,20 +233,4 @@ export default {
       border: solid #EAEAEA 1px
       font-weight: 300
       width: 100%
-
-  footer
-    display: flex
-    justify-content: center
-    margin: 30px 0
-
-    #donate
-      background-color: #08A9B4
-      border-radius: 5px
-      color: #FFF
-      display: inline-block
-      font-size: 1.25em
-      font-weight: 400
-      padding: 10px 25px
-      text-align: center
-      text-decoration: none
 </style>

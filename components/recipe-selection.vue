@@ -185,9 +185,12 @@ export default {
       set(val) {
         this.$store.commit('recipe/SET_SELECTION', val)
         
-        this.$router.push({ path: this.$route.path, query: { dough: this.doughRecipeSelection } })
+        this.$router.push({ path: this.$route.path, query: { dough: val } })
       }
     }
+  },
+  mounted() {
+    if (this.$route.query.dough !== undefined) this.$store.commit('recipe/SET_SELECTION', this.$route.query.dough)
   }
 }
 </script>
