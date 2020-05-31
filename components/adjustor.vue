@@ -92,6 +92,24 @@ export default {
         this.$store.dispatch('ratios/setHydration', val)
       }
     }
+  },
+  mounted() {
+    this.setQueryParams()
+  },
+  methods: {
+    setQueryParams() {
+      // Crust thickness
+      if (this.$route.query.crustThickness !== undefined) this.$store.dispatch('sizing/setCrustThickness', this.$route.query.crustThickness)
+
+      // Dough ball count
+      if (this.$route.query.count !== undefined) this.$store.dispatch('sizing/setCount', this.$route.query.count)
+
+      // Dough ball weight
+      if (this.$route.query.doughBallWeight !== undefined) this.$store.dispatch('sizing/setDoughBallWeight', this.$route.query.doughBallWeight)
+
+      // Hydration
+      if (this.$route.query.hydration !== undefined) this.$store.dispatch('ratios/setHydration', this.$route.query.hydration)
+    }
   }
 }
 </script>

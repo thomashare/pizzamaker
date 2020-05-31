@@ -62,7 +62,23 @@ export default {
       }
     }
   },
+  mounted() {
+    this.setQueryParams()
+  },
   methods: {
+    setQueryParams() {
+      // Salt percent
+      if (this.$route.query.salt !== undefined) this.$store.dispatch('ratios/setSaltPercent', this.$route.query.salt)
+
+      // Sugar percent
+      if (this.$route.query.sugar !== undefined) this.$store.dispatch('ratios/setSugarPercent', this.$route.query.sugar)
+
+      // Oil percent
+      if (this.$route.query.oil !== undefined) this.$store.dispatch('ratios/setOilPercent', this.$route.query.oil)
+
+      // Salt percent
+      if (this.$route.query.yeast !== undefined) this.$store.dispatch('ratios/setYeastPercent', this.$route.query.yeast)
+    },
     setCustom() {
       this.$store.commit('recipe/SET_SELECTION', 'custom')
     }
