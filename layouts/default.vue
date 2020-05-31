@@ -219,13 +219,4 @@ export default {
 
       li:not(:first-child)
         margin-top: 20px
-
-    #view-more
-      background: none
-      border: none
-      display: block
-      font-size: 0.9em
-      font-weight: 400
-      margin: 5px 0 0 5px
-      padding: 0
 </style>

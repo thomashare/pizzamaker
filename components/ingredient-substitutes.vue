@@ -10,6 +10,7 @@
         <option value="fresh">fresh</option>
       </select>
     </div>
+    
     <div>
       <span>sugar type</span>
       <select v-model="sugarType">
@@ -22,25 +23,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   computed: {
-    ...mapState({
-      recipe: state => state.recipe.selection,
-      recipeYeastType: state => state.ingredients.recipeYeastType,
-      recipeYeastPercent: state => state.ratios.recipeYeastPercent,
-      yeastType: state => state.ingredients.yeastType
-    }),
     yeastType: {
       get() {
         return this.$store.state.ingredients.yeastType
       },
       set(val) {
-        this.$store.commit('ingredients/SET_YEAST_TYPE', val)
-
-        if (this.recipe !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { yeastType: this.yeastType } })
+        this.$store.dispatch('ingredients/setYeastType', val)
       }
     },
     recipeYeastType: {
@@ -48,7 +38,7 @@ export default {
         return this.$store.state.ratios.recipeYeastType
       },
       set(val) {
-        this.$store.commit('ratios/SET_RECIPE_YEAST_TYPE', val)
+        this.$store.dispatch('ratios/setRecipeYeastType', val)
       }
     },
     sugarType: {
@@ -56,11 +46,13 @@ export default {
         return this.$store.state.ingredients.sugarType
       },
       set(val) {
-        this.$store.commit('ingredients/SET_SUGAR_TYPE', val)
-        
-        this.$router.push({ path: this.$route.fullPath, query: { sugarType: this.sugarType } })
+        this.$store.dispatch('ingredients/setSugarType', val)
       }
     }
+  },
+  mounted() {
+    if (this.$route.query.sugarType !== undefined) this.$store.dispatch('ingredients/setSugarType', this.$route.query.sugarType)
+    if (this.$route.query.yeastType !== undefined) this.$store.dispatch('ingredients/setYeastType', this.$route.query.yeastType)
   }
 }
 </script>

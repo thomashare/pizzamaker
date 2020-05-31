@@ -25,29 +25,16 @@ export default {
   computed: {
     ...mapState({
       recipe: state => state.recipe.selection,
+      sauceRecipeSelection: state => state.sauce_recipe.selection,
       sugarType: state => state.ingredients.sugarType,
       yeastType: state => state.ingredients.yeastType
     }),
-    oilPercent: {
-      get() {
-        return this.$store.state.ratios.oilPercent
-      },
-      set(val) {
-        this.$store.commit('ratios/SET_OIL_PERCENT', val)
-
-        if (this.recipe !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', oil: this.oilPercent } })
-      }
-    },
     saltPercent: {
       get() {
         return this.$store.state.ratios.saltPercent
       },
       set(val) {
-        this.$store.commit('ratios/SET_SALT_PERCENT', val)
-
-        if (this.recipe !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { recipe: 'custom', salt: this.saltPercent } })
+        this.$store.dispatch('ratios/setSaltPercent', val)
       }
     },
     sugarPercent: {
@@ -55,10 +42,15 @@ export default {
         return this.$store.state.ratios.sugarPercent
       },
       set(val) {
-        this.$store.commit('ratios/SET_SUGAR_PERCENT', val)
-
-        if (this.recipe !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { sugar: this.sugarPercent } })
+        this.$store.dispatch('ratios/setSugarPercent', val)
+      }
+    },
+    oilPercent: {
+      get() {
+        return this.$store.state.ratios.oilPercent
+      },
+      set(val) {
+        this.$store.dispatch('ratios/setOilPercent', val)
       }
     },
     yeastPercent: {
@@ -66,10 +58,7 @@ export default {
         return this.$store.state.ratios.yeastPercent
       },
       set(val) {
-        this.$store.commit('ratios/SET_YEAST_PERCENT', val)
-
-        if (this.recipe !== 'custom') return false
-        this.$router.push({ path: this.$route.fullPath, query: { yeast: this.yeastPercent, yeastType: this.yeastType } })
+        this.$store.dispatch('ratios/setYeastPercent', val)
       }
     }
   },

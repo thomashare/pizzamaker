@@ -2,71 +2,54 @@
   <div id="adjustor">
     <template v-if="measureSwitch === 'diameter'">
       <span>pies</span>
-      <button class="minus" @click="$store.commit('sizing/SET_COUNT', count-1)" :disabled="count <= 1"></button>
+      <button class="minus" @click="$store.dispatch('sizing/setCount', count-1)" :disabled="count <= 1"></button>
       <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
-      <button class="plus" @click="$store.commit('sizing/SET_COUNT', count+1)" :disabled="count >= 50"></button>
+      <button class="plus" @click="$store.dispatch('sizing/setCount', count+1)" :disabled="count >= 50"></button>
 
       <span>size (in)</span>
-      <button class="minus" @click="$store.commit('sizing/SET_SIZE', size-1)" :disabled="size <= 3"></button>
+      <button class="minus" @click="$store.dispatch('sizing/setSize', size-1)" :disabled="size <= 3"></button>
       <input inputMode="decimal" max="100" min="3" type="number" v-model="size">
-      <button class="plus" @click="$store.commit('sizing/SET_SIZE', size+1)" :disabled="size >= 100"></button>
+      <button class="plus" @click="$store.dispatch('sizing/setSize', size+1)" :disabled="size >= 100"></button>
 
       <span>crust thickness (in)</span>
-      <button class="minus" @click="$store.commit('sizing/SET_CRUST_THICKNESS', crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
+      <button class="minus" @click="$store.dispatch('sizing/setCrustThickness', crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
       <input inputMode="decimal" max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
-      <button class="plus" @click="$store.commit('sizing/SET_CRUST_THICKNESS', crustThickness+0.05)"></button>
+      <button class="plus" @click="$store.dispatch('sizing/setCrustThickness', crustThickness+0.05)"></button>
     </template>
 
     <template v-else>
       <span>dough balls</span>
-      <button class="minus" @click="$store.commit('sizing/SET_COUNT', count-1)" :disabled="count <= 1"></button>
+      <button class="minus" @click="$store.dispatch('sizing/setCount', count-1)" :disabled="count <= 1"></button>
       <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
-      <button class="plus" @click="$store.commit('sizing/SET_COUNT', count+1)" :disabled="count >= 50"></button>
+      <button class="plus" @click="$store.dispatch('sizing/setCount', count+1)" :disabled="count >= 50"></button>
 
       <span>dough ball weight (g)</span>
-      <button class="minus" @click="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
+      <button class="minus" @click="$store.dispatch('sizing/setDoughBallWeight', doughBallWeight-1)" :disabled="doughBallWeight <= 20"></button>
       <input inputMode="decimal" min="20" type="number" v-model="doughBallWeight">
-      <button class="plus" @click="$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', doughBallWeight+1)"></button>
+      <button class="plus" @click="$store.dispatch('sizing/setDoughBallWeight', doughBallWeight+1)"></button>
     </template>
 
     <span>hydration (%)</span>
-    <button class="minus" @click="$store.commit('ratios/SET_HYDRATION', hydration-1)" :disabled="hydration <= 1"></button>
+    <button class="minus" @click="$store.dispatch('ratios/setHydration', hydration-1)" :disabled="hydration <= 1"></button>
     <input inputMode="decimal" max="100" min="0" type="number" v-model="hydration">
-    <button class="plus" @click="$store.commit('ratios/SET_HYDRATION', hydration+1)" :disabled="hydration >= 100"></button>
+    <button class="plus" @click="$store.dispatch('ratios/setHydration', hydration+1)" :disabled="hydration >= 100"></button>
   </div>
 </template>
 
 <script>
-// doughball weight should be 187.1g
-import { mapState } from 'vuex'
-
 export default {
   data() {
     return {
       switched: false
     }
   },
-  watch: {
-    doughBallWeight() {
-      this.$router.push({ path: this.$route.fullPath, query: { doughBallWeight: this.doughBallWeight } })
-    },
-    hydration() {
-      this.$router.push({ path: this.$route.fullPath, query: { hydration: this.hydration } })
-    },
-    crustThickness() {
-      this.$router.push({ path: this.$route.fullPath, query: { crustThickness: this.crustThickness } })
-    }
-  },
   computed: {
-    ...mapState({
-      recipeSelection: state => state.recipe.selection
-    }),
     measureSwitch: {
       get() {
         return this.$store.state.sizing.measureSwitch
       },
       set(val) {
-        this.$store.commit('sizing/TOGGLE_MEASURE_SWITCH', val)
+        this.$store.dispatch('sizing/toggleMeasureSwitch', val)
       }
     },
     count: {
@@ -74,7 +57,7 @@ export default {
         return this.$store.state.sizing.count
       },
       set(val) {
-        this.$store.commit('sizing/SET_COUNT', val)
+        this.$store.dispatch('sizing/setCount', val)
       }
     },
     size: {
@@ -82,7 +65,7 @@ export default {
         return this.$store.state.sizing.size
       },
       set(val) {
-        this.$store.commit('sizing/SET_SIZE', val)
+        this.$store.dispatch('sizing/setSize', val)
       }
     },
     crustThickness: {
@@ -90,7 +73,7 @@ export default {
         return this.$store.state.sizing.crustThickness
       },
       set(val) {
-        this.$store.commit('sizing/SET_CRUST_THICKNESS', val)
+        this.$store.dispatch('sizing/setCrustThickness', val)
       }
     },
     doughBallWeight: {
@@ -98,7 +81,7 @@ export default {
         return this.$store.state.sizing.doughBallWeight
       },
       set(val) {
-        this.$store.commit('sizing/SET_DOUGH_BALL_WEIGHT', val)
+        this.$store.dispatch('sizing/setDoughBallWeight', val)
       }
     },
     hydration: {
@@ -106,7 +89,7 @@ export default {
         return this.$store.state.ratios.hydration
       },
       set(val) {
-        this.$store.commit('ratios/SET_HYDRATION', val)
+        this.$store.dispatch('ratios/setHydration', val)
       }
     }
   }

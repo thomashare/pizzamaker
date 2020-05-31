@@ -1,28 +1,27 @@
 <template>
-  <div :class="measureSwitch === 'diameter' ? 'diameter' : 'weight'" id="measure-switch">
+  <div :class="measureSwitch === 0 ? 'diameter' : 'weight'" id="measure-switch">
     <span>diameter</span>
-    <input type="checkbox" :checked="measureSwitch === 'weight'" @change="$store.commit('sizing/TOGGLE_MEASURE_SWITCH')">
+    <input type="checkbox" v-model="measureSwitch">
     <span>weight</span>
   </div>
 </template>
 
 <script>
 export default {
-  watch: {
-    measureSwitch() {
-      if (this.measureSwitch === 'weight') this.$router.push({ path: this.$route.fullPath, query: { doughBallWeight: this.doughBallWeight } })
-      if (this.measureSwitch === 'diameter') this.$router.push({ path: this.$route.path })
-    }
-  },
   computed: {
     measureSwitch: {
       get() {
-        return this.$store.state.sizing.measureSwitch
+        return (this.$store.state.sizing.measureSwitch === 'diameter') ? 0 : 1 
       },
       set(val) {
-        this.$store.commit('sizing/TOGGLE_MEASURE_SWITCH', val)
+        let setting = (val === true) ? 'weight' : 'diameter'
+
+        this.$store.dispatch('sizing/toggleMeasureSwitch', setting)
       }
     }
+  },
+  mounted() {
+    if (this.$route.query.measure !== undefined) this.$store.commit('sizing/TOGGLE_MEASURE_SWITCH', this.$route.query.measure)
   }
 }
 </script>

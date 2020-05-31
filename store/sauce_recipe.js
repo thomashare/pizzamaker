@@ -10,7 +10,8 @@ export const state = () => ({
   freshOreganoPercent: 0.77,
   dryOreganoPercent: 0.06,
   sugarPercent: 0.79,
-  butterPercent: 0
+  butterPercent: 0,
+  redPepperFlakesPercent: 0
 })
 
 export const mutations = {
@@ -49,5 +50,8 @@ export const mutations = {
   },
   SET_BUTTER_PERCENT(state, payload) {
     state.butterPercent = parseFloat(payload)
+  },
+  SET_RED_PEPPER_FLAKES_PERCENT(state, payload) {
+    state.redPepperFlakesPercent = parseFloat(payload)
   }
 }

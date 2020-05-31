@@ -1,39 +1,43 @@
 <template>
   <div id="ingredients">
     <span class="ingredient">salt</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">oil</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">pepper</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="pepperPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="pepperPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">garlic</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="garlicPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="garlicPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">fresh basil</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="freshBasilPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="freshBasilPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">fresh oregano</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="freshOreganoPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="freshOreganoPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">dry oregano</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">sugar</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">butter</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent">
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">red pepper flakes</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="redPepperFlakesPercent" @change="setCustom()">
     <span>%</span>
   </div>
 </template>
@@ -120,6 +124,21 @@ export default {
       set(val) {
         this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', val)
       }
+    },
+    redPepperFlakesPercent: {
+      get() {
+        return this.$store.state.sauce_recipe.redPepperFlakesPercent
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', val)
+      }
+    }
+  },
+  methods: {
+    setCustom() {
+      this.$store.commit('sauce_recipe/SET_SELECTION', 'custom')
+
+      this.$router.push({ path: this.$route.fullPath, query: { sauce: 'custom' } })
     }
   }
 }

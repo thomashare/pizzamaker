@@ -3,19 +3,23 @@
     <span>dough</span>
     <select v-model="doughRecipeSelection">
       <option value="custom">custom</option>
-      <option value="papa-johns">Pete-zza's Papa Johns</option>
-      <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
-      <option value="mellow-mushroom">Mellow Mushroom</option>
-      <option value="lucali">Lucali</option>
-      <option value="roberta">Roberta</option>
-      <option value="king-arthur">King Arthur</option>
-      <option value="wolfgang-puck">Wolfgang Puck</option>
       <option value="gabriele-bonci">Gabriele Bonci</option>
+      <option value="king-arthur">King Arthur</option>
+      <option value="lucali">Lucali</option>
+      <option value="mellow-mushroom">Mellow Mushroom</option>
+      <option value="papa-johns">Pete-zza's Papa Johns</option>
+      <option value="bianco">Pizzeria Bianco</option>
+      <option value="roberta">Roberta</option>
+      <option value="roccos">Rocco's Little Chicago</option>
+      <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
+      <option value="wolfgang-puck">Wolfgang Puck</option>
     </select>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   watch: {
     doughRecipeSelection() {
@@ -175,17 +179,70 @@ export default {
           'Finally, take the dough balls out of the fridge and let them come to room temperature for 3 hours before forming your crust.'
         ])
       }
+      // Pizzeria Bianco's dough
+      else if (this.doughRecipeSelection === 'bianco') {
+        this.$store.commit('ratios/SET_HYDRATION', 73.9)
+        this.$store.commit('ratios/SET_OIL_PERCENT', 0)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 1.78)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
+        this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 1)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
+        this.$store.commit('recipe/SET_STEPS', [
+          'Combine the yeast and water in a large bowl.',
+          'When the yeast has dissolved, stir in 3 cups of the flour, mixing gently until smooth. Slowly add 2 cups more flour, working it in gently. Then add the salt.',
+          'Begin kneading the dough until it‘s noticeably easier to handle. Continue until it‘s smooth and stretchy. This should take about 10 minutes.',
+          'Shape the dough into a ball and put it in a lightly greased big bowl. Roll the dough around to coat it with oil, then cover the bowl with plastic wrap and let the dough rest in a warm place until it doubles in size, 2 to 2 1/2 hours. When you press the fully proofed dough with your finger, the indentation should remain.',
+          'Turn the proofed dough out onto a floured work surface and cut it into 4 pieces. Roll the pieces into balls and dust them with flour. Cover with plastic wrap and let them rest for another hour, or until they have doubled in size.',
+          'The dough is ready to be shaped, topped, and baked. If you don’t want to make 4 pizzas at a time, the dough balls can be wrapped well and refrigerated for up 8 hours or frozen for up to 3 weeks; thaw in the refrigerator and let come to room temperature before proceeding.'
+        ])
+      }
+      // Rocco's dough
+      else if (this.doughRecipeSelection === 'roccos') {
+        this.$store.commit('ratios/SET_HYDRATION', 57.8)
+        this.$store.commit('ratios/SET_OIL_PERCENT', 10.7)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 1.7)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 4.9)
+        this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 2.7)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 2.7)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
+        this.$store.commit('recipe/SET_STEPS', [
+          'Dissolve the yeast and sugar in the warm water and allow to proof for about 10 minutes.',
+          'Mix together the flour and salt in a large mixing bowl. Add the yeast mixture to the flour and stir until ingredients are roughly combined.',
+          'Add the oil and mix together. If you‘re kneading by hand, turn the dough out onto a cutting board and knead until fairly smooth, adding flour if dough is overly sticky. If you‘re using a stand mixer, mix about 4 minutes until the dough ball starts to become smooth, adding a little flour if it isn‘t pulling away from the sides.',
+          'Form the dough into a ball and place it in a large bowl greased with a small amount of oil.',
+          'Sprinkle the top with some flour and then cover with plastic wrap.',
+          'Allow the dough to rise slowly in the refrigerator for 8 to 24 hours, or allow it to rise in a warm place for 1 to 2 hours. The cold-rise method yields a better product with a finer texture and flavor, but sometimes you just want to eat a pizza!'
+        ])
+      }
+
+      // overwrite recipe values if certain query params are set.
+      if (this.$route.query.sugarType !== undefined) this.$store.dispatch('ingredients/setSugarType', this.$route.query.sugarType)
+      if (this.$route.query.yeastType !== undefined) this.$store.dispatch('ingredients/setYeastType', this.$route.query.yeastType)
     }
   },
   computed: {
+    ...mapState({
+      sauceRecipeSelection: state => state.sauce_recipe.selection
+    }),
     doughRecipeSelection: {
       get() {
         return this.$store.state.recipe.selection
       },
       set(val) {
         this.$store.commit('recipe/SET_SELECTION', val)
-        
-        this.$router.push({ path: this.$route.path, query: { dough: val } })
+
+        if (this.doughRecipeSelection !== 'custom') {
+          this.$router.push({ path: this.$route.path, query: { dough: val } })
+
+          if (this.sauceRecipeSelection !== 'custom') {
+            this.$router.push({ path: this.$route.fullPath, query: { sauce: this.sauceRecipeSelection } })
+          }
+        }
       }
     }
   },

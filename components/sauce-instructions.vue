@@ -5,10 +5,7 @@
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-instructions')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
-    <ol v-if="printDialog === 'sauce-instructions'">
-      <li v-for="(step, n) in steps" :key="n">{{ step }}</li>
-    </ol>
-    <ol v-else>
+    <ol>
       <li v-for="(step, n) in steps" :key="n">{{ step }}</li>
     </ol>
   </div>
@@ -20,7 +17,8 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState({
-      steps: state => state.sauce_recipe.steps
+      steps: state => state.sauce_recipe.steps,
+      amount: state => state.sauce_recipe.amount
     }),
     showPrintDialog: {
       get() {

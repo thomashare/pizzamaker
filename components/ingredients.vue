@@ -94,7 +94,9 @@ export default {
         return this.finalVal(this.freshToIDY(value))
       }
 
-      else return this.finalVal(value)
+      else {
+        return this.finalVal(this.flour * (this.yeastPercent / 100))
+      }
     },
     water() {
       return this.finalVal(this.flour * (this.hydration / 100))

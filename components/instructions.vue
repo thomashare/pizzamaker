@@ -50,3 +50,15 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+  #view-more
+    background: none
+    border: none
+    color: #09A9B4
+    display: block
+    font-size: 0.9em
+    justify-self: center
+    margin: 5px auto
+    padding: 0
+</style>

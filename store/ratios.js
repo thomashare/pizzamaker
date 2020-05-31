@@ -39,3 +39,29 @@ export const mutations = {
     state.recipeYeastPercent = val
   }
 }
+
+export const actions = {
+  setHydration({ commit }, payload) {
+    commit('SET_HYDRATION', payload)
+    $nuxt.$router.push({ path: $nuxt.$route.fullPath, query: { dough: 'custom', hydration: payload } })
+  },
+  setOilPercent({ commit }, payload) {
+    commit('SET_OIL_PERCENT', payload)
+    $nuxt.$router.push({ path: $nuxt.$route.fullPath, query: { dough: 'custom', oil: payload } })
+  },
+  setSaltPercent({ commit }, payload) {
+    commit('SET_SALT_PERCENT', payload)
+    $nuxt.$router.push({ path: $nuxt.$route.fullPath, query: { dough: 'custom', salt: payload } })
+  },
+  setSugarPercent({ commit }, payload) {
+    commit('SET_SUGAR_PERCENT', payload)
+    $nuxt.$router.push({ path: $nuxt.$route.fullPath, query: { dough: 'custom', sugar: payload } })
+  },
+  setYeastPercent({ commit }, payload) {
+    commit('SET_YEAST_PERCENT', payload)
+    $nuxt.$router.push({ path: $nuxt.$route.fullPath, query: { dough: 'custom', yeast: payload } })
+  },
+  setRecipeYeastPercent({ commit }, payload) {
+    commit('SET_RECIPE_YEAST_PERCENT', payload)
+  }
+}

@@ -16,6 +16,7 @@
       <li v-if="dryOregano > 0"><span class="ingredient">dry oregano:</span>{{ dryOregano }}g</li>
       <li v-if="sugar > 0"><span class="ingredient">sugar:</span>{{ sugar }}g</li>
       <li v-if="butter > 0"><span class="ingredient">butter:</span>{{ butter }}g</li>
+      <li v-if="redPepperFlakes > 0"><span class="ingredient">red pepper flakes:</span>{{ redPepperFlakes }}g</li>
     </ul>
   </div>
 </template>
@@ -35,7 +36,8 @@ export default {
       freshOreganoPercent: state => state.sauce_recipe.freshOreganoPercent,
       dryOreganoPercent: state => state.sauce_recipe.dryOreganoPercent,
       sugarPercent: state => state.sauce_recipe.sugarPercent,
-      butterPercent: state => state.sauce_recipe.butterPercent
+      butterPercent: state => state.sauce_recipe.butterPercent,
+      redPepperFlakesPercent: state => state.sauce_recipe.redPepperFlakesPercent
     }),
     amountGrams() {
       return this.amount * 28.3495
@@ -66,6 +68,9 @@ export default {
     },
     butter() {
       return this.finalVal(this.butterPercent * this.amountGrams / 100)
+    },
+    redPepperFlakes() {
+      return this.finalVal(this.redPepperFlakesPercent * this.amountGrams / 100)
     },
     showPrintDialog: {
       get() {
@@ -117,7 +122,7 @@ export default {
         align-items: center
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: minmax(12ch, auto) 1fr
+        grid-template-columns: minmax(14ch, auto) 1fr
 
         @media screen and (max-width: 960px)
           grid-template-columns: 3fr 2fr
