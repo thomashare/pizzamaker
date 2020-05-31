@@ -79,8 +79,22 @@ export default {
       // Salt percent
       if (this.$route.query.yeast !== undefined) this.$store.dispatch('ratios/setYeastPercent', this.$route.query.yeast)
     },
+    updateQueryParams() {
+      this.$router.push({
+        path: this.$route.fullPath,
+        query: {
+          salt: this.saltPercent,
+          sugar: this.sugarPercent,
+          oil: this.oilPercent,
+          yeast: this.yeastPercent,
+        }
+      })
+    },
     setCustom() {
       this.$store.commit('recipe/SET_SELECTION', 'custom')
+
+      this.updateQueryParams()
+      this.setQueryParams()
     }
   }
 }
