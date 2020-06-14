@@ -61,7 +61,7 @@ export default {
 
   h2, h3
     color: #384259
-    font-size: 1.5rem
+    font-size: 1.35rem
     font-weight: 300
     letter-spacing: 0.03em
     margin: 0
@@ -112,6 +112,10 @@ export default {
         top: 5px
         width: 2px
 
+  #ingredients, #instructions
+    header
+      padding: 0 15px 0 8px
+
   #print
     background: none
     border: none
@@ -123,7 +127,7 @@ export default {
       box-sizing: border-box
       position: relative
       display: block
-      transform: scale(var(--ggs,1))
+      transform: scale(1.25)
       width: 14px
       height: 14px
       box-shadow:
@@ -142,7 +146,7 @@ export default {
       box-sizing: border-box
       position: relative
       display: block
-      transform: scale(var(--ggs,1))
+      transform: scale(1.25)
       width: 22px
       height: 22px
       border: 2px solid transparent
@@ -213,7 +217,7 @@ export default {
       background-color: #F4F4F4
       border: solid #EDEDED 1px
       border-radius: 5px
-      line-height: 1.75em
+      line-height: 1.6em
       margin: 12px 0 0
       padding: 15px 15px 15px 30px
 

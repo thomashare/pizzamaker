@@ -1,7 +1,7 @@
 <template>
   <div id="ingredients">
     <header>
-      <h2>Ingredients</h2>
+      <h2>Sauce Ingredients</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-ingredients')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     finalVal(val) {
-      const newVal = parseFloat(val).toFixed(2)
+      const newVal = parseFloat(val).toFixed(1)
 
       if (newVal.split('.')[1] <= 0) return newVal.split('.')[0]
       else return parseFloat(newVal)

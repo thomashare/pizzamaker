@@ -1,7 +1,7 @@
 <template>
   <div id="instructions" v-if="steps.length > 0">
     <header>
-      <h3>Instructions</h3>
+      <h3>Sauce Instructions</h3>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-instructions')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>

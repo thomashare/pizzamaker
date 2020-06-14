@@ -5,13 +5,14 @@
       <option value="custom">custom</option>
       <option value="gabriele-bonci">Gabriele Bonci</option>
       <option value="king-arthur">King Arthur</option>
-      <option value="lucali">Lucali</option>
+      <option value="lucali">Lucali's</option>
       <option value="mellow-mushroom">Mellow Mushroom</option>
       <option value="papa-johns">Pete-zza's Papa Johns</option>
       <option value="bianco">Pizzeria Bianco</option>
-      <option value="roberta">Roberta</option>
+      <option value="roberta">Roberta's</option>
       <option value="roccos">Rocco's Little Chicago</option>
       <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
+      <option value="kenjis">Kenji's New York</option>
       <option value="wolfgang-puck">Wolfgang Puck</option>
     </select>
   </div>
@@ -217,6 +218,25 @@ export default {
           'Form the dough into a ball and place it in a large bowl greased with a small amount of oil.',
           'Sprinkle the top with some flour and then cover with plastic wrap.',
           'Allow the dough to rise slowly in the refrigerator for 8 to 24 hours, or allow it to rise in a warm place for 1 to 2 hours. The cold-rise method yields a better product with a finer texture and flavor, but sometimes you just want to eat a pizza!'
+        ])
+      }
+
+      // Kenjis dough
+      else if (this.doughRecipeSelection === 'kenjis') {
+        this.$store.commit('ratios/SET_HYDRATION', 66)
+        this.$store.commit('ratios/SET_OIL_PERCENT', 5.1)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 1.59)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 2.38)
+        this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 1.59)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
+        this.$store.commit('recipe/SET_STEPS', [
+          'Combine flour, sugar, salt, and yeast in a bowl. Mix the ingredients to combine.',
+          'Add the lukewarm water. Once fully incorporated, add in the oil.',
+          'Let the dough rest for 30 minutes and then knead the dough for 5 minutes.',
+          'Form your dough balls and refrigerate them for 24 hours.'
         ])
       }
 

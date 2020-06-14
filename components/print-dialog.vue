@@ -41,33 +41,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #print-dialog
-    align-items: flex-start
-    box-sizing: border-box
-    display: flex
-    justify-content: center
-    left: 0
-    height: 100%
-    position: absolute
-    top: 0
-    width: 100%
-
-    #shade
-      background-color: rgba(0,0,0,0.8)
-      height: 100%
-      left: 0
-      position: relative
-      top: 0
-      width: 100%
-
-    #dialog
-      background-color: #ffffff
-      border-radius: 5px
-      box-sizing: border-box
-      padding: 12px
-      position: absolute
-      top: 0
-
   >>> #ingredients
     font-size: 2.25em
     list-style-type: none
@@ -83,7 +56,6 @@ export default {
         font-size: 0.7em
 
     ul
-      font-size: 1.2em
       grid-row-gap: 20px
       line-height: 1em
       list-style-type: none
@@ -111,4 +83,43 @@ export default {
 
       @media screen and (max-width: 680px)
         max-height: 70vh
+
+    ul
+      font-size: 1.25em
+
+    ol
+      font-size: 1.35em
+      padding-left: 3ch
+
+  #print-dialog
+    align-items: flex-start
+    box-sizing: border-box
+    display: flex
+    justify-content: center
+    left: 0
+    height: 100%
+    position: absolute
+    top: 0
+    width: 100%
+
+    #shade
+      background-color: rgba(0,0,0,0.8)
+      height: 100%
+      left: 0
+      position: relative
+      top: 0
+      width: 100%
+
+    #dialog
+      box-sizing: border-box
+      position: absolute
+      top: 0
+      width: 100%
+
+      #ingredients, #instructions
+        background-color: #ffffff
+        border-radius: 5px
+        box-sizing: border-box
+        margin: 0 auto
+        padding: 12px
 </style>

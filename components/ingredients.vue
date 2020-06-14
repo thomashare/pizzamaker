@@ -1,7 +1,7 @@
 <template>
   <div id="ingredients">
     <header>
-      <h2>Ingredients</h2>
+      <h2>Dough Ingredients</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'ingredients')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
@@ -148,10 +148,6 @@ export default {
       justify-content: space-between
       margin-bottom: 8px
 
-      h2
-        font-size: 0.9em
-        font-weight: 300
-
     ul
       background-color: #09A9B4
       border-radius: 5px
@@ -169,6 +165,9 @@ export default {
         grid-column-gap: 8px
         grid-template-columns: minmax(9ch, auto) 1fr
 
+        @media screen and (max-width: 960px)
+          grid-template-columns: 3fr 2fr
+
         &:not(:first-child)
           margin-top: 8px
 
@@ -181,4 +180,9 @@ export default {
 
       span
         font-weight: 400
+
+  #dialog
+    #ingredients
+      ul li
+        grid-template-columns: 8ch 1fr
 </style>

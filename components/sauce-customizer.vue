@@ -154,7 +154,7 @@ export default {
     margin: 25px auto 0
     max-width: 680px
 
-    @media screen and (min-width: 681px)
+    @media screen and (min-width: 375px)
       grid-template-columns: 1fr 8ch 1fr 1fr 8ch 1fr
 
     .ingredient

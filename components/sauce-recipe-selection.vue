@@ -79,9 +79,11 @@ export default {
         this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', 0.13)
         this.$store.commit('sauce_recipe/SET_STEPS', [
           'Process tomatoes and their juice through food mill, pulse in food processor until pureed, or puree with hand blender. Puree should not be completely smooth, but should have no chunks larger than 1/16 of an inch. Set tomatoes aside.',
+          `Peel and split ${ (this.amount/28 < 1) ? 1 : Math.round(this.amount/28) } medium yellow ${ (this.amount/28 > 1) ? 'onions' : 'onion' } in half.`,
           'Combine butter and oil in medium saucepan and heat over medium-low heat until butter is melted. Add garlic, oregano, red pepper flakes, and salt.',
           'Cook for about 3 minutes, stirring frequently until fragrant but not browned.',
           'Add tomatoes, basil sprigs, onion halves, and sugar. Bring to a simmer, reduce heat to lowest setting (bubbles should barely be breaking the surface), and cook, stirring occasionally, until reduced by 1/2, about 1 hour.',
+          'Discard onions and basil stems. Season to taste with salt.',
           'Allow to cool and store in covered container in the refrigerator for up to 2 weeks.'
         ])
       }
