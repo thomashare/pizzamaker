@@ -33,10 +33,10 @@ export default {
 
 <style lang="stylus">
   @import url('../node_modules/normalize-css/normalize.css')
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Overlock&display=swap')
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap')
 
   body
-    font-family: 'Open Sans', sans-serif
+    font-family: 'Roboto', sans-serif
     font-weight: 300
     width: 100%
 
@@ -52,6 +52,7 @@ export default {
     border: solid #DDDDDD 1px
     border-radius: 3px
     box-sizing: border-box
+    font-weight: 300
     max-width: 100%
     padding: 3px
 
@@ -71,6 +72,34 @@ export default {
     border-color: #E0E0E0
     border-radius: 5px
     color: #404040
+    font-weight: 300
+
+  .information
+    box-sizing: border-box
+    position: relative
+    display: block
+    width: 20px
+    height: 20px
+    border: 2px solid
+    border-radius: 40px
+
+    &::after, &::before
+      content: ""
+      display: block
+      box-sizing: border-box
+      position: absolute
+      border-radius: 3px
+      width: 2px
+      background: currentColor
+      left: 7px
+
+    &::after
+      bottom: 2px
+      height: 8px
+
+    &::before
+      height: 2px
+      top: 2px
 
   button
     // plus and minus buttons
@@ -79,11 +108,15 @@ export default {
       border-color: currentColor
       border-radius: 50%
       box-sizing: content-box
+      border-style: solid
+      border-width: 1px
+      box-sizing: border-box
       color: #5E5E5E
       display: block
       height: 24px
       padding: 0
       position: relative
+      touch-action: manipulation
       width: 24px
       &:disabled
         color: lighten(#5E5E5E, 50)
@@ -95,9 +128,9 @@ export default {
         content: ''
         display: block
         height: 2px
-        left: 5px
+        left: 4px
         position: absolute
-        top: 11px
+        top: 10px
         width: 14px
 
     &.plus::after
@@ -107,20 +140,24 @@ export default {
         content: ''
         display: block
         height: 14px
-        left: 11px
+        left: 10px
         position: absolute
-        top: 5px
+        top: 4px
         width: 2px
 
-  #ingredients, #instructions
+  .ingredients, .instructions
     header
       padding: 0 15px 0 8px
+
+  .ingredients
+    ul
+      grid-row-gap: 5px
 
   #print
     background: none
     border: none
     box-sizing: border-box
-    color: #09A9B4
+    color: #4285F4
     padding: 0
 
     .gg-maximize
@@ -168,17 +205,77 @@ export default {
       &::after
         transform: rotate(-45deg)
 
+  .tooltip
+    display: flex
+    justify-content: flex-end
+
+    .activator
+      align-items: center
+      display: flex
+      position: relative
+
+      .information
+        color: #808080
+        cursor: pointer
+        margin-right: 2px
+        position: relative
+        transform: scale(0.6)
+        transition: color 0.3s ease
+
+        &:hover
+          color: #404040
+
+        @media screen and (max-width: 750px)
+          margin-right: 5px
+          transform: scale(0.95)
+
+    .popup
+      background-color: #FFFFFF
+      border: solid #EAEAEA 1px
+      border-radius: 4px
+      box-shadow: 10px 0 20px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.1)
+      box-sizing: border-box
+      font-size: 0.9em
+      left: 0
+      line-height: 1.5em
+      min-width: 350px
+      padding: 12px
+      position: absolute
+      top: 30px
+      width: 100%
+      z-index: 1
+
+      &::before
+        background-color: inherit
+        border-left: inherit
+        border-top: inherit
+        border-top-left-radius: 1px
+        box-sizing: inherit
+        content: ''
+        display: block
+        height: 8px
+        left: 6px
+        position: absolute
+        top: -5px
+        transform: rotate(45deg)
+        width: 8px
+
+      p
+        margin: 0
+
+        &:not(:first-child)
+          margin-top: 8px
+
   body.night-mode
     background: #303030
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    header, h2, h3, #donate, #ingredients header h2, footer
+    header, h2, h3, #donate, .ingredients header h2, footer
       color: inherit
 
     h2, h3
       font-size: 1.5rem
-      font-weight: 300
 
     button.minus, button.plus, .gg-close
       color: #FFF
@@ -189,7 +286,7 @@ export default {
       .ingredient
         color: #EEE
 
-    #instructions
+    .instructions
       ol
         background-color: #202020
         border-color: #101010
@@ -201,7 +298,21 @@ export default {
       & > path
         fill: currentColor
 
-  #instructions
+    .tooltip
+      .activator
+        .icon:hover
+          color: #EAEAEA
+
+      .popup
+        background-color: #222222
+        border-color: #606060
+
+    #print-dialog
+      #dialog
+        .ingredients, .instructions
+          background-color: #2A2A2A
+
+  .instructions
     font-size: 1.15em
 
     header
@@ -210,7 +321,6 @@ export default {
       margin-bottom: 8px
 
       h2
-        font-weight: 300
         margin: 0
 
     ol

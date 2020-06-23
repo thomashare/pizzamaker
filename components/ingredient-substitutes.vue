@@ -11,7 +11,7 @@
       </select>
     </div>
     
-    <div>
+    <div v-if="sugar > 0">
       <span>sugar type</span>
       <select v-model="sugarType">
         <option value="sugar">sugar</option>
@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   computed: {
+    ...mapState({
+      sugar: state => state.ratios.sugarPercent
+    }),
     yeastType: {
       get() {
         return this.$store.state.ingredients.yeastType
@@ -67,7 +72,7 @@ export default {
     max-width: 500px
 
     h2
-      margin: 0 0 20px
+      margin: 0 0 10px
       text-align: center
       width: 100%
 

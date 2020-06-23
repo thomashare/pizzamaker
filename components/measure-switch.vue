@@ -39,6 +39,7 @@ export default {
       border: solid #ECECEC 1px
       border-radius: 25px
       box-sizing: border-box
+      cursor: pointer
       display: flex
       height: 22px
       outline: none
@@ -47,7 +48,7 @@ export default {
       transition: transform 0.1s ease-in
       width: 45px
       &::before
-        background: #09A9B4
+        background: #4285F4
         border-radius: 50%
         content: ''
         display: block

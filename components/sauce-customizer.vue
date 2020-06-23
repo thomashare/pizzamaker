@@ -1,5 +1,5 @@
 <template>
-  <div id="ingredients">
+  <div id="ingredient-adjustor">
     <span class="ingredient">salt</span>
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
     <span>%</span>
@@ -145,17 +145,21 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #ingredients
+  #ingredient-adjustor
     align-items: center
     display: grid
-    grid-column-gap: 8px
-    grid-row-gap: 10px
+    grid-column-gap: 6px
+    grid-row-gap: 15px
     grid-template-columns: 1fr 8ch 1fr
+    justify-content: center
     margin: 25px auto 0
     max-width: 680px
 
+    @media screen and (max-width: 750px)
+      font-size: 0.9em
+
     @media screen and (min-width: 375px)
-      grid-template-columns: 1fr 8ch 1fr 1fr 8ch 1fr
+      grid-template-columns: 11ch 7ch 1ch 15ch 7ch 1ch
 
     .ingredient
       text-align: right

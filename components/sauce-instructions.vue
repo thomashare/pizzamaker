@@ -1,5 +1,5 @@
 <template>
-  <div id="instructions" v-if="steps.length > 0">
+  <div class="instructions" v-if="steps.length > 0">
     <header>
       <h3>Sauce Instructions</h3>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-instructions')"><i class="gg-maximize"></i></button>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #instructions
+  .instructions
     margin: 20px auto 0
     max-width: 680px
 </style>

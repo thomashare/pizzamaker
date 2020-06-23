@@ -13,7 +13,7 @@
     <span>%</span>
 
     <span class="ingredient">yeast</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="yeastPercent" @change="setCustom()">
+    <input class="value" inputMode="decimal" max="100" min="0.1" step="0.05" type="number" v-model="yeastPercent">
     <span>%</span>
   </div>
 </template>
@@ -27,13 +27,15 @@ export default {
       recipe: state => state.recipe.selection,
       sauceRecipeSelection: state => state.sauce_recipe.selection,
       sugarType: state => state.ingredients.sugarType,
-      yeastType: state => state.ingredients.yeastType
+      yeastType: state => state.ingredients.yeastType,
+      fermentation: state => state.recipe.fermentation
     }),
     saltPercent: {
       get() {
         return this.$store.state.ratios.saltPercent
       },
       set(val) {
+        if (val === '') return false
         this.$store.dispatch('ratios/setSaltPercent', val)
       }
     },
@@ -42,6 +44,7 @@ export default {
         return this.$store.state.ratios.sugarPercent
       },
       set(val) {
+        if (val === '') return false
         this.$store.dispatch('ratios/setSugarPercent', val)
       }
     },
@@ -50,6 +53,7 @@ export default {
         return this.$store.state.ratios.oilPercent
       },
       set(val) {
+        if (val === '') return false
         this.$store.dispatch('ratios/setOilPercent', val)
       }
     },
@@ -58,7 +62,12 @@ export default {
         return this.$store.state.ratios.yeastPercent
       },
       set(val) {
+        if (val === '') return false
         this.$store.dispatch('ratios/setYeastPercent', val)
+
+        if (this.fermentation !== 'custom') {
+          this.$store.commit('recipe/SET_FERMENTATION', 'custom')
+        }
       }
     }
   },
@@ -105,7 +114,7 @@ export default {
     align-items: center
     display: grid
     grid-column-gap: 8px
-    grid-row-gap: 8px
+    grid-row-gap: 14px
     grid-template-columns: 1fr 8ch 1fr
 
     .ingredient
@@ -114,7 +123,5 @@ export default {
     .value
       appearance: none
       border: solid #DDDDDD 1px
-      border-radius: 3px
-      padding: 3px
       text-align: center
 </style>

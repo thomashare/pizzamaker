@@ -6,18 +6,18 @@
     </header>
 
     <div id="dough-settings">
-      <RecipeSelection />
+      <DoughRecipeSelection />
       <MeasureSwitch />
     </div>
     
     <main>
-      <Adjustor />
-      <Customizer />
+      <DoughAdjustor />
+      <DoughCustomizer />
       <IngredientSubstitutes />
     </main>
 
     <section :class="{ 'no-recipe': recipe === 'custom' }">
-      <Ingredients />
+      <DoughIngredients />
       <Instructions />
     </section>
 
@@ -42,33 +42,33 @@
 
 <script>
 import { mapState } from 'vuex'
-import RecipeSelection from '@/components/recipe-selection.vue'
+import DoughRecipeSelection from '@/components/dough-recipe-selection.vue'
 import SauceRecipeSelection from '@/components/sauce-recipe-selection.vue'
 import SauceCustomizer from '@/components/sauce-customizer.vue'
 import SauceIngredients from '@/components/sauce-ingredients.vue'
 import SauceInstructions from '@/components/sauce-instructions.vue'
 import MeasureSwitch from '@/components/measure-switch.vue'
-import Adjustor from '@/components/adjustor.vue'
-import Ingredients from '@/components/ingredients.vue'
+import DoughAdjustor from '@/components/dough-adjustor.vue'
+import DoughIngredients from '@/components/dough-ingredients.vue'
 import Instructions from '@/components/instructions.vue'
 import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
-import Customizer from '@/components/customizer.vue'
+import DoughCustomizer from '@/components/dough-customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
 import Footer from '@/components/footer.vue'
 
 export default {
   components: {
-    RecipeSelection,
+    DoughRecipeSelection,
     SauceRecipeSelection,
     SauceCustomizer,
     SauceIngredients,
     SauceInstructions,
     MeasureSwitch,
-    Adjustor,
-    Ingredients,
+    DoughAdjustor,
+    DoughIngredients,
     Instructions,
     IngredientSubstitutes,
-    Customizer,
+    DoughCustomizer,
     PrintDialog,
     Footer
   },
@@ -108,8 +108,8 @@ export default {
 
     h1
       font-family: 'Overlock', sans-serif
-      font-size: 1.35em
-      font-weight: 300
+      font-size: 1.75em
+      font-weight: 500
       letter-spacing: 0.07em
       margin: 0 auto
       text-align: center
@@ -159,18 +159,17 @@ export default {
     align-items: center
     display: flex
     justify-content: center
-
-  #dough-settings
-    margin-top: 20px
+    margin-top: 15px
 
     #measure-switch
       margin-left: 15px
 
   main
+    align-items: start
     display: grid
     grid-column-gap: 25px
     grid-template-columns: repeat(2, 1fr)
-    margin: 30px auto 0
+    margin: 20px auto 0
     max-width: 600px
     width: 100%
 
@@ -193,8 +192,8 @@ export default {
 
   #sauce-settings
     border-top: solid #E0E0E0 1px
-    margin-top: 30px
-    padding: 30px 0
+    margin-top: 10px
+    padding: 12px 0
 
     #sauce-recipe-selection
       display: flex
@@ -217,4 +216,10 @@ export default {
       border: solid #EAEAEA 1px
       font-weight: 300
       width: 100%
+
+  @media screen and (max-width: 750px)
+    main
+      font-size: 0.9em
+      grid-column-gap: 20px
+      grid-template-columns: 2fr 1fr
 </style>

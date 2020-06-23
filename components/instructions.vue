@@ -1,9 +1,9 @@
 <template>
-  <div id="instructions" v-if="hasRecipe">
+  <div class="instructions" v-if="hasRecipe">
     <header>
       <h2>Dough Instructions</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-instructions')"><i class="gg-maximize"></i></button>
-      <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
+      <button id="close" v-else @click="closePrintDialog"><i class="gg-close"></i></button>
     </header>
     <ol v-if="printDialog === 'dough-instructions'">
       <li v-for="(step, n) in steps" :key="n">{{ step }}</li>
@@ -47,6 +47,12 @@ export default {
         this.$store.commit('interactive/SET_SHOW_PRINT_DIALOG', val)
       }
     }
+  },
+  methods: {
+    closePrintDialog() {
+      this.showPrintDialog = false
+      this.viewMore = false
+    }
   }
 }
 </script>
@@ -55,10 +61,11 @@ export default {
   #view-more
     background: none
     border: none
-    color: #09A9B4
+    color: #4285F4
     display: block
     font-size: 0.9em
+    font-weight: 300
     justify-self: center
-    margin: 5px auto
+    margin: 10px auto
     padding: 0
 </style>

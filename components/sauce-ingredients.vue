@@ -1,5 +1,5 @@
 <template>
-  <div id="ingredients">
+  <div class="ingredients">
     <header>
       <h2>Sauce Ingredients</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-ingredients')"><i class="gg-maximize"></i></button>
@@ -93,9 +93,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #ingredients
+  .ingredients
     font-size: 1.5em
-    margin: 20px auto 0
+    margin: 25px auto 0
     max-width: 680px
 
     header
@@ -104,19 +104,17 @@ export default {
       margin-bottom: 8px
 
     ul
-      background-color: #09A9B4
+      background-color: #4285F4
       border-radius: 5px
       color: #FFF
       display: grid
-      grid-row-gap: 8px
-      grid-template-columns: 1fr 1fr
+      grid-template-columns: 1fr
       list-style-type: none
       margin: 0
       padding: 25px 20px
 
-      @media screen and (max-width: 960px)
-        grid-template-columns: 1fr
-        padding: 10px
+      @media screen and (min-width: 540px)
+        grid-template-columns: repeat(2, 1fr)
 
       li
         align-items: center
@@ -133,7 +131,4 @@ export default {
     #weight
       font-size: 0.8em
       text-align: center
-
-      span
-        font-weight: 400
 </style>

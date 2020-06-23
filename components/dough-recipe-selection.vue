@@ -26,15 +26,15 @@ export default {
     doughRecipeSelection() {
       // custom dough
       if (this.doughRecipeSelection === 'custom') {
-        this.$store.commit('ratios/SET_HYDRATION', 56)
-        this.$store.commit('ratios/SET_OIL_PERCENT', 7)
-        this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
-        this.$store.commit('ratios/SET_SUGAR_PERCENT', 4)
+        this.$store.commit('ratios/SET_HYDRATION', 65)
+        this.$store.commit('ratios/SET_OIL_PERCENT',1.3)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 2.61)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
-        this.$store.commit('ratios/SET_YEAST_PERCENT', 0.14)
-        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.14)
-        this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
-        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 0.65)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.65)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [])
       }
       // Papa Johns dough
@@ -229,7 +229,7 @@ export default {
         this.$store.commit('ratios/SET_SUGAR_PERCENT', 2.38)
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 1.59)
-        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1.59)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [

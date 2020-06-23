@@ -1,8 +1,8 @@
 <template>
-  <div id="ingredients">
+  <div class="ingredients">
     <header>
       <h2>Dough Ingredients</h2>
-      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'ingredients')"><i class="gg-maximize"></i></button>
+      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-ingredients')"><i class="gg-maximize"></i></button>
       <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ul>
@@ -140,7 +140,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #ingredients
+  .ingredients
     font-size: 1.5em
 
     header
@@ -149,7 +149,7 @@ export default {
       margin-bottom: 8px
 
     ul
-      background-color: #09A9B4
+      background-color: #4285F4
       border-radius: 5px
       color: #FFF
       display: grid
@@ -157,19 +157,16 @@ export default {
       margin: 0
       padding: 25px 20px
 
-      @media screen and (max-width: 960px)
-        padding: 10px
+      @media screen and (min-width: 465px) and (max-width: 679px)
+        grid-template-columns: repeat(2, 1fr)
 
       li
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: minmax(9ch, auto) 1fr
+        grid-template-columns: minmax(auto, 10ch) 6ch
 
-        @media screen and (max-width: 960px)
-          grid-template-columns: 3fr 2fr
-
-        &:not(:first-child)
-          margin-top: 8px
+        @media screen and (max-width: 679px)
+          grid-template-columns: repeat(2, 1fr)
 
         .ingredient
           text-align: right
@@ -179,7 +176,7 @@ export default {
       text-align: center
 
       span
-        font-weight: 400
+        font-weight: 300
 
   #dialog
     #ingredients

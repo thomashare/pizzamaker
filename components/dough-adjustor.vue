@@ -6,12 +6,12 @@
       <input inputMode="decimal" max="50" min="1" type="number" v-model="count">
       <button class="plus" @click="$store.dispatch('sizing/setCount', count+1)" :disabled="count >= 50"></button>
 
-      <span>size (in)</span>
+      <span>diameter (in)</span>
       <button class="minus" @click="$store.dispatch('sizing/setSize', size-1)" :disabled="size <= 3"></button>
       <input inputMode="decimal" max="100" min="3" type="number" v-model="size">
       <button class="plus" @click="$store.dispatch('sizing/setSize', size+1)" :disabled="size >= 100"></button>
 
-      <span>crust thickness (in)</span>
+      <span>thickness (in)</span>
       <button class="minus" @click="$store.dispatch('sizing/setCrustThickness', crustThickness-0.05)" :disabled="crustThickness <= 0.1"></button>
       <input inputMode="decimal" max="5" min="0.1" step="0.05" type="number" v-model="crustThickness">
       <button class="plus" @click="$store.dispatch('sizing/setCrustThickness', crustThickness+0.05)"></button>
@@ -33,17 +33,44 @@
     <button class="minus" @click="$store.dispatch('ratios/setHydration', hydration-1)" :disabled="hydration <= 1"></button>
     <input inputMode="decimal" max="100" min="0" type="number" v-model="hydration">
     <button class="plus" @click="$store.dispatch('ratios/setHydration', hydration+1)" :disabled="hydration >= 100"></button>
+
+    <div class="tooltip">
+      <div class="activator">
+        <i class="information icon" @click="displayTooltip('fermentation', $event)" @mouseover="displayTooltip('fermentation')" @mouseout="hideTooltip"></i>
+        <div class="popup" v-if="activePopup">
+          <p v-for="tip in tips" :key="tip">{{ tip }}</p>
+        </div>
+        fermentation</div>
+    </div>
+
+    <select name="fermentation" v-model="fermentation">
+      <option value="custom">custom</option>
+      <option value="recipe" v-if="doughRecipeSelection !== 'custom'">recipe</option>
+      <option value="3">3 hours</option>
+      <option value="24">24 hours</option>
+      <option value="48">48 hours</option>
+      <option value="72">72 hours</option>
+      <option value="120">5 days</option>
+    </select>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
-      switched: false
+      switched: false,
+      tips: [],
+      activePopup: null
     }
   },
   computed: {
+    ...mapState({
+      doughRecipeSelection: state => state.recipe.selection,
+      recipeYeastPercent: state => state.ratios.recipeYeastPercent
+    }),
     measureSwitch: {
       get() {
         return this.$store.state.sizing.measureSwitch
@@ -91,6 +118,32 @@ export default {
       set(val) {
         this.$store.dispatch('ratios/setHydration', val)
       }
+    },
+    fermentation: {
+      get() {
+        return this.$store.state.recipe.fermentation
+      },
+      set(val) {
+        this.$store.commit('recipe/SET_FERMENTATION', val)
+
+        // if setting to custom, don't bother setting the yeast percent.
+        if (val === 'custom') return false
+
+        // if using the 'recipe' option, set the yeast percentage to the recipe yeast percent.
+        if (val === 'recipe') {
+          this.$store.dispatch('ratios/setYeastPercent', this.recipeYeastPercent)
+          return false
+        }
+
+        // modify the yeast amount depending on fermentation times.
+        const calculatedYeastPercent = Math.round(((7 * 100 - 7 * val) / 1000) * 100) / 100
+        if (calculatedYeastPercent <= 0) {
+          this.$store.dispatch('ratios/setYeastPercent', 0.1)
+        }
+        else {
+          this.$store.dispatch('ratios/setYeastPercent', calculatedYeastPercent)
+        }
+      }
     }
   },
   mounted() {
@@ -109,6 +162,28 @@ export default {
 
       // Hydration
       if (this.$route.query.hydration !== undefined) this.$store.dispatch('ratios/setHydration', this.$route.query.hydration)
+    },
+    displayTooltip(tooltip, e) {
+      if (this.activePopup === 'click') {
+        this.hideTooltip()
+        return false
+      }
+
+      if (e !== undefined) {
+        this.activePopup = e.type
+      }
+      else this.activePopup = 'hover'
+
+      if (tooltip === 'fermentation') {
+        this.tips = [
+          `Fermentation describes how long your dough will rest (or proof) before using.`,
+          `A longer fermentation time will create a better tasting crust.`
+        ]
+      }
+    },
+    hideTooltip() {
+      this.tips = []
+      this.activePopup = null
     }
   }
 }
@@ -123,9 +198,15 @@ export default {
     grid-template-columns: 1fr 24px 6ch 24px
 
     span
+      align-items: center
+      display: flex
       font-family: 'Open Sans Condensed', sans-serif
-      text-align: right
+      justify-content: flex-end
 
     input
       text-align: center
+
+    select
+      grid-column: span 3
+      padding: 4px 2px
 </style>

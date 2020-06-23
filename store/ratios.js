@@ -1,10 +1,10 @@
 export const state = () => ({
-  hydration: 56,
-  oilPercent: 7,
-  saltPercent: 1.75,
-  sugarPercent: 4,
-  yeastPercent: 0.14,
-  recipeYeastPercent: 0.14
+  hydration: 65,
+  oilPercent: 1.3,
+  saltPercent: 2.61,
+  sugarPercent: 0,
+  yeastPercent: 0.65,
+  recipeYeastPercent: 0.65
 })
 
 export const mutations = {

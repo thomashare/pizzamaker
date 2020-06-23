@@ -2,7 +2,7 @@
   <div id="print-dialog">
     <div id="shade" @click="showPrintDialog = false"></div>
     <div id="dialog">
-      <Ingredients v-if="printDialog === 'ingredients'" />
+      <DoughIngredients v-if="printDialog === 'dough-ingredients'" />
       <Instructions v-if="printDialog === 'dough-instructions'" />
       <SauceIngredients v-if="printDialog === 'sauce-ingredients'" />
       <SauceInstructions v-if="printDialog === 'sauce-instructions'" />
@@ -12,14 +12,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import Ingredients from '~/components/ingredients'
+import DoughIngredients from '~/components/dough-ingredients'
 import Instructions from '~/components/instructions'
 import SauceIngredients from '~/components/sauce-ingredients'
 import SauceInstructions from '~/components/sauce-instructions'
 
 export default {
   components: {
-    Ingredients,
+    DoughIngredients,
     Instructions,
     SauceIngredients,
     SauceInstructions
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  >>> #ingredients
+  >>> .ingredients
     font-size: 2.25em
     list-style-type: none
     max-width: 100%
@@ -56,10 +56,9 @@ export default {
         font-size: 0.7em
 
     ul
-      grid-row-gap: 20px
+      grid-row-gap: 5px
       line-height: 1em
       list-style-type: none
-      max-height: 70vh
       padding: 12px
 
       .ingredient
@@ -67,25 +66,34 @@ export default {
 
       @media screen and (min-width: 501px)
         font-size: 1.75em
-        grid-row-gap: 5px
         line-height: normal
 
-  >>> #ingredients, >>> #instructions
+  >>> .ingredients, >>> .instructions
+    height: 100%
     margin-top: 0
-    max-width: 680px
+    max-width: 850px
 
     ol, ul
+      box-sizing: border-box
       grid-template-columns: 1fr
+      max-height: 75vh
       overflow-y: scroll
 
       li
+        align-items: center
         grid-template-columns: minmax(10ch, auto) 1fr
 
-      @media screen and (max-width: 680px)
-        max-height: 70vh
+        span
+          margin-right: 8px
+
+      @media screen and (min-width: 650px)
+        grid-template-columns: 1fr 1fr
 
     ul
       font-size: 1.25em
+
+      li
+        display: flex
 
     ol
       font-size: 1.35em
@@ -116,7 +124,7 @@ export default {
       top: 0
       width: 100%
 
-      #ingredients, #instructions
+      .ingredients, .instructions
         background-color: #ffffff
         border-radius: 5px
         box-sizing: border-box

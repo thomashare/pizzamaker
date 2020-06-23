@@ -18,12 +18,12 @@
     text-align: center
 
     #donate
-      background-color: #08A9B4
+      background-color: #4285F4
       border-radius: 5px
       color: #FFF
       display: inline-block
       font-size: 1.25em
-      font-weight: 400
+      font-weight: 300
       padding: 10px 25px
       text-decoration: none
 
