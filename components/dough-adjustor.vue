@@ -195,13 +195,14 @@ export default {
     display: grid
     grid-column-gap: 10px
     grid-row-gap: 12px
-    grid-template-columns: 1fr 24px 6ch 24px
+    grid-template-columns: 14ch 24px 6ch 24px
 
     span
       align-items: center
       display: flex
       font-family: 'Open Sans Condensed', sans-serif
       justify-content: flex-end
+      text-align: right
 
     input
       text-align: center

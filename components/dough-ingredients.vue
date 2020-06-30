@@ -1,5 +1,5 @@
 <template>
-  <div class="ingredients">
+  <div class="ingredients" id="dough-ingredients">
     <header>
       <h2>Dough Ingredients</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-ingredients')"><i class="gg-maximize"></i></button>
@@ -140,7 +140,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .ingredients
+  #dough-ingredients
     font-size: 1.5em
 
     header
@@ -148,30 +148,8 @@ export default {
       justify-content: space-between
       margin-bottom: 8px
 
-    ul
-      background-color: #4285F4
-      border-radius: 5px
-      color: #FFF
-      display: grid
-      list-style-type: none
-      margin: 0
-      padding: 25px 20px
-
-      @media screen and (min-width: 465px) and (max-width: 679px)
-        grid-template-columns: repeat(2, 1fr)
-
-      li
-        display: grid
-        grid-column-gap: 8px
-        grid-template-columns: minmax(auto, 10ch) 6ch
-
-        @media screen and (max-width: 679px)
-          grid-template-columns: repeat(2, 1fr)
-
-        .ingredient
-          text-align: right
-
     #weight
+      color: #000000
       font-size: 0.8em
       text-align: center
 

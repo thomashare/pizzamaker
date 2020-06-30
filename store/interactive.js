@@ -1,6 +1,7 @@
 export const state = () => ({
   showPrintDialog: false,
-  printDialog: null
+  printDialog: null,
+  recipeToggle: 'dough'
 })
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   },
   SET_PRINT_DIALOG(state, payload) {
     state.printDialog = payload
+  },
+  SET_RECIPE_TOGGLE(state, payload) {
+    state.recipeToggle = payload
   }
 }
 

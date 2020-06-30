@@ -56,9 +56,22 @@ export default {
     max-width: 100%
     padding: 3px
 
+  #app
+    align-items: start
+    display: grid
+    grid-column-gap: 50px
+    grid-template-columns: repeat(auto-fit, minmax(375px, 1fr))
+    justify-content: center
+    justify-items: center
+    margin: 0 auto
+    max-width: 960px
+
   #container
     min-height: 100vh
     padding: 15px 12px
+
+  header
+    margin-top: 25px
 
   h2, h3
     color: #384259
@@ -73,6 +86,12 @@ export default {
     border-radius: 5px
     color: #404040
     font-weight: 300
+
+  .recipe-selection select
+    max-width: 100px
+
+    @media screen and (min-width: 480px)
+      max-width: none
 
   .information
     box-sizing: border-box
@@ -150,14 +169,45 @@ export default {
       padding: 0 15px 0 8px
 
   .ingredients
+    border-radius: 5px
+    box-sizing: border-box
+    color: #FFF
+    display: grid
+    list-style-type: none
+    margin: 0
+    padding: 0 8px
+
+    ol, ul
+      margin: 0
+
+      li
+        display: grid
+        grid-column-gap: 8px
+        grid-template-columns: minmax(auto, 10ch) 6ch
+
+        @media screen and (max-width: 679px)
+          grid-template-columns: repeat(2, 1fr)
+
+        .ingredient
+          text-align: right
+
+  .ingredients
+    @media screen and (max-width: 720px)
+      width: 100%
+
     ul
+      background-color: #4285F4
+      box-sizing: border-box
       grid-row-gap: 5px
+      padding: 15px
+      width: 100%
 
   #print
     background: none
     border: none
     box-sizing: border-box
     color: #4285F4
+    margin-left: 20px
     padding: 0
 
     .gg-maximize
@@ -271,20 +321,18 @@ export default {
     color: #EAEAEA
     color: rgba(255,255,255,0.85)
 
-    header, h2, h3, #donate, .ingredients header h2, footer
+    #recipe-toggle
+      button
+        color: #AFAFAF
+
+    #header, h2, h3, #donate, .ingredients header h2, footer
       color: inherit
 
     h2, h3
       font-size: 1.5rem
 
-    button.minus, button.plus, .gg-close
+    button.minus, button.plus, .gg-close, #dough-ingredients #weight
       color: #FFF
-
-    #ingredients ul li
-      color: #FFF
-
-      .ingredient
-        color: #EEE
 
     .instructions
       ol
@@ -314,6 +362,9 @@ export default {
 
   .instructions
     font-size: 1.15em
+    grid-column: 1/-1
+    max-width: 600px
+    padding: 0 10px
 
     header
       display: flex
@@ -328,7 +379,7 @@ export default {
       border: solid #EDEDED 1px
       border-radius: 5px
       line-height: 1.6em
-      margin: 12px 0 0
+      margin: 0
       padding: 15px 15px 15px 30px
 
       li:not(:first-child)

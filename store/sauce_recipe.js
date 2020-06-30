@@ -7,11 +7,14 @@ export const state = () => ({
   pepperPercent: 0.04,
   garlicPercent: 0.38,
   freshBasilPercent: 0.31,
+  basilSprigCount: 0,
   freshOreganoPercent: 0.77,
   dryOreganoPercent: 0.06,
   sugarPercent: 0.79,
   butterPercent: 0,
-  redPepperFlakesPercent: 0
+  unsaltedButterPercent: 0,
+  redPepperFlakesPercent: 0,
+  yellowOnionCount: 0
 })
 
 export const mutations = {
@@ -39,6 +42,9 @@ export const mutations = {
   SET_FRESH_BASIL_PERCENT(state, payload) {
     state.freshBasilPercent = parseFloat(payload)
   },
+  SET_BASIL_SPRIG_COUNT(state, payload) {
+    state.basilSprigCount = parseFloat(payload)
+  },
   SET_FRESH_OREGANO_PERCENT(state, payload) {
     state.freshOreganoPercent = parseFloat(payload)
   },
@@ -51,7 +57,13 @@ export const mutations = {
   SET_BUTTER_PERCENT(state, payload) {
     state.butterPercent = parseFloat(payload)
   },
+  SET_UNSALTED_BUTTER_PERCENT(state, payload) {
+    state.unsaltedButterPercent = parseFloat(payload)
+  },
   SET_RED_PEPPER_FLAKES_PERCENT(state, payload) {
     state.redPepperFlakesPercent = parseFloat(payload)
+  },
+  SET_YELLOW_ONION_COUNT(state, payload) {
+    state.yellowOnionCount = parseFloat(payload)
   }
 }

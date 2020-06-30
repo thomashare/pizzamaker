@@ -68,7 +68,7 @@ export default {
     flex-wrap: wrap
     grid-column: 1/-1
     justify-content: center
-    margin: 30px auto
+    margin: 0 auto
     max-width: 500px
 
     h2

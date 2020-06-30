@@ -1,5 +1,5 @@
 <template>
-  <div class="instructions" v-if="hasRecipe">
+  <div class="instructions" id="dough-instructions" v-if="hasRecipe">
     <header>
       <h2>Dough Instructions</h2>
       <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-instructions')"><i class="gg-maximize"></i></button>
@@ -58,14 +58,18 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #view-more
-    background: none
-    border: none
-    color: #4285F4
-    display: block
-    font-size: 0.9em
-    font-weight: 300
-    justify-self: center
-    margin: 10px auto
-    padding: 0
+  #dough-instructions
+    margin: 0 auto
+    max-width: 750px
+
+    #view-more
+      background: none
+      border: none
+      color: #4285F4
+      display: block
+      font-size: 0.9em
+      font-weight: 300
+      justify-self: center
+      margin: 10px auto
+      padding: 0
 </style>

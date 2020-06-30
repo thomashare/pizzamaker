@@ -28,9 +28,13 @@ export default {
 
 <style lang="stylus" scoped>
   #measure-switch
+    align-items: center
     display: grid
     grid-column-gap: 10px
     grid-template-columns: 1fr auto 1fr
+
+    span
+      margin-right: 0
     
     & > input
       align-items: center

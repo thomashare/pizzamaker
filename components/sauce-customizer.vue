@@ -1,19 +1,19 @@
 <template>
   <div id="ingredient-adjustor">
-    <span class="ingredient">salt</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
+    <header>
+      <h2>Customize Your Sauce</h2>
+    </header>
+
+    <span class="ingredient">basil sprigs</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="basilSprigCount" @change="setCustom()">
+    <span></span>
+
+    <span class="ingredient">butter</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">oil</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
-    <span>%</span>
-
-    <span class="ingredient">pepper</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="pepperPercent" @change="setCustom()">
-    <span>%</span>
-
-    <span class="ingredient">garlic</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="garlicPercent" @change="setCustom()">
+    <span class="ingredient">dry oregano</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">fresh basil</span>
@@ -24,21 +24,37 @@
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="freshOreganoPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">dry oregano</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent" @change="setCustom()">
+    <span class="ingredient">garlic</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="garlicPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">oil</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">pepper</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="pepperPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">red pepper flakes</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="redPepperFlakesPercent" @change="setCustom()">
+    <span>%</span>
+
+    <span class="ingredient">salt</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
     <span>%</span>
 
     <span class="ingredient">sugar</span>
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">butter</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent" @change="setCustom()">
+    <span class="ingredient">unsalted butter</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="unsaltedButterPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">red pepper flakes</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="redPepperFlakesPercent" @change="setCustom()">
-    <span>%</span>
+    <span class="ingredient">yellow onions</span>
+    <input class="value" inputMode="decimal" max="100" min="0" step="0.5" type="number" v-model="yellowOnionCount" @change="setCustom()">
+    <span></span>
   </div>
 </template>
 
@@ -93,6 +109,14 @@ export default {
         this.$store.commit('sauce_recipe/SET_FRESH_BASIL_PERCENT', val)
       }
     },
+    basilSprigCount: {
+      get() {
+        return this.$store.state.sauce_recipe.basilSprigCount
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_BASIL_SPRIG_COUNT', val)
+      }
+    },
     freshOreganoPercent: {
       get() {
         return this.$store.state.sauce_recipe.freshOreganoPercent
@@ -125,12 +149,28 @@ export default {
         this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', val)
       }
     },
+    unsaltedButterPercent: {
+      get() {
+        return this.$store.state.sauce_recipe.unsaltedButterPercent
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_UNSALTED_BUTTER_PERCENT', val)
+      }
+    },
     redPepperFlakesPercent: {
       get() {
         return this.$store.state.sauce_recipe.redPepperFlakesPercent
       },
       set(val) {
         this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', val)
+      }
+    },
+    yellowOnionCount: {
+      get() {
+        return this.$store.state.sauce_recipe.yellowOnionCount
+      },
+      set(val) {
+        this.$store.commit('sauce_recipe/SET_YELLOW_ONION_COUNT', val)
       }
     }
   },
@@ -148,18 +188,18 @@ export default {
   #ingredient-adjustor
     align-items: center
     display: grid
-    grid-column-gap: 6px
-    grid-row-gap: 15px
-    grid-template-columns: 1fr 8ch 1fr
+    grid-column-gap: 10px
+    grid-row-gap: 12px
+    grid-template-columns: 15ch 7ch 1ch 15ch 7ch 1ch
     justify-content: center
-    margin: 25px auto 0
-    max-width: 680px
+    padding: 0 5px
+    
+    @media screen and (max-width: 720px)
+      grid-template-columns: 10ch 7ch 1ch 10ch 7ch 1ch
 
-    @media screen and (max-width: 750px)
-      font-size: 0.9em
-
-    @media screen and (min-width: 375px)
-      grid-template-columns: 11ch 7ch 1ch 15ch 7ch 1ch
+    header
+      grid-column: 1/-1
+      text-align: center
 
     .ingredient
       text-align: right

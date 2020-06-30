@@ -3,7 +3,7 @@
     <div id="shade" @click="showPrintDialog = false"></div>
     <div id="dialog">
       <DoughIngredients v-if="printDialog === 'dough-ingredients'" />
-      <Instructions v-if="printDialog === 'dough-instructions'" />
+      <DoughInstructions v-if="printDialog === 'dough-instructions'" />
       <SauceIngredients v-if="printDialog === 'sauce-ingredients'" />
       <SauceInstructions v-if="printDialog === 'sauce-instructions'" />
     </div>
@@ -13,14 +13,14 @@
 <script>
 import { mapState } from 'vuex'
 import DoughIngredients from '~/components/dough-ingredients'
-import Instructions from '~/components/instructions'
+import DoughInstructions from '~/components/dough-instructions'
 import SauceIngredients from '~/components/sauce-ingredients'
 import SauceInstructions from '~/components/sauce-instructions'
 
 export default {
   components: {
     DoughIngredients,
-    Instructions,
+    DoughInstructions,
     SauceIngredients,
     SauceInstructions
   },
@@ -42,18 +42,10 @@ export default {
 
 <style lang="stylus" scoped>
   >>> .ingredients
-    font-size: 2.25em
+    font-size: 2em
     list-style-type: none
     max-width: 100%
     width: 100%
-
-    header
-      justify-content: space-between
-      margin-bottom: 15px
-
-      h2
-        color: #384259
-        font-size: 0.7em
 
     ul
       grid-row-gap: 5px
@@ -64,39 +56,36 @@ export default {
       .ingredient
         font-size: 0.8em
 
-      @media screen and (min-width: 501px)
-        font-size: 1.75em
-        line-height: normal
-
   >>> .ingredients, >>> .instructions
     height: 100%
     margin-top: 0
-    max-width: 850px
+    max-width: 960px
+
+    header
+      justify-content: space-between
+      margin-bottom: 15px
+      margin-top: 8px
+
+      h2
+        color: #384259
 
     ol, ul
       box-sizing: border-box
+      display: grid
       grid-template-columns: 1fr
       max-height: 75vh
       overflow-y: scroll
 
       li
         align-items: center
-        grid-template-columns: minmax(10ch, auto) 1fr
-
-        span
-          margin-right: 8px
-
-      @media screen and (min-width: 650px)
-        grid-template-columns: 1fr 1fr
+        grid-column-gap: 12px !important
+        grid-template-columns: minmax(8ch, 1fr) minmax(6ch, 1fr)
 
     ul
-      font-size: 1.25em
-
-      li
-        display: flex
+      font-size: 2.25em !important
 
     ol
-      font-size: 1.35em
+      font-size: 1.6em !important
       padding-left: 3ch
 
   #print-dialog
@@ -130,4 +119,9 @@ export default {
         box-sizing: border-box
         margin: 0 auto
         padding: 12px
+
+  @media screen and (min-width: 760px)
+    >>> #dough-ingredients
+      ul
+        grid-template-columns: repeat(2, 1fr)
 </style>

@@ -12,8 +12,9 @@
     color: #606060
     display: flex
     flex-direction: column
+    grid-column: 1/-1
     justify-content: center
-    margin: 30px auto
+    margin: 30px auto 15px
     max-width: 450px
     text-align: center
 
@@ -31,6 +32,7 @@
       align-items: center
       display: flex
       justify-content: center
+      margin: 15px 0 0
       width: 100%
 
       a

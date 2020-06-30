@@ -1,32 +1,35 @@
 <template>
-  <div id="app">
-    <header>
-      <h1>Pizza Maker App</h1>
-      <button @click="nightMode = !nightMode"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
-    </header>
+  <div id="app" :class="`${recipeToggle}-recipe`">
+    <Header/>
 
-    <div id="dough-settings">
+    <nav id="recipe-toggle">
+      <button :class="{ active : (recipeToggle === 'dough') }" @click="setRecipeToggle('dough')">Dough</button>
+      <span class="sep">/</span>
+      <button :class="{ active : (recipeToggle === 'sauce') }" @click="setRecipeToggle('sauce')">Sauce</button>
+    </nav>
+
+    <template v-if="recipeToggle === 'dough'">
       <DoughRecipeSelection />
-      <MeasureSwitch />
-    </div>
-    
-    <main>
-      <DoughAdjustor />
-      <DoughCustomizer />
-      <IngredientSubstitutes />
-    </main>
 
-    <section :class="{ 'no-recipe': recipe === 'custom' }">
+      <div id="dough-editor">
+        <header>
+          <h2>Customize Your Dough</h2>
+        </header>
+        <DoughAdjustor />
+        <DoughCustomizer />
+        <DoughIngredientSubstitutes />
+      </div>
+
       <DoughIngredients />
-      <Instructions />
-    </section>
+      <DoughInstructions />
+    </template>
 
-    <div id="sauce-settings">
+    <template v-else>
       <SauceRecipeSelection />
       <SauceCustomizer />
       <SauceIngredients />
       <SauceInstructions />
-    </div>
+    </template>
 
     <div id="share">
       <label for="share">share</label>
@@ -36,38 +39,37 @@
     <Footer />
 
     <PrintDialog v-if="showPrintDialog" />
-
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Header from '@/components/header.vue'
 import DoughRecipeSelection from '@/components/dough-recipe-selection.vue'
 import SauceRecipeSelection from '@/components/sauce-recipe-selection.vue'
 import SauceCustomizer from '@/components/sauce-customizer.vue'
 import SauceIngredients from '@/components/sauce-ingredients.vue'
 import SauceInstructions from '@/components/sauce-instructions.vue'
-import MeasureSwitch from '@/components/measure-switch.vue'
 import DoughAdjustor from '@/components/dough-adjustor.vue'
 import DoughIngredients from '@/components/dough-ingredients.vue'
-import Instructions from '@/components/instructions.vue'
-import IngredientSubstitutes from '@/components/ingredient-substitutes.vue'
+import DoughInstructions from '@/components/dough-instructions.vue'
+import DoughIngredientSubstitutes from '@/components/dough-ingredient-substitutes.vue'
 import DoughCustomizer from '@/components/dough-customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
 import Footer from '@/components/footer.vue'
 
 export default {
   components: {
+    Header,
     DoughRecipeSelection,
     SauceRecipeSelection,
     SauceCustomizer,
     SauceIngredients,
     SauceInstructions,
-    MeasureSwitch,
     DoughAdjustor,
     DoughIngredients,
-    Instructions,
-    IngredientSubstitutes,
+    DoughInstructions,
+    DoughIngredientSubstitutes,
     DoughCustomizer,
     PrintDialog,
     Footer
@@ -75,18 +77,10 @@ export default {
 	computed: {
     ...mapState({
       showPrintDialog: state => state.interactive.showPrintDialog,
-      recipe: state => state.recipe.selection
+      recipeToggle: state => state.interactive.recipeToggle
     }),
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
-    },
-    nightMode: {
-      get() {
-        return this.$store.state.settings.nightMode
-      },
-      set(val) {
-        this.$store.dispatch('settings/setNightMode', val)
-      }
     }
   },
 	methods: {
@@ -95,119 +89,115 @@ export default {
 
       if (newVal.split('.')[1] <= 0) return newVal.split('.')[0]
       else return newVal
+    },
+    setRecipeToggle(val) {
+      this.$store.commit('interactive/SET_RECIPE_TOGGLE', val)
     }
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
-  header
-    color: #384259
-    display: flex
-    justify-content: center
+  >>> h2
+    grid-column: 1/-1
+    text-align: center
 
-    h1
-      font-family: 'Overlock', sans-serif
-      font-size: 1.75em
-      font-weight: 500
-      letter-spacing: 0.07em
-      margin: 0 auto
-      text-align: center
+  >>> .recipe-selection
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    margin-top: 0
+
+    h2
+      margin: 0
+      width: 100%
+
+    & > div
+      margin: 10px 8px 0
+
+    span
+      margin-right: 5px
+
+    select
+      height: 32px
+
+  #header
+    margin-top: 0
+
+  header
+    grid-column: 1/-1
+
+  #recipe-toggle
+    align-items: center
+    display: flex
+    grid-column: 1/-1
+    margin-top: 20px
 
     button
+      appearance: none
       background: none
-      border: none
-      color: inherit
+      border: solid #F0F0F0 1px
+      border-radius: 25px
+      color: #909090
+      font-weight: 300
+      outline: none
+      padding: 5px 12px
+      transition: color 0.1s ease, background 0.3s ease
 
-    .dark-mode-toggle
-      box-sizing: border-box
-      position: relative
-      display: block
-      transform: scale(1.15)
-      border: 2px solid
-      border-radius: 100px
-      width: 20px
-      height: 20px
+      &.active
+        background-color: #4285F4
+        color: #FFFFFF
 
-      &::after, &::before
-        content: ""
-        box-sizing: border-box
-        position: absolute
-        display: block
-
-      &::before
-        border:5px solid
-        border-top-left-radius: 100px
-        border-bottom-left-radius: 100px
-        border-right: 0
-        width: 9px
-        height: 18px
-        top: -1px
-        left: -1px
-
-      &::after
-        border: 4px solid
-        border-top-right-radius: 100px
-        border-bottom-right-radius: 100px
-        border-left: 0
-        width: 4px
-        height: 8px
-        right: 4px
-        top: 4px
+    .sep
+      color: #F0F0F0
+      font-size: 2em
+      margin: 0 5px
 
   #dough-settings
     align-items: center
     display: flex
+    flex-wrap: wrap
+    grid-column: 1/-1
     justify-content: center
-    margin-top: 15px
+
+    & > div
+      margin: 0 15px
 
     #measure-switch
-      margin-left: 15px
+      align-items: center
 
-  main
+  #dough-editor
+    align-content: start
     align-items: start
     display: grid
-    grid-column-gap: 25px
-    grid-template-columns: repeat(2, 1fr)
-    margin: 20px auto 0
-    max-width: 600px
-    width: 100%
+    grid-column-gap: 15px
+    grid-row-gap: 20px
+    grid-template-columns: 1fr 1fr
+    padding: 0 5px
 
-  section
+    @media screen and (max-width: 720px)
+      font-size: 0.9em
+
+  #dough-info
     display: grid
     grid-column-gap: 20px
     grid-row-gap: 20px
-    margin: 0 auto
     max-width: 100%
-    
-    @media screen and (min-width: 681px)
-      max-width: 30ch
 
     &:not(.no-recipe)
       grid-template-columns: 3fr 5fr
       max-width: 800px
-
-      @media screen and (max-width: 680px)
-        grid-template-columns: 1fr
-
-  #sauce-settings
-    border-top: solid #E0E0E0 1px
-    margin-top: 10px
-    padding: 12px 0
-
-    #sauce-recipe-selection
-      display: flex
-      flex-wrap: wrap
-      justify-content: center
     
   #share
     align-items: center
+    box-sizing: border-box
     display: flex
-    margin: 40px auto 0
+    grid-column: 1/-1
+    margin-top: 20px
+    max-width: 720px
+    padding: 0 10px
     width: 100%
-
-    @media screen and (min-width: 1200px)
-      max-width: 450px
 
     label
       margin-right: 5px
@@ -216,10 +206,4 @@ export default {
       border: solid #EAEAEA 1px
       font-weight: 300
       width: 100%
-
-  @media screen and (max-width: 750px)
-    main
-      font-size: 0.9em
-      grid-column-gap: 20px
-      grid-template-columns: 2fr 1fr
 </style>

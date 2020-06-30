@@ -1,27 +1,35 @@
 <template>
-  <div id="dough-recipe-selection">
-    <span>dough</span>
-    <select v-model="doughRecipeSelection">
-      <option value="custom">custom</option>
-      <option value="gabriele-bonci">Gabriele Bonci</option>
-      <option value="king-arthur">King Arthur</option>
-      <option value="lucali">Lucali's</option>
-      <option value="mellow-mushroom">Mellow Mushroom</option>
-      <option value="papa-johns">Pete-zza's Papa Johns</option>
-      <option value="bianco">Pizzeria Bianco</option>
-      <option value="roberta">Roberta's</option>
-      <option value="roccos">Rocco's Little Chicago</option>
-      <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
-      <option value="kenjis">Kenji's New York</option>
-      <option value="wolfgang-puck">Wolfgang Puck</option>
-    </select>
-  </div>
+  <header class="recipe-selection" id="dough-recipe-selection">    
+    <div>
+      <span>recipe</span>
+      <select v-model="doughRecipeSelection">
+        <option value="custom">custom</option>
+        <option value="gabriele-bonci">Gabriele Bonci</option>
+        <option value="king-arthur">King Arthur</option>
+        <option value="lucali">Lucali's</option>
+        <option value="mellow-mushroom">Mellow Mushroom</option>
+        <option value="papa-johns">Pete-zza's Papa Johns</option>
+        <option value="bianco">Pizzeria Bianco</option>
+        <option value="roberta">Roberta's</option>
+        <option value="roccos">Rocco's Little Chicago</option>
+        <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
+        <option value="kenjis">Kenji's New York</option>
+        <option value="wolfgang-puck">Wolfgang Puck</option>
+      </select>
+    </div>
+    
+    <MeasureSwitch />
+  </header>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import MeasureSwitch from '@/components/measure-switch.vue'
 
 export default {
+  components: {
+    MeasureSwitch
+  },
   watch: {
     doughRecipeSelection() {
       // custom dough
@@ -271,19 +279,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-  #dough-recipe-selection
-    align-items: center
-    display: flex
-
-    span
-      margin-right: 10px
-
-    select
-      display: block
-      height: 35px
-      
-      @media screen and (max-width: 500px)
-        max-width: 120px
-</style>
