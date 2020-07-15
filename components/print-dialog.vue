@@ -1,21 +1,24 @@
 <template>
   <div id="print-dialog">
     <div id="shade" @click="showPrintDialog = false"></div>
-    <div id="dialog">
+    <dialog
+      aria-modal="true"
+      aria-labelledby="dialog-title"
+      tabindex="-1">
       <DoughIngredients v-if="printDialog === 'dough-ingredients'" />
       <DoughInstructions v-if="printDialog === 'dough-instructions'" />
       <SauceIngredients v-if="printDialog === 'sauce-ingredients'" />
       <SauceInstructions v-if="printDialog === 'sauce-instructions'" />
-    </div>
+    </dialog>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import DoughIngredients from '~/components/dough-ingredients'
-import DoughInstructions from '~/components/dough-instructions'
-import SauceIngredients from '~/components/sauce-ingredients'
-import SauceInstructions from '~/components/sauce-instructions'
+import DoughIngredients from '~/components/dough/ingredients'
+import DoughInstructions from '~/components/dough/instructions'
+import SauceIngredients from '~/components/sauce/ingredients'
+import SauceInstructions from '~/components/sauce/instructions'
 
 export default {
   components: {
@@ -36,6 +39,10 @@ export default {
         this.$store.commit('interactive/SET_SHOW_PRINT_DIALOG', val)
       }
     }
+  },
+  mounted() {
+    document.getElementById('dialog-title').focus()
+    console.log('focused!')
   }
 }
 </script>
@@ -63,7 +70,6 @@ export default {
 
     header
       justify-content: space-between
-      margin-bottom: 15px
       margin-top: 8px
 
       h2
@@ -72,7 +78,6 @@ export default {
     ol, ul
       box-sizing: border-box
       display: grid
-      grid-template-columns: 1fr
       max-height: 75vh
       overflow-y: scroll
 
@@ -82,10 +87,17 @@ export default {
         grid-template-columns: minmax(8ch, 1fr) minmax(6ch, 1fr)
 
     ul
-      font-size: 2.25em !important
+      font-size: 1.3em !important
+      grid-column-gap: 10px
+      grid-row-gap: 0.85rem
+      grid-template-columns: repeat(auto-fill, minmax(20ch, 1fr))
+
+      @media screen and (min-width: 700px)
+        grid-template-columns: repeat(2, 1fr)
 
     ol
       font-size: 1.6em !important
+      grid-template-columns: 1fr
       padding-left: 3ch
 
   #print-dialog
@@ -107,8 +119,10 @@ export default {
       top: 0
       width: 100%
 
-    #dialog
+    dialog
       box-sizing: border-box
+      display: block
+      max-width: 980px
       position: absolute
       top: 0
       width: 100%

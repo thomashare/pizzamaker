@@ -2,11 +2,24 @@
   <div id="app" :class="`${recipeToggle}-recipe`">
     <Header/>
 
-    <nav id="recipe-toggle">
-      <button :class="{ active : (recipeToggle === 'dough') }" @click="setRecipeToggle('dough')">Dough</button>
-      <span class="sep">/</span>
-      <button :class="{ active : (recipeToggle === 'sauce') }" @click="setRecipeToggle('sauce')">Sauce</button>
-    </nav>
+    <fieldset id="recipe-toggle">
+      <legend hidden>Select dough or sauce recipes</legend>
+      <div role="radiogroup">
+        <button
+          role="radio"
+          :aria-checked="(recipeToggle === 'dough') ? 'true' : 'false'"
+          :class="{ active : (recipeToggle === 'dough') }"
+          @click="setRecipeToggle('dough')"
+        >Dough</button>
+        <span class="sep">/</span>
+        <button
+          role="radio"
+          :aria-checked="(recipeToggle === 'sauce') ? 'true' : 'false'"
+          :class="{ active : (recipeToggle === 'sauce') }"
+          @click="setRecipeToggle('sauce')"
+        >Sauce</button>
+      </div>
+    </fieldset>
 
     <template v-if="recipeToggle === 'dough'">
       <DoughRecipeSelection />
@@ -33,7 +46,7 @@
 
     <div id="share">
       <label for="share">share</label>
-      <input id="share-url" type="text" :value="shareURL" @focus="$event.target.select()">
+      <input aria-label="shareable dough and sauce recipe URL" id="share-url" type="text" :value="shareURL" @focus="$event.target.select()">
     </div>
 
     <Footer />
@@ -45,16 +58,16 @@
 <script>
 import { mapState } from 'vuex'
 import Header from '@/components/header.vue'
-import DoughRecipeSelection from '@/components/dough-recipe-selection.vue'
-import SauceRecipeSelection from '@/components/sauce-recipe-selection.vue'
-import SauceCustomizer from '@/components/sauce-customizer.vue'
-import SauceIngredients from '@/components/sauce-ingredients.vue'
-import SauceInstructions from '@/components/sauce-instructions.vue'
-import DoughAdjustor from '@/components/dough-adjustor.vue'
-import DoughIngredients from '@/components/dough-ingredients.vue'
-import DoughInstructions from '@/components/dough-instructions.vue'
-import DoughIngredientSubstitutes from '@/components/dough-ingredient-substitutes.vue'
-import DoughCustomizer from '@/components/dough-customizer.vue'
+import DoughRecipeSelection from '@/components/dough/recipe-selection.vue'
+import SauceRecipeSelection from '@/components/sauce/recipe-selection.vue'
+import SauceCustomizer from '@/components/sauce/customizer.vue'
+import SauceIngredients from '@/components/sauce/ingredients.vue'
+import SauceInstructions from '@/components/sauce/instructions.vue'
+import DoughAdjustor from '@/components/dough/adjustor.vue'
+import DoughIngredients from '@/components/dough/ingredients.vue'
+import DoughInstructions from '@/components/dough/instructions.vue'
+import DoughIngredientSubstitutes from '@/components/dough/ingredient-substitutes.vue'
+import DoughCustomizer from '@/components/dough/customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
 import Footer from '@/components/footer.vue'
 
@@ -119,8 +132,8 @@ export default {
     span
       margin-right: 5px
 
-    select
-      height: 32px
+  >>> select
+    height: 32px
 
   #header
     margin-top: 0
@@ -129,30 +142,36 @@ export default {
     grid-column: 1/-1
 
   #recipe-toggle
-    align-items: center
-    display: flex
+    border: none
     grid-column: 1/-1
-    margin-top: 20px
+    margin: 20px 0 8px
+    padding: 0
+
+    div
+      align-items: center
+      display: flex
 
     button
-      appearance: none
-      background: none
+      background: #FFFFFF
       border: solid #F0F0F0 1px
       border-radius: 25px
-      color: #909090
+      color: #606060
       font-weight: 300
-      outline: none
-      padding: 5px 12px
+      padding: 4px 12px
       transition: color 0.1s ease, background 0.3s ease
 
+      &:focus
+        outline: solid red 1px
+
       &.active
-        background-color: #4285F4
+        background-color: #2265D4
+        border-color: transparent
         color: #FFFFFF
 
     .sep
       color: #F0F0F0
-      font-size: 2em
-      margin: 0 5px
+      font-size: 1.65em
+      margin: 0 8px
 
   #dough-settings
     align-items: center

@@ -1,19 +1,19 @@
 <template>
   <div id="customize">
-    <span class="ingredient">salt</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
+    <label class="ingredient" for="salt-percentage">salt</label>
+    <input aria-label="salt percentage" class="value" id="salt-percentage" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="saltPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">sugar</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
+    <label class="ingredient" for="sugar-percentage">sugar</label>
+    <input aria-label="sugar percentage" class="value" id="sugar-percentage" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="sugarPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">oil</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
+    <label class="ingredient" for="oil-percentage">oil</label>
+    <input aria-label="oil percentage" class="value" id="oil-percentage" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="oilPercent" @change="setCustom()">
     <span>%</span>
 
-    <span class="ingredient">yeast</span>
-    <input class="value" inputMode="decimal" max="100" min="0.1" step="0.05" type="number" v-model="yeastPercent">
+    <label class="ingredient" for="yeast-percentage">yeast</label>
+    <input aria-label="yeast percentage" class="value" id="yeast-percentage" inputMode="decimal" max="100" min="0.1" step="0.05" type="number" v-model="yeastPercent">
     <span>%</span>
   </div>
 </template>

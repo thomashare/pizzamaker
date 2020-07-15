@@ -1,9 +1,9 @@
 <template>
   <div class="instructions" id="dough-instructions" v-if="hasRecipe">
     <header>
-      <h2>Dough Instructions</h2>
-      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-instructions')"><i class="gg-maximize"></i></button>
-      <button id="close" v-else @click="closePrintDialog"><i class="gg-close"></i></button>
+      <h2 id="dialog-title">Dough Instructions</h2>
+      <button aria-label="expand full screen" id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-instructions')"><i class="gg-maximize"></i></button>
+      <button aria-label="close" id="close" tabindex="1" v-else @click="closePrintDialog" @keydown.esc="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ol v-if="printDialog === 'dough-instructions'">
       <li v-for="(step, n) in steps" :key="n">{{ step }}</li>

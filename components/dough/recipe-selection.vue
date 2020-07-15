@@ -1,8 +1,8 @@
 <template>
   <header class="recipe-selection" id="dough-recipe-selection">    
     <div>
-      <span>recipe</span>
-      <select v-model="doughRecipeSelection">
+      <label for="dough-recipe"><span class="hidden">dough </span>recipe</label>
+      <select id="dough-recipe" v-model="doughRecipeSelection">
         <option value="custom">custom</option>
         <option value="gabriele-bonci">Gabriele Bonci</option>
         <option value="king-arthur">King Arthur</option>

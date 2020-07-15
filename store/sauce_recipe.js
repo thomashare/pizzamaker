@@ -14,6 +14,7 @@ export const state = () => ({
   butterPercent: 0,
   unsaltedButterPercent: 0,
   redPepperFlakesPercent: 0,
+  unsaltedButterPercent: 0,
   yellowOnionCount: 0
 })
 

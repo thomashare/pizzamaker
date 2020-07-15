@@ -1,17 +1,18 @@
 <template>
   <header class="recipe-selection" id="sauce-recipe-selection">
     <div id="sauce">
-      <span>recipe</span>
-      <select v-model="sauceRecipeSelection">
+      <label for="sauce-recipe">recipe</label>
+      <select id="sauce-recipe" v-model="sauceRecipeSelection">
         <option value="custom">custom</option>
         <option value="chef-john">Chef John</option>
         <option value="kenjis">Kenji's New York Style</option>
+        <option value="lucalis">Lucali's</option>
       </select>
     </div>
 
     <div id="amount">
-      <span>amount</span>
-      <input inputMode="decimal" max="10000" min="4" type="number" v-model="amount">
+      <label for="sauce-amount">amount</label>
+      <input id="sauce-amount" inputMode="decimal" max="10000" min="4" type="number" v-model="amount">
       <span>oz</span>
     </div>
   </header>
@@ -83,7 +84,6 @@ export default {
         this.$store.commit('sauce_recipe/SET_FRESH_OREGANO_PERCENT', 0)
         this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', 0.23)
         this.$store.commit('sauce_recipe/SET_SUGAR_PERCENT', 0.89)
-        this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', 0)
         this.$store.commit('sauce_recipe/SET_UNSALTED_BUTTER_PERCENT', 1.78)
         this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', 0.04)
         this.$store.commit('sauce_recipe/SET_YELLOW_ONION_COUNT', Math.round(this.amount / 2 / 14 * 2) / 2)
@@ -95,6 +95,29 @@ export default {
           'Add tomatoes, basil sprigs, onion halves, and sugar. Bring to a simmer, reduce heat to lowest setting (bubbles should barely be breaking the surface), and cook, stirring occasionally, until reduced by 1/2, about 1 hour.',
           'Discard onions and basil stems. Season to taste with salt.',
           'Allow to cool and store in covered container in the refrigerator for up to 2 weeks.'
+        ])
+      }
+      // Lucali's sauce
+      if (this.sauceRecipeSelection === 'lucalis') {
+        this.$store.commit('sauce_recipe/SET_SALT_PERCENT', 0.05)
+        this.$store.commit('sauce_recipe/SET_OIL_PERCENT', 1.68)
+        this.$store.commit('sauce_recipe/SET_PEPPER_PERCENT', 0.05)
+        this.$store.commit('sauce_recipe/SET_GARLIC_PERCENT', 0.76)
+        this.$store.commit('sauce_recipe/SET_FRESH_BASIL_PERCENT', 0.31)
+        this.$store.commit('sauce_recipe/SET_BASIL_SPRIG_COUNT', 0)
+        this.$store.commit('sauce_recipe/SET_FRESH_OREGANO_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_SUGAR_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_UNSALTED_BUTTER_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_YELLOW_ONION_COUNT', 0)
+        this.$store.commit('sauce_recipe/SET_STEPS', [
+          'Prepare your tomatoes. Use the entire can, mashing the tomatoes by hand.',
+          'Add your oil to a pot on medium-low heat.',
+          'Mince your garlic and add to the oil. Cook for about 3 minutes, stirring frequently until frgrant but not browned.',
+          'Add your tomatoes to the pot.',
+          'Cook for 20 minutes and add your salt, pepper, and basil.'
         ])
       }
     }

@@ -56,11 +56,14 @@ export default {
     max-width: 100%
     padding: 3px
 
+  .hidden
+    display: none
+
   #app
     align-items: start
     display: grid
     grid-column-gap: 50px
-    grid-template-columns: repeat(auto-fit, minmax(375px, 1fr))
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))
     justify-content: center
     justify-items: center
     margin: 0 auto
@@ -71,7 +74,7 @@ export default {
     padding: 15px 12px
 
   header
-    margin-top: 25px
+    margin-top: 30px
 
   h2, h3
     color: #384259
@@ -120,6 +123,10 @@ export default {
       height: 2px
       top: 2px
 
+  #weight
+    color: #202020
+    text-align: center
+
   button
     // plus and minus buttons
     &.minus, &.plus
@@ -166,7 +173,7 @@ export default {
 
   .ingredients, .instructions
     header
-      padding: 0 15px 0 8px
+      padding: 0 20px 0 8px
 
   .ingredients
     border-radius: 5px
@@ -178,27 +185,35 @@ export default {
     padding: 0 8px
 
     ol, ul
+      grid-template-columns: repeat(auto-fill, minmax(20ch, 1fr))
+      justify-content: center
       margin: 0
 
       li
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: minmax(auto, 10ch) 6ch
-
-        @media screen and (max-width: 679px)
-          grid-template-columns: repeat(2, 1fr)
+        grid-template-columns: repeat(auto-fill, 15ch 6ch)
+        justify-content: center
 
         .ingredient
           text-align: right
 
   .ingredients
+    font-size: 1.5em
+
     @media screen and (max-width: 720px)
       width: 100%
 
+    header
+      display: flex
+      justify-content: space-between
+      margin-bottom: 8px
+
     ul
-      background-color: #4285F4
+      background-color: #2265D4
       box-sizing: border-box
-      grid-row-gap: 5px
+      display: grid
+      grid-row-gap: 8px
       padding: 15px
       width: 100%
 
@@ -209,6 +224,16 @@ export default {
     color: #4285F4
     margin-left: 20px
     padding: 0
+
+    &:focus
+      animation: grow 0.2s ease forwards
+
+    &:hover
+      animation: grow-shrink 0.5s ease
+
+    &:focus
+      color: blue
+      outline: none
 
     .gg-maximize
       box-sizing: border-box
@@ -222,6 +247,14 @@ export default {
         6px 6px 0 -4px,
         6px -6px 0 -4px,
         -6px 6px 0 -4px
+        
+    @keyframes grow-shrink
+      50%
+        transform: scale(1.1)
+
+    @keyframes grow
+      100%
+        transform: scale(1.1)
         
   #close
     background: none
@@ -288,12 +321,15 @@ export default {
       font-size: 0.9em
       left: 0
       line-height: 1.5em
-      min-width: 350px
+      min-width: 320px
       padding: 12px
       position: absolute
       top: 30px
       width: 100%
       z-index: 1
+
+      @media screen and (max-width: 1080px)
+        font-size: 1.35em
 
       &::before
         background-color: inherit
@@ -323,13 +359,12 @@ export default {
 
     #recipe-toggle
       button
+        background-color: #202020
+        border-color: #505050
         color: #AFAFAF
 
     #header, h2, h3, #donate, .ingredients header h2, footer
       color: inherit
-
-    h2, h3
-      font-size: 1.5rem
 
     button.minus, button.plus, .gg-close, #dough-ingredients #weight
       color: #FFF
@@ -339,7 +374,7 @@ export default {
         background-color: #202020
         border-color: #101010
 
-    #print-dialog #dialog
+    #print-dialog dialog
       background: #303030
 
     #logo
@@ -356,7 +391,7 @@ export default {
         border-color: #606060
 
     #print-dialog
-      #dialog
+      dialog
         .ingredients, .instructions
           background-color: #2A2A2A
 

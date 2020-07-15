@@ -1,13 +1,12 @@
 <template>
   <div class="ingredients" id="sauce-ingredients">
     <header>
-      <h2>Sauce Ingredients</h2>
-      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-ingredients')"><i class="gg-maximize"></i></button>
-      <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
+      <h2 id="dialog-title">Sauce Ingredients</h2>
+      <button aria-label="expand sauce ingredients full screen" id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-ingredients')"><i class="gg-maximize"></i></button>
+      <button aria-label="close" id="close" tabindex="1" v-else @click="showPrintDialog = !showPrintDialog" @keydown.esc="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ul>
       <li v-if="basilSprigCount > 0"><span class="ingredient">basil sprigs:</span>{{ basilSprigCount }}</li>
-      <li v-if="butter > 0"><span class="ingredient">butter:</span>{{ butter }}g</li>
       <li v-if="dryOregano > 0"><span class="ingredient">dry oregano:</span>{{ dryOregano }}g</li>
       <li v-if="freshBasil > 0"><span class="ingredient">fresh basil:</span>{{ freshBasil }}g</li>
       <li v-if="freshOregano > 0"><span class="ingredient">fresh oregano:</span>{{ freshOregano }}g</li>
@@ -18,6 +17,7 @@
       <li v-if="salt > 0"><span class="ingredient">salt:</span>{{ salt }}g</li>
       <li v-if="sugar > 0"><span class="ingredient">sugar:</span>{{ sugar }}g</li>
       <li v-if="amount > 0"><span class="ingredient">tomato:</span>{{ amount }}oz</li>
+      <li v-if="unsaltedButter > 0"><span class="ingredient">unsalted butter:</span>{{ unsaltedButter }}g</li>
       <li v-if="yellowOnionCount > 0"><span class="ingredient">yellow onions:</span>{{ yellowOnionCount }}</li>
     </ul>
   </div>
@@ -39,12 +39,15 @@ export default {
       freshOreganoPercent: state => state.sauce_recipe.freshOreganoPercent,
       dryOreganoPercent: state => state.sauce_recipe.dryOreganoPercent,
       sugarPercent: state => state.sauce_recipe.sugarPercent,
-      butterPercent: state => state.sauce_recipe.butterPercent,
       redPepperFlakesPercent: state => state.sauce_recipe.redPepperFlakesPercent,
+      unsaltedButterPercent: state => state.sauce_recipe.unsaltedButterPercent,
       yellowOnionCount: state => state.sauce_recipe.yellowOnionCount
     }),
     amountGrams() {
       return this.amount * 28.3495
+    },
+    unsaltedButter() {
+      return this.finalVal(this.unsaltedButterPercent * this.amountGrams / 100)
     },
     salt() {
       return this.finalVal(this.saltPercent * this.amountGrams / 100)
@@ -98,33 +101,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-  .ingredients
-    font-size: 1.5em
-
-    header
-      display: flex
-      justify-content: space-between
-      margin-bottom: 8px
-
-    ul
-      border-radius: 5px
-      color: #FFF
-      display: grid
-      list-style-type: none
-      margin: 0
-
-      li
-        align-items: center
-        display: grid
-        grid-column-gap: 8px
-        grid-template-columns: minmax(14ch, 1fr) minmax(4ch, 1fr)
-
-        .ingredient
-          text-align: right
-
-    #weight
-      font-size: 0.8em
-      text-align: center
-</style>

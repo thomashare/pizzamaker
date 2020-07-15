@@ -1,8 +1,15 @@
 <template>
   <div :class="measureSwitch === 0 ? 'diameter' : 'weight'" id="measure-switch">
-    <span>diameter</span>
-    <input type="checkbox" v-model="measureSwitch">
-    <span>weight</span>
+    <label for="measure-switch">diameter</label>
+    <input
+      :aria-checked="(measureSwitch === 0) ? 'false' : 'true'"
+      :aria-label="(measureSwitch === 0) ? `diameter mode` : `dough ball weight mode`"
+      id="measure-switch"
+      role="switch"
+      type="checkbox"
+      v-model="measureSwitch"
+    >
+    <label for="measure-switch">weight</label>
   </div>
 </template>
 
@@ -28,7 +35,6 @@ export default {
 
 <style lang="stylus" scoped>
   #measure-switch
-    align-items: center
     display: grid
     grid-column-gap: 10px
     grid-template-columns: 1fr auto 1fr
@@ -46,7 +52,6 @@ export default {
       cursor: pointer
       display: flex
       height: 22px
-      outline: none
       padding: 0
       position: relative
       transition: transform 0.1s ease-in

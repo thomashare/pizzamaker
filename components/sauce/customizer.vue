@@ -8,10 +8,6 @@
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="basilSprigCount" @change="setCustom()">
     <span></span>
 
-    <span class="ingredient">butter</span>
-    <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="butterPercent" @change="setCustom()">
-    <span>%</span>
-
     <span class="ingredient">dry oregano</span>
     <input class="value" inputMode="decimal" max="100" min="0" step="0.05" type="number" v-model="dryOreganoPercent" @change="setCustom()">
     <span>%</span>

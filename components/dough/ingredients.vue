@@ -1,9 +1,9 @@
 <template>
   <div class="ingredients" id="dough-ingredients">
     <header>
-      <h2>Dough Ingredients</h2>
-      <button id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-ingredients')"><i class="gg-maximize"></i></button>
-      <button id="close" v-else @click="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
+      <h2 id="dialog-title">Dough Ingredients</h2>
+      <button aria-label="expand dough ingredients full screen" id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'dough-ingredients')"><i class="gg-maximize"></i></button>
+      <button aria-label="close" id="close" tabindex="1" v-else @click="showPrintDialog = !showPrintDialog" @keydown.esc="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ul>
       <li v-if="flour > 0"><span class="ingredient">flour:</span>{{ flour }}g</li>
@@ -138,26 +138,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-  #dough-ingredients
-    font-size: 1.5em
-
-    header
-      display: flex
-      justify-content: space-between
-      margin-bottom: 8px
-
-    #weight
-      color: #000000
-      font-size: 0.8em
-      text-align: center
-
-      span
-        font-weight: 300
-
-  #dialog
-    #ingredients
-      ul li
-        grid-template-columns: 8ch 1fr
-</style>

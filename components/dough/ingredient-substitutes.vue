@@ -4,7 +4,7 @@
 
     <div>
       <span>yeast type</span>
-      <select v-model="yeastType">
+      <select aria-label="yeast type selection" v-model="yeastType">
         <option value="ADY">ADY</option>
         <option value="IDY">IDY</option>
         <option value="fresh">fresh</option>
@@ -13,7 +13,7 @@
     
     <div v-if="sugar > 0">
       <span>sugar type</span>
-      <select v-model="sugarType">
+      <select aria-label="sugar type selection" v-model="sugarType">
         <option value="sugar">sugar</option>
         <option value="honey">honey</option>
         <option value="molasses">molasses</option>

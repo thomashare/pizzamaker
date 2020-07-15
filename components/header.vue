@@ -2,7 +2,11 @@
   <header id="header">
     <h1>Pizza Maker App</h1>
     <nav id="settings">
-      <button @click="nightMode = !nightMode" id="dark-mode-btn"><i class="dark-mode-toggle" title="toggle night mode"></i></button>
+      <button
+        id="dark-mode-btn"
+        :aria-label="(nightMode) ? 'toggle light mode' : 'toggle night mode'"
+        @click="nightMode = !nightMode"
+      ><i class="dark-mode-toggle" :title="(nightMode) ? 'toggle light mode' : 'toggle night mode'"></i></button>
     </nav>
   </header>
 </template>
