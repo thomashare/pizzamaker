@@ -15,6 +15,7 @@
         <option value="scott123s-easy-new-york">Scott123s Easy New York</option>
         <option value="kenjis">Kenji's New York</option>
         <option value="wolfgang-puck">Wolfgang Puck</option>
+        <option value="ogdred123">ogdred123's New York</option>
       </select>
     </div>
     
@@ -229,7 +230,7 @@ export default {
         ])
       }
 
-      // Kenjis dough
+      // Kenji's dough
       else if (this.doughRecipeSelection === 'kenjis') {
         this.$store.commit('ratios/SET_HYDRATION', 66)
         this.$store.commit('ratios/SET_OIL_PERCENT', 5.1)
@@ -245,6 +246,29 @@ export default {
           'Add the lukewarm water. Once fully incorporated, add in the oil.',
           'Let the dough rest for 30 minutes and then knead the dough for 5 minutes.',
           'Form your dough balls and refrigerate them for 24 hours.'
+        ])
+      }
+
+      // ogdred123's dough
+      else if (this.doughRecipeSelection === 'ogdred123') {
+        this.$store.commit('ratios/SET_HYDRATION', 57)
+        this.$store.commit('ratios/SET_OIL_PERCENT', 0)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 1.75)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 2)
+        this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 0.4)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.4)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
+        this.$store.commit('recipe/SET_STEPS', [
+          'Mix all of the ingredients in a large bowl until combined.',
+          'Let the dough rest for 10 minutes.',
+          'Knead in the bowl for 5 minutes.',
+          'let the dough rest for another 5 to 10 minutes.',
+          'Finish kneading for another 5 minutes.',
+          'Form two tight round balls and store them in lightly-oiled, round containers.',
+          'Put them in the fridge for at least 24 hours or up to 5 days.',
+          'Take the dough balls out 1 to 2 hours before stretching.'
         ])
       }
 

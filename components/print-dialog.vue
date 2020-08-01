@@ -19,6 +19,7 @@ import DoughIngredients from '~/components/dough/ingredients'
 import DoughInstructions from '~/components/dough/instructions'
 import SauceIngredients from '~/components/sauce/ingredients'
 import SauceInstructions from '~/components/sauce/instructions'
+import { VueInsomnia } from '@/plugins/vue-insomnia.js'
 
 export default {
   components: {
@@ -27,6 +28,9 @@ export default {
     SauceIngredients,
     SauceInstructions
   },
+  mixins: [
+    VueInsomnia
+  ],
   computed: {
     ...mapState({
       printDialog: state => state.interactive.printDialog
@@ -42,7 +46,10 @@ export default {
   },
   mounted() {
     document.getElementById('dialog-title').focus()
-    console.log('focused!')
+    this.VueInsomniaOn()
+  },
+  destroyed() {
+    this.VueInsomniaOff()
   }
 }
 </script>

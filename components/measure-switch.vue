@@ -68,6 +68,10 @@ export default {
       &:checked::before
         transform: translateX(23px)
 
+      &:focus
+        box-shadow: inset 0 0 0 1px #2265d4
+        outline: none
+
     &.diameter
       & > input::before
         animation: pie 0.1s ease-in forwards

@@ -65,3 +65,19 @@ export const actions = {
     commit('SET_RECIPE_YEAST_PERCENT', payload)
   }
 }
+
+export const getters = {
+  sugarPercent(state, getters, rootState, rootGetters) {
+    // if sugarType is molasses, convert the sugar percentage to grams of molasses
+    if (rootState.ingredients.sugarType === 'molasses') {
+      return rootGetters['ingredients/flour'] * (state.sugarPercent / 100) * 1.33
+    }
+
+    // if sugarType is honey, convert the sugar percentage to grams of honey
+    else if (rootState.ingredients.sugarType === 'honey') {
+      return rootGetters['ingredients/flour'] * (state.sugarPercent / 100) * 0.66
+    }
+
+    else return state.sugarPercent
+  }
+}

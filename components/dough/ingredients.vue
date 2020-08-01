@@ -13,12 +13,12 @@
       <li v-if="water > 0"><span class="ingredient">water:</span>{{ water }}g</li>
       <li v-if="yeast > 0"><span class="ingredient">{{ yeastType }} yeast:</span>{{ yeast }}g</li>
     </ul>
-    <p id="weight">dough ball weight: <span>{{ finalVal(flour/count + oil/count + salt/count + sugar/count + water/count + yeast/count) }}g</span></p>
+    <p id="weight">dough ball weight: <span>{{ finalVal(Math.floor(flour/count + oil/count + salt/count + sugar/count + water/count + yeast/count)) }}g</span></p>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   computed: {
@@ -31,29 +31,16 @@ export default {
       hydration: state => state.ratios.hydration,
       oilPercent: state => state.ratios.oilPercent,
       saltPercent: state => state.ratios.saltPercent,
-      sugarPercent: state => state.ratios.sugarPercent,
       sugarType: state => state.ingredients.sugarType,
       yeastPercent: state => state.ratios.yeastPercent,
       yeastType: state => state.ingredients.yeastType,
       recipeSelection: state => state.recipe.selection,
       recipeYeastType: state => state.ingredients.recipeYeastType,
     }),
-    flour() {
-      // if measureSwitch is set to diameter, calculate by diameter measurement
-      if (this.measureSwitch === 'diameter') {
-        const diameter = Math.PI * (this.size/5 + this.size/5)
-        return this.finalVal((diameter * this.crustThickness * this.count) * 21)
-      }
-
-      // else if measureSwitch is set to weight, calculate flour by weight.
-      const totalIngredientPercentages = 100 + this.hydration + this.oilPercent + this.saltPercent + this.sugarPercent + this.yeastPercent
-      const flourWeight = this.finalVal((this.$store.state.sizing.doughBallWeight / (totalIngredientPercentages/100)) * this.count)
-
-      // if the return value is NaN, return 0
-      if (flourWeight === 'NaN') return 0
-
-      return flourWeight
-    },
+    ...mapGetters({
+      flour: 'ingredients/flour',
+      sugarPercent: 'ratios/sugarPercent'
+    }),
     oil() {
       return this.finalVal(this.flour * (this.oilPercent / 100))
     },
@@ -61,15 +48,7 @@ export default {
       return this.finalVal(this.flour * (this.saltPercent / 100))
     },
     sugar() {
-      // if sugarType is molasses, convert the sugar percentage to grams of molasses
-      if (this.sugarType === 'molasses') {
-        return this.finalVal((this.flour * (this.sugarPercent / 100) * 1.33))
-      }
-      // if sugarType is honey, convert the sugar percentage to grams of honey
-      else if (this.sugarType === 'honey') {
-        return this.finalVal((this.flour * (this.sugarPercent / 100) * 0.66))
-      }
-      else return this.finalVal(this.flour * (this.sugarPercent / 100))
+      return this.finalVal(this.flour * (this.sugarPercent / 100))
     },
     yeast() {
       const value = this.flour * (this.yeastPercent / 100)

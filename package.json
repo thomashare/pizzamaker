@@ -16,9 +16,11 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "normalize-css": "^2.3.1",
     "nuxt": "^2.0.0",
+    "vue-insomnia": "^0.1.0"
+  },
+  "devDependencies": {
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2"
   },
-  "devDependencies": {},
   "license": "MIT"
 }

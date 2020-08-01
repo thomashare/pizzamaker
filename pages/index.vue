@@ -161,12 +161,16 @@ export default {
       transition: color 0.1s ease, background 0.3s ease
 
       &:focus
-        outline: solid red 1px
+        box-shadow: inset 0 0 0 1px #1255C4
+        outline: none
 
       &.active
         background-color: #2265D4
         border-color: transparent
         color: #FFFFFF
+
+        &:focus
+          background-color: #4295F4
 
     .sep
       color: #F0F0F0

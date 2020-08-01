@@ -192,11 +192,15 @@ export default {
       li
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: repeat(auto-fill, 15ch 6ch)
+        grid-template-columns: 10ch 5ch
         justify-content: center
 
         .ingredient
           text-align: right
+
+  #sauce-ingredients
+    li
+      grid-template-columns: 12ch 5ch
 
   .ingredients
     font-size: 1.5em
