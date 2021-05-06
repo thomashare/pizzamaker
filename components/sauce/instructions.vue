@@ -1,5 +1,5 @@
 <template>
-  <div class="instructions" v-if="steps.length > 0">
+  <div id="sauce-instructions" class="instructions" v-if="steps.length > 0">
     <header>
       <h2 id="dialog-title">Sauce Instructions</h2>
       <button aria-label="expand full screen" id="print" v-if="!showPrintDialog" @click="$store.dispatch('interactive/setPrintDialog', 'sauce-instructions')"><i class="gg-maximize"></i></button>

@@ -6,10 +6,16 @@
       <button aria-label="close" id="close" tabindex="1" v-else @click="closePrintDialog" @keydown.esc="showPrintDialog = !showPrintDialog"><i class="gg-close"></i></button>
     </header>
     <ol v-if="printDialog === 'dough-instructions'">
-      <li v-for="(step, n) in steps" :key="n">{{ step }}</li>
+      <li v-for="(step, n) in steps" :key="n"><div v-html="step"></div></li>
+      <div id="credits" v-if="credits.site !== undefined">
+        <a :href="credits.href" target="_blank">credits {{ credits.site }}</a>
+      </div>
     </ol>
     <ol v-else>
-      <li v-for="(step, n) in steps.slice(0, visibleSteps)" :key="n">{{ step }}</li>
+      <li v-for="(step, n) in steps.slice(0, visibleSteps)" :key="n"><div v-html="step"></div></li>
+      <div id="credits" v-if="credits.site !== undefined">
+        <a :href="credits.href" target="_blank">credits {{ credits.site }}</a>
+      </div>
     </ol>
     <button id="view-more" @click="viewMore = !viewMore" v-if="visibleSteps !== steps.length && !printDialog">Read More</button>
   </div>
@@ -22,7 +28,7 @@ export default {
   data() {
     return {
       visibleSteps: 3,
-      viewMore: false
+      viewMore: false,
     }
   },
   watch: {
@@ -33,7 +39,8 @@ export default {
   computed: {
     ...mapState({
       steps: state => state.recipe.steps,
-      printDialog: state => state.interactive.printDialog
+      printDialog: state => state.interactive.printDialog,
+      credits: state => state.recipe.credits,
     }),
     hasRecipe() {
       if (this.steps === undefined || this.steps !== undefined && this.steps.length === 0 ) return false
@@ -72,4 +79,9 @@ export default {
       justify-self: center
       margin: 10px auto
       padding: 0
+
+  #credits
+    font-size: 0.8em
+    margin-top: 10px
+    text-align: center
 </style>

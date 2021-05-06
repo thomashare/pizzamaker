@@ -52,6 +52,7 @@ export default {
     border: solid #DDDDDD 1px
     border-radius: 3px
     box-sizing: border-box
+    font-size: 16px
     font-weight: 300
     max-width: 100%
     padding: 3px
@@ -62,8 +63,8 @@ export default {
   #app
     align-items: start
     display: grid
-    grid-column-gap: 50px
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))
+    grid-column-gap: 20px
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))
     justify-content: center
     justify-items: center
     margin: 0 auto
@@ -88,10 +89,12 @@ export default {
     border-color: #E0E0E0
     border-radius: 5px
     color: #404040
+    font-size: 16px
     font-weight: 300
 
   .recipe-selection select
-    max-width: 100px
+    font-size: 16px
+    max-width: 350px
 
     @media screen and (min-width: 480px)
       max-width: none
@@ -192,7 +195,7 @@ export default {
       li
         display: grid
         grid-column-gap: 8px
-        grid-template-columns: 10ch 5ch
+        grid-template-columns: 12ch 5ch
         justify-content: center
 
         .ingredient
@@ -374,7 +377,7 @@ export default {
       color: #FFF
 
     .instructions
-      ol
+      ol, ul
         background-color: #202020
         border-color: #101010
 
@@ -405,6 +408,9 @@ export default {
     max-width: 600px
     padding: 0 10px
 
+    a
+      color: inherit
+
     header
       display: flex
       justify-content: space-between
@@ -413,7 +419,7 @@ export default {
       h2
         margin: 0
 
-    ol
+    ol, ul
       background-color: #F4F4F4
       border: solid #EDEDED 1px
       border-radius: 5px

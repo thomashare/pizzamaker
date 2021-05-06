@@ -78,6 +78,7 @@ export default {
     header
       justify-content: space-between
       margin-top: 8px
+      padding: 0 5px 5px
 
       h2
         color: #384259
@@ -91,10 +92,10 @@ export default {
       li
         align-items: center
         grid-column-gap: 12px !important
-        grid-template-columns: minmax(8ch, 1fr) minmax(6ch, 1fr)
+        grid-template-columns: minmax(12ch, 1fr) minmax(6ch, 1fr)
 
     ul
-      font-size: 1.3em !important
+      font-size: 1.2em !important
       grid-column-gap: 10px
       grid-row-gap: 0.85rem
       grid-template-columns: repeat(auto-fill, minmax(20ch, 1fr))
@@ -103,7 +104,7 @@ export default {
         grid-template-columns: repeat(2, 1fr)
 
     ol
-      font-size: 1.6em !important
+      font-size: 1.2em !important
       grid-template-columns: 1fr
       padding-left: 3ch
 
@@ -130,6 +131,7 @@ export default {
       box-sizing: border-box
       display: block
       max-width: 980px
+      padding: 0
       position: absolute
       top: 0
       width: 100%

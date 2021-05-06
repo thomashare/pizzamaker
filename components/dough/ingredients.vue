@@ -12,8 +12,10 @@
       <li v-if="sugar > 0"><span class="ingredient">{{ sugarType }}:</span>{{ sugar }}g</li>
       <li v-if="water > 0"><span class="ingredient">water:</span>{{ water }}g</li>
       <li v-if="yeast > 0"><span class="ingredient">{{ yeastType }} yeast:</span>{{ yeast }}g</li>
+      <li v-if="diastaticMaltPercent > 0"><span class="ingredient">diastatic malt:</span>{{ diastaticMalt }}g</li>
     </ul>
-    <p id="weight">dough ball weight: <span>{{ finalVal(Math.floor(flour/count + oil/count + salt/count + sugar/count + water/count + yeast/count)) }}g</span></p>
+    <p id="weight" v-if="doughRecipe === 'custom' || mode === 'advanced'">dough ball weight: <span>{{ finalVal(Math.floor(flour/count + oil/count + salt/count + sugar/count + water/count + yeast/count)) }}g</span></p>
+    <p id="weight" v-else>makes {{ count === 1 ? 'a' : count }} {{ size }}" pizza{{ count > 1 ? 's' : '' }}</p>
   </div>
 </template>
 
@@ -36,6 +38,12 @@ export default {
       yeastType: state => state.ingredients.yeastType,
       recipeSelection: state => state.recipe.selection,
       recipeYeastType: state => state.ingredients.recipeYeastType,
+      diastaticMaltPercent: state => state.ratios.diastaticMaltPercent,
+      doughRecipe: state => state.recipe.selection,
+      thickness: state => state.sizing.crustThickness,
+      mode: state => state.recipe.mode,
+      count: state => state.sizing.count,
+      size: state => state.sizing.size,
     }),
     ...mapGetters({
       flour: 'ingredients/flour',
@@ -79,6 +87,9 @@ export default {
     },
     water() {
       return this.finalVal(this.flour * (this.hydration / 100))
+    },
+    diastaticMalt() {
+      return this.finalVal(this.flour * (this.diastaticMaltPercent / 100))
     },
     showPrintDialog: {
       get() {

@@ -15,13 +15,19 @@
       <input id="sauce-amount" inputMode="decimal" max="10000" min="4" type="number" v-model="amount">
       <span>oz</span>
     </div>
+
+    <ModeSwitch v-if="sauceRecipe !== 'custom'" />
   </header>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import ModeSwitch from '@/components/mode-switch.vue'
 
 export default {
+  components: {
+    ModeSwitch,
+  },
   watch: {
     amount() {
       // on amount change, update the recipe instructions depending on the desired amount.
@@ -53,7 +59,7 @@ export default {
         this.$store.commit('sauce_recipe/SET_OIL_PERCENT', 3.22)
         this.$store.commit('sauce_recipe/SET_PEPPER_PERCENT', 0.04)
         this.$store.commit('sauce_recipe/SET_GARLIC_PERCENT', 0.38)
-        this.$store.commit('sauce_recipe/SET_FRESH_BASIL_PERCENT', 0.31)
+        this.$store.commit('sauce_recipe/SET_FRESH_BASIL_PERCENT', 0)
         this.$store.commit('sauce_recipe/SET_BASIL_SPRIG_COUNT', 0)
         this.$store.commit('sauce_recipe/SET_FRESH_OREGANO_PERCENT', 0.77)
         this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', 0.06)
@@ -106,24 +112,32 @@ export default {
         this.$store.commit('sauce_recipe/SET_FRESH_BASIL_PERCENT', 0.31)
         this.$store.commit('sauce_recipe/SET_BASIL_SPRIG_COUNT', 0)
         this.$store.commit('sauce_recipe/SET_FRESH_OREGANO_PERCENT', 0)
-        this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', 0)
-        this.$store.commit('sauce_recipe/SET_SUGAR_PERCENT', 0)
+        this.$store.commit('sauce_recipe/SET_DRY_OREGANO_PERCENT', 0.23)
+        this.$store.commit('sauce_recipe/SET_SUGAR_PERCENT', 0.8)
         this.$store.commit('sauce_recipe/SET_BUTTER_PERCENT', 0)
         this.$store.commit('sauce_recipe/SET_UNSALTED_BUTTER_PERCENT', 0)
         this.$store.commit('sauce_recipe/SET_RED_PEPPER_FLAKES_PERCENT', 0)
-        this.$store.commit('sauce_recipe/SET_YELLOW_ONION_COUNT', 0)
+        this.$store.commit('sauce_recipe/SET_YELLOW_ONION_COUNT', 0.5)
         this.$store.commit('sauce_recipe/SET_STEPS', [
           'Prepare your tomatoes. Use the entire can, mashing the tomatoes by hand.',
-          'Add your oil to a pot on medium-low heat.',
-          'Mince your garlic and add to the oil. Cook for about 3 minutes, stirring frequently until frgrant but not browned.',
-          'Add your tomatoes to the pot.',
-          'Cook for 20 minutes and add your salt, pepper, and basil.'
+          'Add your salt, pepper, basil, oregano, and sugar to the sauce.',
+          'Mince your garlic and add to the sauce.',
+          'Finely chop your onion and add it to the sauce',
+          'Bring the tomato sauce to a boil.',
+          'Let the tomato sauce cool for about 15 minutes. Then bring to another boil.',
+          'Let the sauce cool until cool enough to store in the fridge or add to your pizza.',
         ])
+      }
+
+      // reset recipe mode to 'basic' if not custom
+      if (this.sauceRecipeSelection !== 'custom') {
+        this.$store.commit('recipe/SET_MODE', 'basic')
       }
     }
   },
   computed: {
     ...mapState({
+      sauceRecipe: state => state.sauce_recipe.selection,
       yellowOnionCount: state => state.sauce_recipe.yellowOnionCount
     }),
     sauceRecipeSelection: {
@@ -155,4 +169,5 @@ export default {
   #sauce-recipe-selection
     align-items: center
     grid-column: 1/-1
+    width: 100%
 </style>

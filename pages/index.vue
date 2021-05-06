@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="`${recipeToggle}-recipe`">
+  <div id="app" :class="[`${recipeToggle}-recipe`, mode]">
     <Header/>
 
     <fieldset id="recipe-toggle">
@@ -24,7 +24,7 @@
     <template v-if="recipeToggle === 'dough'">
       <DoughRecipeSelection />
 
-      <div id="dough-editor">
+      <div id="dough-editor" v-if="doughRecipe === 'custom' || mode === 'advanced'">
         <header>
           <h2>Customize Your Dough</h2>
         </header>
@@ -39,10 +39,12 @@
 
     <template v-else>
       <SauceRecipeSelection />
-      <SauceCustomizer />
+      <SauceCustomizer v-if="sauceRecipe === 'custom' || mode === 'advanced'" />
       <SauceIngredients />
       <SauceInstructions />
     </template>
+
+    <CookingTips />
 
     <div id="share">
       <label for="share">share</label>
@@ -70,6 +72,7 @@ import DoughIngredientSubstitutes from '@/components/dough/ingredient-substitute
 import DoughCustomizer from '@/components/dough/customizer.vue'
 import PrintDialog from '@/components/print-dialog.vue'
 import Footer from '@/components/footer.vue'
+import CookingTips from '@/components/cooking-tips.vue'
 
 export default {
   components: {
@@ -85,12 +88,16 @@ export default {
     DoughIngredientSubstitutes,
     DoughCustomizer,
     PrintDialog,
-    Footer
+    Footer,
+    CookingTips,
   },
 	computed: {
     ...mapState({
       showPrintDialog: state => state.interactive.showPrintDialog,
-      recipeToggle: state => state.interactive.recipeToggle
+      recipeToggle: state => state.interactive.recipeToggle,
+      doughRecipe: state => state.recipe.selection,
+      mode: state => state.recipe.mode,
+      sauceRecipe: state => state.sauce_recipe.selection,
     }),
     shareURL() {
       return location.origin+this.$route.fullPath.slice(1,this.$route.fullPath.length)
@@ -121,13 +128,19 @@ export default {
     flex-wrap: wrap
     justify-content: center
     margin-top: 0
+    width: 100%
 
     h2
       margin: 0
       width: 100%
 
     & > div
-      margin: 10px 8px 0
+      margin: 15px 8px 0
+
+      &:first-child
+        margin-top: 10px
+        text-align: center
+        width: 100%
 
     span
       margin-right: 5px
@@ -141,10 +154,18 @@ export default {
   header
     grid-column: 1/-1
 
+  #app.basic
+    #dough-instructions, #sauce-instructions
+      grid-column: 2
+
+    @media screen and (max-width: 720px)
+      display: flex
+      flex-direction: column
+
   #recipe-toggle
     border: none
     grid-column: 1/-1
-    margin: 20px 0 8px
+    margin: 20px auto 8px
     padding: 0
 
     div

@@ -16,20 +16,25 @@
         <option value="kenjis">Kenji's New York</option>
         <option value="wolfgang-puck">Wolfgang Puck</option>
         <option value="ogdred123">ogdred123's New York</option>
+        <option value="adamkuban">Adam Kuban's New York</option>
       </select>
     </div>
     
-    <MeasureSwitch />
+    <ModeSwitch />
+    
+    <MeasureSwitch v-if="mode === 'advanced'" />
   </header>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import MeasureSwitch from '@/components/measure-switch.vue'
+import ModeSwitch from '@/components/mode-switch.vue'
 
 export default {
   components: {
-    MeasureSwitch
+    MeasureSwitch,
+    ModeSwitch,
   },
   watch: {
     doughRecipeSelection() {
@@ -42,9 +47,11 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.65)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.65)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Papa Johns dough
       else if (this.doughRecipeSelection === 'papa-johns') {
@@ -55,6 +62,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.14)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.14)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -64,6 +72,7 @@ export default {
           'Refrigerate your dough balls for 3-5 days (5 days being optimal). (This dough can be refrigerated for up to 8 days).',
           'Remove from fridge 3 hours before baking.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Scott123s Easy New York dough
       else if (this.doughRecipeSelection === 'scott123s-easy-new-york') {
@@ -74,12 +83,14 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.5)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.5)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
           'Knead and shape your dough balls.',
           'Refrigerate your dough balls for 2 days.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Mellow Mushroom dough
       else if (this.doughRecipeSelection === 'mellow-mushroom') {
@@ -90,6 +101,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'molasses')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.14)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.14)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -98,6 +110,7 @@ export default {
           'After preparing the pizza crust base, brush it with olive oil. Then add your sauce and toppings.',
           'Sprinkle grated parmesan cheese over the pizza before serving.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Lucali's dough
       else if (this.doughRecipeSelection === 'lucali') {
@@ -108,6 +121,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.1)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.1)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -118,6 +132,7 @@ export default {
           'Sprinkle grated parmigiano reggiano cheese over the pizza.',
           'Place fresh basil leaves around the pizza before serving.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Roberta's dough
       else if (this.doughRecipeSelection === 'roberta') {
@@ -128,12 +143,14 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.65)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.65)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
           'Knead and shape your dough balls.',
           'Let the dough balls rise 3-4 hours at room temperature or 8-24 hours in the fridge.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // King Arthur dough
       else if (this.doughRecipeSelection === 'king-arthur') {
@@ -144,6 +161,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 3.2)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 3.2)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -151,6 +169,7 @@ export default {
           'Let the dough balls rise 45 minutes at room temperature.',
           'Place the dough balls in the fridge to rise an additional 4-24 hours.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Wolfgang Pucks dough
       else if (this.doughRecipeSelection === 'wolfgang-puck') {
@@ -161,6 +180,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'honey')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 1.8)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1.8)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -168,6 +188,7 @@ export default {
           'Let the dough balls rise 45 minutes at room temperature.',
           'Place the dough balls in the fridge to rise an additional 4-24 hours.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Gabriele Bonci's dough
       else if (this.doughRecipeSelection === 'gabriele-bonci') {
@@ -178,6 +199,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.7)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.7)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -188,6 +210,7 @@ export default {
           'Place the dough balls on a tray or container and cover very tightly to rise in the fridge for 24 hours.',
           'Finally, take the dough balls out of the fridge and let them come to room temperature for 3 hours before forming your crust.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Pizzeria Bianco's dough
       else if (this.doughRecipeSelection === 'bianco') {
@@ -198,6 +221,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 1)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -208,6 +232,7 @@ export default {
           'Turn the proofed dough out onto a floured work surface and cut it into 4 pieces. Roll the pieces into balls and dust them with flour. Cover with plastic wrap and let them rest for another hour, or until they have doubled in size.',
           'The dough is ready to be shaped, topped, and baked. If you don’t want to make 4 pizzas at a time, the dough balls can be wrapped well and refrigerated for up 8 hours or frozen for up to 3 weeks; thaw in the refrigerator and let come to room temperature before proceeding.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
       // Rocco's dough
       else if (this.doughRecipeSelection === 'roccos') {
@@ -218,6 +243,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 2.7)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 2.7)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'ADY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'ADY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -228,6 +254,7 @@ export default {
           'Sprinkle the top with some flour and then cover with plastic wrap.',
           'Allow the dough to rise slowly in the refrigerator for 8 to 24 hours, or allow it to rise in a warm place for 1 to 2 hours. The cold-rise method yields a better product with a finer texture and flavor, but sometimes you just want to eat a pizza!'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
 
       // Kenji's dough
@@ -239,6 +266,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 1.59)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1.59)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -247,6 +275,7 @@ export default {
           'Let the dough rest for 30 minutes and then knead the dough for 5 minutes.',
           'Form your dough balls and refrigerate them for 24 hours.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
       }
 
       // ogdred123's dough
@@ -258,6 +287,7 @@ export default {
         this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
         this.$store.commit('ratios/SET_YEAST_PERCENT', 0.4)
         this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 0.4)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0)
         this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
         this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
         this.$store.commit('recipe/SET_STEPS', [
@@ -270,6 +300,41 @@ export default {
           'Put them in the fridge for at least 24 hours or up to 5 days.',
           'Take the dough balls out 1 to 2 hours before stretching.'
         ])
+        this.$store.commit('recipe/SET_CREDITS', {})
+      }
+
+      // Adam Kuban's dough
+      else if (this.doughRecipeSelection === 'adamkuban') {
+        this.$store.commit('ratios/SET_HYDRATION', 62.9)
+        this.$store.commit('ratios/SET_OIL_PERCENT', 4.95)
+        this.$store.commit('ratios/SET_SALT_PERCENT', 1.52)
+        this.$store.commit('ratios/SET_SUGAR_PERCENT', 0)
+        this.$store.commit('ingredients/SET_SUGAR_TYPE', 'sugar')
+        this.$store.commit('ratios/SET_YEAST_PERCENT', 1.52)
+        this.$store.commit('ratios/SET_RECIPE_YEAST_PERCENT', 1.52)
+        this.$store.commit('ratios/SET_DIASTATIC_MALT_PERCENT', 0.63)
+        this.$store.commit('ingredients/SET_YEAST_TYPE', 'IDY')
+        this.$store.commit('ingredients/SET_RECIPE_YEAST_TYPE', 'IDY')
+        this.$store.commit('recipe/SET_STEPS', [
+          'Measure dry ingredients into a large bowl and whisk together to combine. Make a well in the center.',
+          'Weigh out the water in a separate container and add into the well of the flour mixture.',
+          'Weigh out the olive oil and add to the well.',
+          'Using a dough whisk, wooden spoon, or your hands, begin stirring in the flour from the sides of the well, mixing it in gradually until all the flour is incorporated.',
+          'Cover with a clean kitchen towel or plastic wrap and let dough sit for 15–20 minutes.',
+          'Turn out dough onto a clean, lightly floured work surface, and knead until smooth, elastic, and kind of “shiny” looking, about 10 minutes.',
+          'Place dough into a large covered container and refrigerate for 48 hours.',
+          'After the initial 48-hour "bulk ferment," remove dough from container, weigh into four equal portions (no worries if they are a little more or less than 325 grams each), and ball dough. Place dough balls in individual round containers and refrigerate 24 hours more (<a href="https://www.amazon.com/Glad-Food-Storage-Containers-Container/dp/B00YWTW6FW/ref=as_li_ss_tl?dchild=1&keywords=glad+big+bowl&qid=1620178650&sr=8-4&linkCode=ll1&tag=divto01-20&linkId=39ee26b95f8ba5522edff5c900813604&language=en_US" target="_blank">Glad Big Bowls</a> work well for this).',
+          'Two hours before you plan to cook your first pizza, remove the containered dough from the fridge and let it come to room temperature. Stretch and top as desired.',
+        ])
+        this.$store.commit('recipe/SET_CREDITS', [
+          'margotspizza.com (Adam Kuban)',
+          'http://margotspizza.com/blog/2018/03/27/recipe-new-york-pizza-dough/',
+        ])
+      }
+
+      // reset recipe mode to 'basic' if not custom
+      if (this.doughRecipeSelection !== 'custom') {
+        this.$store.commit('recipe/SET_MODE', 'basic')
       }
 
       // overwrite recipe values if certain query params are set.
@@ -279,7 +344,8 @@ export default {
   },
   computed: {
     ...mapState({
-      sauceRecipeSelection: state => state.sauce_recipe.selection
+      sauceRecipeSelection: state => state.sauce_recipe.selection,
+      mode: state => state.recipe.mode,
     }),
     doughRecipeSelection: {
       get() {

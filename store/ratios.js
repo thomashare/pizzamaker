@@ -4,7 +4,8 @@ export const state = () => ({
   saltPercent: 2.61,
   sugarPercent: 0,
   yeastPercent: 0.65,
-  recipeYeastPercent: 0.65
+  recipeYeastPercent: 0.65,
+  diastaticMaltPercent: 0,
 })
 
 export const mutations = {
@@ -37,6 +38,11 @@ export const mutations = {
     let val = parseFloat(payload)
     
     state.recipeYeastPercent = val
+  },
+  SET_DIASTATIC_MALT_PERCENT(state, payload) {
+    let val = parseFloat(payload)
+    
+    state.diastaticMaltPercent = val
   }
 }
 
@@ -63,6 +69,9 @@ export const actions = {
   },
   setRecipeYeastPercent({ commit }, payload) {
     commit('SET_RECIPE_YEAST_PERCENT', payload)
+  },
+  setDiastaticMaltPercent({ commit }, payload) {
+    commit('SET_DIASTATIC_MALT_PERCENT', payload)
   }
 }
 
@@ -70,12 +79,12 @@ export const getters = {
   sugarPercent(state, getters, rootState, rootGetters) {
     // if sugarType is molasses, convert the sugar percentage to grams of molasses
     if (rootState.ingredients.sugarType === 'molasses') {
-      return rootGetters['ingredients/flour'] * (state.sugarPercent / 100) * 1.33
+      return state.sugarPercent * 1.33
     }
 
     // if sugarType is honey, convert the sugar percentage to grams of honey
     else if (rootState.ingredients.sugarType === 'honey') {
-      return rootGetters['ingredients/flour'] * (state.sugarPercent / 100) * 0.66
+      return state.sugarPercent * 0.66
     }
 
     else return state.sugarPercent
