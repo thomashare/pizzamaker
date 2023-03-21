@@ -66,6 +66,7 @@ export default {
 
 <style lang="stylus" scoped>
   #dough-instructions
+    color: #F0F0F0
     margin: 0 auto
     max-width: 750px
 

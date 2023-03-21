@@ -1,5 +1,5 @@
 export const state = () => ({
-  nightMode: false
+  nightMode: true
 })
 
 export const mutations = {

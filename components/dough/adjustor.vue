@@ -278,7 +278,7 @@ export default {
     align-items: center
     display: grid
     grid-column-gap: 10px
-    grid-row-gap: 12px
+    grid-row-gap: 25px
     grid-template-columns: 14ch 24px 6ch 24px
 
     label

@@ -185,7 +185,7 @@ export default {
     align-items: center
     display: grid
     grid-column-gap: 10px
-    grid-row-gap: 12px
+    grid-row-gap: 25px
     grid-template-columns: 15ch 7ch 1ch 15ch 7ch 1ch
     justify-content: center
     padding: 0 5px

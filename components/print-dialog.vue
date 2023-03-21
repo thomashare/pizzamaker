@@ -81,7 +81,7 @@ export default {
       padding: 0 5px 5px
 
       h2
-        color: #384259
+        color: #A0A0A0
 
     ol, ul
       box-sizing: border-box
@@ -140,6 +140,7 @@ export default {
         background-color: #ffffff
         border-radius: 5px
         box-sizing: border-box
+        color: #F0F0F0
         margin: 0 auto
         padding: 12px
 
